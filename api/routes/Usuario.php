@@ -1,38 +1,50 @@
 <?php
 require_once __DIR__ . '/../controller/UsuarioController.php';
 
-$controller = new UsuarioController();
-$action = $_GET['action'] ?? 'read';
+function handleUsuarioRoute($method, $id = null) {
+    $controller = new UsuarioController();
 
-switch ($action) {
-    case 'create':
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $ok = $controller->create($_POST);
-            echo $ok ? "Usuário criado!" : "Erro ao criar.";
-        }
-        break;
+    switch ($method) {
+        case 'GET':
+            if ($id) {
+                // buscar por ID (você pode implementar isso na model)
+                echo json_encode(['erro' => 'Buscar por ID não implementado']);
+            } else {
+                echo json_encode($controller->read());
+            }
+            break;
 
-    case 'read':
-        $usuarios = $controller->read();
-        echo "<pre>" . print_r($usuarios, true) . "</pre>";
-        break;
+        case 'POST':
+            $data = json_decode(file_get_contents('php://input'), true);
+            $ok = $controller->create($data);
+            echo json_encode(['success' => $ok]);
+            break;
 
-    case 'update':
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $ok = $controller->update($_POST);
-            echo $ok ? "Usuário atualizado!" : "Erro ao atualizar.";
-        }
-        break;
+        case 'PUT':
+            if (!$id) {
+                http_response_code(400);
+                echo json_encode(['erro' => 'ID obrigatório para atualização']);
+                return;
+            }
+            $data = json_decode(file_get_contents('php://input'), true);
+            $data['id'] = $id;
+            $ok = $controller->update($data);
+            echo json_encode(['success' => $ok]);
+            break;
 
-    case 'delete':
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $ok = $controller->delete($_POST['id']);
-            echo $ok ? "Usuário excluído!" : "Erro ao excluir.";
-        }
-        break;
+        case 'DELETE':
+            if (!$id) {
+                http_response_code(400);
+                echo json_encode(['erro' => 'ID obrigatório para exclusão']);
+                return;
+            }
+            $ok = $controller->delete($id);
+            echo json_encode(['success' => $ok]);
+            break;
 
-    default:
-        http_response_code(404);
-        echo "Ação '{$action}' não encontrada em Usuario.";
-        break;
+        default:
+            http_response_code(405);
+            echo json_encode(['erro' => 'Método não permitido']);
+            break;
+    }
 }
