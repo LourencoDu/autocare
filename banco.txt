@@ -18,7 +18,7 @@ USE autocare ;
 -- Table autocare.prestador
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS autocare.prestador (
-  id INT NOT NULL,
+  id INT NOT NULL AUTO_INCREMENT,
   nome VARCHAR(45) NOT NULL,
   apelido VARCHAR(45) NOT NULL,
   endereco_cep VARCHAR(8) NULL DEFAULT NULL,
@@ -32,7 +32,7 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- Table autocare.usuario
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS autocare.usuario (
-  id INT NOT NULL,
+  id INT NOT NULL AUTO_INCREMENT,
   nome VARCHAR(50) NOT NULL,
   sobrenome VARCHAR(45) NOT NULL,
   email VARCHAR(45) NOT NULL,
@@ -48,7 +48,7 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- Table autocare.servico
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS autocare.servico (
-  id INT NOT NULL,
+  id INT NOT NULL AUTO_INCREMENT,
   descricao VARCHAR(45) NOT NULL,
   data DATE NOT NULL,
   id_usuario INT NOT NULL,
@@ -70,7 +70,7 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- Table autocare.avaliacao
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS autocare.avaliacao (
-  id INT NOT NULL,
+  id INT NOT NULL AUTO_INCREMENT,
   id_usuario INT NOT NULL,
   id_servico INT NOT NULL,
   nota INT NOT NULL,
@@ -91,7 +91,7 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- Table autocare.funcionario
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS autocare.funcionario (
-  id INT NOT NULL,
+  id INT NOT NULL AUTO_INCREMENT,
   nome VARCHAR(45) NULL DEFAULT NULL,
   sobrenome VARCHAR(45) NULL DEFAULT NULL,
   email VARCHAR(45) NOT NULL,
@@ -112,7 +112,7 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- Table autocare.chat
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS autocare.chat (
-  id INT NOT NULL,
+  id INT NOT NULL AUTO_INCREMENT,
   id_usuario INT NOT NULL,
   id_prestador INT NULL DEFAULT NULL,
   id_funcionario INT NULL DEFAULT NULL,
@@ -137,7 +137,7 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- Table autocare.comentario
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS autocare.comentario (
-  id INT NOT NULL,
+  id INT NOT NULL AUTO_INCREMENT,
   id_usuario INT NOT NULL,
   id_servico INT NOT NULL,
   texto VARCHAR(400) NOT NULL,
@@ -159,7 +159,7 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- Table autocare.fabricante_veiculo
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS autocare.fabricante_veiculo (
-  id INT NOT NULL,
+  id INT NOT NULL AUTO_INCREMENT,
   nome VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (id))
 ENGINE = InnoDB
@@ -170,7 +170,7 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- Table autocare.modelo_veiculo
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS autocare.modelo_veiculo (
-  id INT NOT NULL,
+  id INT NOT NULL AUTO_INCREMENT,
   nome VARCHAR(45) NOT NULL,
   id_fabricante_veiculo INT NOT NULL,
   PRIMARY KEY (id),
@@ -186,7 +186,7 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- Table autocare.especialidade
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS autocare.especialidade (
-  id INT NOT NULL,
+  id INT NOT NULL AUTO_INCREMENT,
   nome_especialidade VARCHAR(45) NOT NULL,
   id_fabricante_veiculo_especialidade INT NULL DEFAULT NULL,
   id_modelo_veiculo INT NULL DEFAULT NULL,
@@ -207,7 +207,7 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- Table autocare.localizacao
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS autocare.localizacao (
-  id INT NOT NULL,
+  id INT NOT NULL AUTO_INCREMENT,
   latitude DECIMAL(10,0) NOT NULL,
   longitude DECIMAL(10,0) NOT NULL,
   id_prestador INT NOT NULL,
@@ -224,7 +224,7 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- Table autocare.mensagem
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS autocare.mensagem (
-  id INT NOT NULL,
+  id INT NOT NULL AUTO_INCREMENT,
   texto VARCHAR(400) NOT NULL,
   data DATE NOT NULL,
   cliente TINYINT NOT NULL,
@@ -242,7 +242,7 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- Table autocare.prestador_especialidade
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS autocare.prestador_especialidade (
-  id INT NOT NULL,
+  id INT NOT NULL AUTO_INCREMENT,
   id_prestador INT NOT NULL,
   id_especialidade INT NOT NULL,
   PRIMARY KEY (id),
@@ -262,7 +262,7 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- Table autocare.veiculo
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS autocare.veiculo (
-  id INT NOT NULL,
+  id INT NOT NULL AUTO_INCREMENT,
   modelo VARCHAR(40) NOT NULL,
   ano INT NOT NULL,
   apelido VARCHAR(45) NOT NULL,
