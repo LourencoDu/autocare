@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `autocare`.`usuario` (
   `sobrenome` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
   `telefone` VARCHAR(11) NOT NULL,
-  `senha` VARCHAR(45) NOT NULL,
+  `senha` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
 ENGINE = InnoDB
