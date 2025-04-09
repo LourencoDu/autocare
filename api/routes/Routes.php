@@ -28,9 +28,11 @@ switch ($resource) {
         break;
     case 'autenticacao':
         require_once __DIR__ . '/autenticacao.php';
-        handleAutenticacaoRoute($method, $id);
+        handleAutenticacaoRoute($method, $id);    
+    case 'veiculo':
+        require_once __DIR__ . '/veiculo.php';
+        handleUsuarioRoute($method, $id);
         break;
-
     default:
         http_response_code(404);
         echo json_encode(['erro' => 'Rota não encontrada.']);

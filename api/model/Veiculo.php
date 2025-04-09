@@ -3,21 +3,21 @@ class Veiculo {
     private $conn;
     private $table = "veiculo";
 
-    public $id, $nome, $sobrenome, $email, $telefone, $senha;
+    public $id, $ano, $apelido, $id_usuario, $id_modelo;
 
     public function __construct($db) {
         $this->conn = $db;
     }
 
     public function create() {
-        $sql = "INSERT INTO $this->table (nome, sobrenome, email, telefone, senha)
-                VALUES (:nome, :sobrenome, :email, :telefone, :senha)";
+        $sql = "INSERT INTO $this->table (ano, apelido, id_usuario, id_modelo)
+                VALUES (:ano, :apelido, :id_usuario, :id_modelo)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':nome', $this->nome);
-        $stmt->bindParam(':sobrenome', $this->sobrenome);
-        $stmt->bindParam(':email', $this->email);
-        $stmt->bindParam(':telefone', $this->telefone);
-        $stmt->bindParam(':senha', $this->senha);
+        $stmt->bindParam(':ano', $this->ano);
+        $stmt->bindParam(':apelido', $this->apelido);
+        $stmt->bindParam(':id_usuario', $this->id_usuario);
+        $stmt->bindParam(':id_modelo', $this->id_modelo);
+        
         return $stmt->execute();
     }
 
@@ -28,15 +28,13 @@ class Veiculo {
 
     public function update() {
         $sql = "UPDATE $this->table 
-                SET nome=:nome, sobrenome=:sobrenome, email=:email, telefone=:telefone, senha=:senha 
+                SET ano=:ano, apelido=:apelido, id_usuario=:id_usuario, id_modelo=:id_modelo 
                 WHERE id=:id";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':nome', $this->nome);
-        $stmt->bindParam(':sobrenome', $this->sobrenome);
-        $stmt->bindParam(':email', $this->email);
-        $stmt->bindParam(':telefone', $this->telefone);
-        $stmt->bindParam(':senha', $this->senha);
-        $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':ano', $this->ano);
+        $stmt->bindParam(':apelido', $this->apelido);
+        $stmt->bindParam(':id_usuario', $this->id_usuario);
+        $stmt->bindParam(':id_modelo', $this->id_modelo);
         return $stmt->execute();
     }
 
