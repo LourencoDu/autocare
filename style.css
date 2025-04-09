@@ -8,6 +8,8 @@
   --text-color: #FFFFFF;
 
   --button-text-color: #FFFFFF;
+
+  --divider-color: #BCB8B1;
 }
 
 * {
@@ -20,6 +22,7 @@ div, p {
 }
 
 body {
+  margin: 0;
   background-color: #030712;
   color: #FFFFFF;
   font-family: Inter, Helvetica, sans-serif;
@@ -76,6 +79,16 @@ button:hover {
   border-color: var(--primary-hover-color);
 
   cursor: pointer;
+}
+
+a.hoverable {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition-duration: 0.3s;
+}
+
+a.hoverable:hover {
+  color: var(--primary-hover-color);
 }
 
 .w-100 {
