@@ -15,7 +15,7 @@ class VeiculoController {
         $this->veiculo->ano = $data['ano'];
         $this->veiculo->apelido = $data['apelido'];
         $this->veiculo->id_usuario = $data['id_usuario'];
-        $this->veiculo->id_modelo = $data['id_modelo'];
+        $this->veiculo->id_modelo_veiculo = $data['id_modelo_veiculo'];
         return $this->veiculo->create();
     }
 
@@ -28,7 +28,7 @@ class VeiculoController {
         $this->veiculo->ano = $data['ano'];
         $this->veiculo->apelido = $data['apelido'];
         $this->veiculo->id_usuario = $data['id_usuario'];
-        $this->veiculo->id_modelo = $data['id_modelo'];
+        $this->veiculo->id_modelo_veiculo = $data['id_modelo_veiculo'];
         return $this->veiculo->update();
     }
 
