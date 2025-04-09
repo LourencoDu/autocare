@@ -26,6 +26,11 @@ switch ($resource) {
         require_once __DIR__ . '/usuario.php';
         handleUsuarioRoute($method, $id);
         break;
+    
+    case 'veiculo':
+        require_once __DIR__ . '/veiculo.php';
+        handleUsuarioRoute($method, $id);
+        break;
 
     default:
         http_response_code(404);
