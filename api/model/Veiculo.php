@@ -31,6 +31,7 @@ class Veiculo {
                 SET ano=:ano, apelido=:apelido, id_usuario=:id_usuario, id_modelo_veiculo=:id_modelo_veiculo 
                 WHERE id=:id";
         $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id', $this->id);
         $stmt->bindParam(':ano', $this->ano);
         $stmt->bindParam(':apelido', $this->apelido);
         $stmt->bindParam(':id_usuario', $this->id_usuario);

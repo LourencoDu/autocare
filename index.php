@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <?php include_once("./pages/login/index.html") ?>
+  <div class="container">
+    <?php include_once("./pages/login/index.html") ?>
+  </div>
 </body>
 </html>
