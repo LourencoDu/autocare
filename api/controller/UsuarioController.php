@@ -38,4 +38,20 @@ class UsuarioController {
         $this->usuario->id = $id;
         return $this->usuario->delete();
     }
+
+    public function login($data) {
+        $this->usuario->email = $data['email'];
+
+        $usuario = $this->usuario->getByEmail();
+
+        if(isset($usuario)) {
+            $senha = $data['senha'];            
+
+            if(password_verify($senha, $usuario["senha"])) {
+                return true;
+            }
+        }       
+        
+        return false;
+    }
 }

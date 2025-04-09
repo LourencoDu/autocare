@@ -21,6 +21,21 @@ class Usuario {
         return $stmt->execute();
     }
 
+    public function getById() {
+        $sql = "SELECT * FROM $this->table WHERE id=:id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id', $this->id);
+        return $stmt->fetch_assoc();
+    }
+
+    public function getByEmail() {
+        $sql = "SELECT * FROM $this->table WHERE email = :email";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':email', $this->email);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function read() {
         $sql = "SELECT * FROM $this->table";
         return $this->conn->query($sql)->fetchAll(PDO::FETCH_ASSOC);

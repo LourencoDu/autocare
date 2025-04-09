@@ -26,6 +26,10 @@ switch ($resource) {
         require_once __DIR__ . '/usuario.php';
         handleUsuarioRoute($method, $id);
         break;
+    case 'autenticacao':
+        require_once __DIR__ . '/autenticacao.php';
+        handleAutenticacaoRoute($method, $id);
+        break;
 
     default:
         http_response_code(404);
