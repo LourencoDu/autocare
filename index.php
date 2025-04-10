@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AutoCare</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="container">
-    <?php include_once("./pages/login/index.html") ?>
-  </div>
-</body>
-</html>
+<?php
+
+$baseUrl = dirname($_SERVER['SCRIPT_NAME']);
+define('BASE_URL', $baseUrl);
+
+require_once 'core/App.php';
+require_once 'core/Controller.php';
+require_once 'core/Model.php';
+
+$app = new App();
