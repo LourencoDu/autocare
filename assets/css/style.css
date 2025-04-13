@@ -15,6 +15,7 @@
 * {
   box-sizing: border-box;
   font-size: 14px;
+  color: var(--text-color);
 }
 
 div, p {
@@ -24,7 +25,6 @@ div, p {
 body {
   margin: 0;
   background-color: #030712;
-  color: #FFFFFF;
   font-family: Inter, Helvetica, sans-serif;
 }
 

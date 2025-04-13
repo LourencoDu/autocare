@@ -11,7 +11,7 @@
         <p style="color:red"><?= $data['erro'] ?></p>
     <?php endif; ?>
 
-    <form class="w-100" method="POST" action="<?= BASE_URL ?>/login/autenticar">
+    <form class="w-100" method="POST" action="<?= BASE_URL ?>/login?acao=autenticar">
       <div class="form-control w-100">
         <label for="email">E-mail</label>
         <input type="email" name="email" id="email" placeholder="seuemail@exemplo.com">

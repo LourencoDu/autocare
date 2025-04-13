@@ -3,11 +3,9 @@ class Controller {
     protected $config;
 
     public function render() {
-        $this->view('layout', $this->config);
-    }
-
-    public function view($view, $data = []) {
-        require_once "view/$view.php";
+        $data = $this->config; // pode renomear se quiser
+        extract($data);
+        require_once 'view/layout.php';
     }
 
     public function model($model) {

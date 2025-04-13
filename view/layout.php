@@ -6,6 +6,6 @@
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/<?= $data['name'] ?>.css">
 </head>
 <body>
-    <?= $data['content'] ?? '' ?>
+    <?php include "view/{$name}.php"; ?>
 </body>
 </html>

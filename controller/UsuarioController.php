@@ -1,5 +1,5 @@
 <?php
-class LoginController extends Controller {
+class UsuarioController extends Controller {
     public function handle() {
         $acao = $_GET['acao'] ?? '';
     
