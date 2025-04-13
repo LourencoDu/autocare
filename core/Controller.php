@@ -3,7 +3,7 @@ class Controller {
     protected $config;
 
     public function render() {
-        $data = $this->config; // pode renomear se quiser
+        $data = $this->config;
         extract($data);
         require_once 'view/layout.php';
     }

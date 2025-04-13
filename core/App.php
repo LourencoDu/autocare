@@ -5,7 +5,7 @@ class App {
 
         switch (strtolower($url)) {
             case 'login':
-                require_once 'controller/LoginController.php';
+                require_once 'controller/usuario/LoginController.php';
                 $controller = new LoginController();
                 break;
 

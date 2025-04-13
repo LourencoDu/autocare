@@ -3,7 +3,7 @@ class LoginController extends Controller {
     public function handle() {
         $acao = $_GET['acao'] ?? '';
     
-        if ($acao === 'autenticar') {
+        if ($acao === 'autenticar' && $_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->autenticar();
         } else {
             $this->index();
@@ -12,10 +12,10 @@ class LoginController extends Controller {
 
     public function index() {
         $this->config = [
-            'name' => 'login',
+            'name' => 'usuario/login',
             'title' => 'Login',
             'erro' => $this->config['erro'] ?? null,
-            'css' => 'login'
+            'form' => $this->config['form'] ?? null
         ];
 
         $this->render();
@@ -36,6 +36,7 @@ class LoginController extends Controller {
                 exit;
             } else {
                 $this->config['erro'] = "E-mail ou senha inválidos.";
+                $this->config['form'] = [ "email" => $email, "senha" => $senha ];
                 $this->index(); // renderiza o login novamente com erro
             }
         }

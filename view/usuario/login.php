@@ -1,3 +1,12 @@
+<?php
+  $email = "";
+  $senha = "";
+  if(isset($data["form"])) {
+    $email = $data["form"]["email"] ?? "";
+    $senha = $data["form"]["senha"] ?? "";
+  }
+?>
+
 <div class="content">
   <div class="left-side">
     <div>IMAGEM</div>
@@ -14,12 +23,13 @@
     <form class="w-100" method="POST" action="<?= BASE_URL ?>/login?acao=autenticar">
       <div class="form-control w-100">
         <label for="email">E-mail</label>
-        <input type="email" name="email" id="email" placeholder="seuemail@exemplo.com">
+        <input type="email" name="email" id="email" placeholder="seuemail@exemplo.com" value="<?= $email ?>">
       </div>
   
       <div class="form-control w-100">
         <label for="senha">Senha</label>
-        <input type="password" name="senha" id="senha" placeholder="">
+        
+        <input type="password" name="senha" id="senha" placeholder="" value="<?= $senha ?>">
       </div>
 
       <a href="#" class="hoverable">Esqueci minha senha</a>
