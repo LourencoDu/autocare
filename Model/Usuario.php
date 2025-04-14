@@ -25,7 +25,7 @@ final class Usuario {
     return (new UsuarioDAO())->save($this);
   }
 
-  function delete(int $id) : bool {
+  static function delete(int $id) : bool {
     return (new UsuarioDAO())->delete($id);
   }
 }

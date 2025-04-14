@@ -6,6 +6,7 @@ spl_autoload_register(function ($nome_da_classe) {
   if(file_exists($arquivo)) {
     include $arquivo;
   } else {
+    echo var_dump($arquivo);
     throw new Exception("Arquivo não encontrado");
   }
 });

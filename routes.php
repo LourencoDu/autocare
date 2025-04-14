@@ -26,7 +26,7 @@ switch ($url) {
     UsuarioController::listar();
     break;
   case '/usuario/cadastro':
-    UsuarioController::cadastro();
+    UsuarioController::cadastrar();
     break;
   default:
     $controller = new HomeController();
