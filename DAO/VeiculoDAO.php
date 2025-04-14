@@ -22,7 +22,7 @@ final class VeiculoDAO extends DAO {
     $stmt = parent::$conexao->prepare($sql);
     $stmt->bindValue(1, $model->ano);
     $stmt->bindValue(2, $model->apelido);
-    $stmt->bindValue(3, $model->id_usuario);
+    $stmt->bindValue(3, $_SESSION["usuario"]["id"]);
     $stmt->bindValue(4, $model->id_modelo_veiculo);
     $stmt->execute();
 
@@ -33,13 +33,14 @@ final class VeiculoDAO extends DAO {
 
   private function update(Veiculo $model) : Veiculo
   {
-    $sql = "UPDATE veiculo SET ano=?, apelido=?, id_modelo_veiculo=? WHERE id=?;";
+    $sql = "UPDATE veiculo SET ano=?, apelido=?, id_modelo_veiculo=? WHERE id=? AND id_usuario = ?;";
 
     $stmt = parent::$conexao->prepare($sql);
     $stmt->bindValue(1, $model->ano);
     $stmt->bindValue(2, $model->apelido);
     $stmt->bindValue(3, $model->id_modelo_veiculo);
     $stmt->bindValue(4, $model->id);
+    $stmt->bindValue(5, $_SESSION["usuario"]["id"]);
     $stmt->execute();
 
     return $model;
@@ -63,6 +64,18 @@ final class VeiculoDAO extends DAO {
     $sql = "SELECT * FROM veiculo;";
 
     $stmt = parent::$conexao->prepare($sql);
+    $stmt->execute();
+
+    return $stmt->fetchAll(DAO::FETCH_CLASS, "AutoCare\Model\Veiculo");
+  }
+
+  public function selectByUser(int $id_usuario): array
+  {
+    $sql = "SELECT * FROM veiculo WHERE id_usuario = ?;";
+
+    $stmt = parent::$conexao->prepare($sql);
+    $stmt->bindValue(1, $id_usuario);
+
     $stmt->execute();
 
     return $stmt->fetchAll(DAO::FETCH_CLASS, "AutoCare\Model\Veiculo");

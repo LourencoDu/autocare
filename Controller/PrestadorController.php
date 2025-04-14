@@ -5,7 +5,7 @@ namespace AutoCare\Controller;
 use AutoCare\Model\Prestador;
 
 final class PrestadorController extends Controller {
-  public static function cadastro() : void {
+  public static function cadastrar() : void {
     parent::isProtected();
 
     $model = new Prestador();

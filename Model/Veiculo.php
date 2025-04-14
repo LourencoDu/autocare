@@ -11,6 +11,11 @@ final class Veiculo {
     return (new VeiculoDAO())->selectById($id);
   }
 
+  function getAllByLoggedUser() : array {
+    $id_usuario = $_SESSION["usuario"]["id"];
+    return (new VeiculoDAO())->selectByUser($id_usuario);
+  }
+
   function getAllRows() : array {
     return (new VeiculoDAO())->select();
   }

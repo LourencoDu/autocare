@@ -3,6 +3,7 @@
 namespace AutoCare\Controller;
 
 use AutoCare\Model\Login;
+use AutoCare\Model\Usuario;
 
 final class LoginController extends Controller
 {
@@ -27,7 +28,7 @@ final class LoginController extends Controller
     $logado = $model->logar($model);
 
     if ($logado != null) {
-      $_SESSION['usuario'] = $logado;
+      $_SESSION['usuario']['id'] = $logado->id;  
       header("Location: home");
     } else {
       $this->data['erro'] = "E-mail ou senha inválidos.";

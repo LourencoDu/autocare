@@ -3,7 +3,9 @@
 use AutoCare\Controller\{
   HomeController,
   LoginController,
-  UsuarioController
+  UsuarioController,
+  VeiculoController,
+  PrestadorController
 };
 
 //armazena parte da url do navegador. de "http://localhost/autocare/usuario" -> armazena o "/usuario"
@@ -27,6 +29,18 @@ switch ($url) {
     break;
   case '/usuario/cadastro':
     UsuarioController::cadastrar();
+    break;
+  case '/veiculo':
+    VeiculoController::listar();
+    break;
+  case '/veiculo/cadastro':
+    VeiculoController::cadastrar();
+    break;
+  case '/prestador':
+    PrestadorController::listar();
+    break;
+  case '/prestador/cadastro':
+    PrestadorController::cadastrar();
     break;
   default:
     $controller = new HomeController();
