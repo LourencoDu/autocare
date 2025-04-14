@@ -12,16 +12,15 @@ $url = str_replace("autocare/", "", parse_url($_SERVER["REQUEST_URI"], PHP_URL_P
 
 switch ($url) {
   case '/':
+    $controller = new HomeController();
+    $controller->index();
+    break;
   case '/login':
     $controller = new LoginController();
     $controller->index();
     break;
   case '/logout':
     LoginController::logout();
-    break;
-  case '/home':
-    $controller = new HomeController();
-    $controller->index();
     break;
   case '/usuario':
     UsuarioController::listar();
@@ -30,6 +29,7 @@ switch ($url) {
     UsuarioController::cadastro();
     break;
   default:
-    echo "página não encontrada";
+    $controller = new HomeController();
+    $controller->index();
     break;
 }

@@ -4,8 +4,10 @@ namespace AutoCare\Controller;
 
 use AutoCare\Model\Usuario;
 
-final class UsuarioController {
+final class UsuarioController extends Controller {
   public static function cadastro() : void {
+    parent::isProtected();
+
     $model = new Usuario();
     $model->nome = "Eduardo";
     $model->sobrenome = "Lourenço da Silva";
@@ -17,6 +19,8 @@ final class UsuarioController {
   }
 
   public static function listar() : void {
+    parent::isProtected();
+
     echo "listagem de usuários";
     $usuario = new Usuario();
     $lista = $usuario->getAllRows();

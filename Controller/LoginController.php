@@ -28,7 +28,6 @@ final class LoginController extends Controller
 
     if ($logado != null) {
       $_SESSION['usuario'] = $logado;
-      $this->data = [];
       header("Location: home");
     } else {
       $this->data['erro'] = "E-mail ou senha inválidos.";
@@ -38,5 +37,6 @@ final class LoginController extends Controller
 
   public static function logout() : void {
       session_destroy();
+      header("Location: login");
   }
 }

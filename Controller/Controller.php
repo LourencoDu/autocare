@@ -15,4 +15,9 @@ abstract class Controller {
     extract($config);
     require_once VIEWS.'/Layout/index.php';
   }
+
+  protected static function isProtected() {
+    if(!isset($_SESSION["usuario"]))
+      header("Location: login");
+  }
 }
