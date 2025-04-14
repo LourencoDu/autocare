@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../controller/PrestadoController.php';
+require_once __DIR__ . '/../controller/PrestadorController.php';
 
 function handleUsuarioRoute($method, $id = null) {
     $controller = new PrestadorController();
