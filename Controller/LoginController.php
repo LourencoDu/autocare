@@ -3,7 +3,6 @@
 namespace AutoCare\Controller;
 
 use AutoCare\Model\Login;
-use AutoCare\Model\Usuario;
 
 final class LoginController extends Controller
 {

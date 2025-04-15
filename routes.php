@@ -1,7 +1,8 @@
 <?php
 
 use AutoCare\Controller\{
-  HomeController,
+    CadastroController,
+    HomeController,
   LoginController,
   UsuarioController,
   VeiculoController,
@@ -23,6 +24,10 @@ switch ($url) {
     break;
   case '/logout':
     LoginController::logout();
+    break;
+  case '/cadastro':
+    $controller = new CadastroController();
+    $controller->index();
     break;
   case '/usuario':
     UsuarioController::listar();
