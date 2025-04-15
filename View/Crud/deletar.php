@@ -2,7 +2,7 @@
 $infos = isset($data["infos"]) ? $data["infos"] : [];
 ?>
 
-<form class="flex flex-col gap-10">
+<form class="flex flex-col gap-10" method="POST">
   <div class="w-full max-w-150">
     <table class="min-w-full divide-y divide-zinc-700/40 bg-white dark:bg-zinc-900 dark:text-white border border-zinc-700/40">
       <tbody class="divide-y divide-gray-200 dark:divide-gray-700">

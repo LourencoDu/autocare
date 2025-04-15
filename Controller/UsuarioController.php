@@ -175,7 +175,7 @@ final class UsuarioController extends Controller
     
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
           try {           
-            Usuario::delete((int) $_POST["id"]);
+            Usuario::delete((int) $id);
             $this->backToIndex();
           } catch (\Throwable $th) {
             $this->data = array_merge($this->data, [
