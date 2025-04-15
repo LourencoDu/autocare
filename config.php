@@ -1,6 +1,7 @@
 <?php
 
 define("BASE_DIR", dirname(__FILE__, 2));
+define("BASE_DIR_NAME", basename(__DIR__));
 
 define("VIEWS", BASE_DIR."/AutoCare/View/");
 

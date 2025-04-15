@@ -34,7 +34,7 @@ final class UsuarioDAO extends DAO {
 
   private function update(Usuario $model) : Usuario
   {
-    $sql = "UPDATE usuario SET nome=?, sobrenome=?, telefone=?, senha=? WHERE id=?;";
+    $sql = "UPDATE usuario SET nome=?, sobrenome=?, telefone=? WHERE id=?;";
 
     $stmt = parent::$conexao->prepare($sql);
     $stmt->bindValue(1, $model->nome);

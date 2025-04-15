@@ -6,7 +6,7 @@ use AutoCare\Model\Funcionario;
 
 final class FuncionarioController extends Controller {
   public static function cadastrar() : void {
-    //parent::isProtected();
+    parent::isProtected();
 
     if($_SERVER["REQUEST_METHOD"] == "POST") {
       $model = new Funcionario();
@@ -44,7 +44,7 @@ final class FuncionarioController extends Controller {
   }
 
   public static function listar() : void {
-    //parent::isProtected();
+    parent::isProtected();
 
     echo "listagem de funcionarios";
     $funcionario = new Funcionario();

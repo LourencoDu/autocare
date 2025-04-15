@@ -5,6 +5,15 @@ namespace AutoCare\Controller;
 use AutoCare\Model\Veiculo;
 
 final class VeiculoController extends Controller {
+  public function index(): void
+  {
+    parent::isProtected();
+
+    $this->view = "Crud/listar.php";
+    $this->titulo = "Meus Veículos";
+    $this->render();
+  }
+
   public static function cadastrar() : void {
     parent::isProtected();
 
@@ -18,12 +27,15 @@ final class VeiculoController extends Controller {
     echo "Veiculo cadastrado com sucesso!";
   }
 
-  public static function listar() : void {
+  public function listar() : void {
     parent::isProtected();
 
-    echo "listagem de Veiculos";
-    $prestador = new Veiculo();
-    $lista = $prestador->getAllByLoggedUser();
-    var_dump($lista);
+    $model = new Veiculo();
+
+    $this->data = [
+      "lista" => $model->getAllByLoggedUser()
+    ];
+
+    $this->index();
   }
 }

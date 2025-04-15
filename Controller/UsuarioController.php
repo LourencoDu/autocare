@@ -4,58 +4,193 @@ namespace AutoCare\Controller;
 
 use AutoCare\Model\Usuario;
 
-final class UsuarioController extends Controller {
-  public static function cadastrar() : void {
+final class UsuarioController extends Controller
+{
+  public function index(): void
+  {
     parent::isProtected();
 
-    if($_SERVER["REQUEST_METHOD"] === "POST") {
-      $model = new Usuario();
+    $this->view = "Crud/listar.php";
+    $this->titulo = "Usuários";
+    $this->render();
+  }
 
-      $model->nome = $_POST["nome"];
-      $model->sobrenome = $_POST["sobrenome"];
-      $model->telefone = $_POST["telefone"];
-      $model->email = $_POST["email"];
-      $model->senha = $_POST["senha"];
+  public function listar(): void
+  {
+    parent::isProtected();
 
-      $model->save();
-  
-      echo "Usuário cadastrado com sucesso!";
+    $model = new Usuario();
+
+    $lista = $model->getAllRows();
+
+    $lista = array_filter($lista, function ($item) {
+      return $item->id != $_SESSION["usuario"]["id"];
+    });
+
+    $baseDirName = BASE_DIR_NAME;
+
+    $this->data = [
+      "lista" => $lista,
+      "addLink" => "/$baseDirName/usuario/cadastrar",
+      "editLink" => "/$baseDirName/usuario/atualizar",
+      "deleteLink" => "/$baseDirName/usuario/deletar",
+    ];
+
+    $this->index();
+  }
+
+  private function backToIndex(): void {
+    Header("Location: /".BASE_DIR_NAME."/usuario");
+  }
+
+  public function cadastrar(): void
+  {
+    parent::isProtected();
+
+    $this->view = "Crud/form.php";
+    $this->titulo = "Novo Usuário";
+
+    $this->data = [
+      "fields" => [
+        "nome" => ["name" => "nome", "label" => "Nome", "type" => "text", "required" => true],
+        "sobrenome" => ["name" => "sobrenome", "label" => "Sobrenome", "type" => "text", "required" => true],
+        "telefone" => ["name" => "telefone", "label" => "Telefone", "type" => "text", "required" => true],
+        "email" => ["name" => "email", "label" => "E-mail", "type" => "email", "required" => true],
+        "senha" => ["name" => "senha", "label" => "Senha", "type" => "password", "required" => true]
+      ]
+    ];
+
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+      try {
+        $model = new Usuario();
+
+        $model->nome = $_POST["nome"];
+        $model->sobrenome = $_POST["sobrenome"];
+        $model->telefone = $_POST["telefone"];
+        $model->email = $_POST["email"];
+        $model->senha = $_POST["senha"];
+
+        $this->data["form"] = [
+          "nome" => $model->nome,
+          "sobrenome" => $model->sobrenome,
+          "telefone" => $model->telefone,
+          "email" => $model->email,
+          "senha" => $model->senha
+        ];
+
+        $model->save();
+
+        $this->backToIndex();
+      } catch (\Throwable $th) {
+        $this->data = array_merge($this->data, [
+          "erro" => "Falha ao adicionar registro. Erro: ".$th->getMessage(),
+          "exception" => $th->getMessage()
+        ]);
+      }
+    }
+
+    $this->render();
+  }
+
+  public function atualizar(): void
+  {
+    parent::isProtected();
+
+    $this->view = "Crud/form.php";
+    $this->titulo = "Atualizar Usuário";
+
+    $this->data = [
+      "fields" => [
+        "nome" => ["name" => "nome", "label" => "Nome", "type" => "text", "required" => true],
+        "sobrenome" => ["name" => "sobrenome", "label" => "Sobrenome", "type" => "text", "required" => true],
+        "telefone" => ["name" => "telefone", "label" => "Telefone", "type" => "text", "required" => true],
+        "email" => ["name" => "email", "label" => "E-mail", "type" => "email", "required" => true, "readonly" => true]
+      ]
+    ];
+
+    $model = new Usuario();
+    $id = isset($_GET["id"]) ? $_GET["id"] : null;
+
+    if($id != null) {
+      $model = $model->getById((int) $id);
+
+      if($model != null) {
+        $this->data["form"] = [
+          "nome" => $model->nome,
+          "sobrenome" => $model->sobrenome,
+          "telefone" => $model->telefone,
+          "email" => $model->email,
+          "senha" => $model->senha
+        ];
+    
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+          try {           
+            $model->nome = $_POST["nome"];
+            $model->sobrenome = $_POST["sobrenome"];
+            $model->telefone = $_POST["telefone"];
+
+            var_dump($model);
+    
+            $model->save();
+    
+            $this->backToIndex();
+          } catch (\Throwable $th) {
+            $this->data = array_merge($this->data, [
+              "erro" => "Falha ao atualizar registro. Erro: ".$th->getMessage(),
+              "exception" => $th->getMessage()
+            ]);
+          }
+        }
+    
+        $this->render();
+      }  else {
+        $this->backToIndex();
+      }    
+    } else {
+      $this->backToIndex();
     }
   }
 
-  public static function atualizar() : void {
+  public function deletar(): void
+  {
     parent::isProtected();
 
-    if($_SERVER["REQUEST_METHOD"] === "POST") {
-      $model = new Usuario();
+    $this->view = "Crud/deletar.php";
+    $this->titulo = "Deletar Usuário";
 
-      $model->id = (int) $_POST["id"];
-      $model->nome = $_POST["nome"];
-      $model->sobrenome = $_POST["sobrenome"];
-      $model->telefone = $_POST["telefone"];
+    $model = new Usuario();
+    $id = isset($_GET["id"]) ? $_GET["id"] : null;
 
-      $model->save();
-  
-      echo "Usuário atualizado com sucesso!";
+    if($id != null) {
+      $model = $model->getById((int) $id);
+
+      if($model != null) {
+        $this->data["infos"] = [
+          "id" => $model->id,
+          "nome" => $model->nome,
+          "sobrenome" => $model->nome,
+          "telefone" => $model->telefone,
+          "email" => $model->email,
+        ];
+    
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+          try {           
+            Usuario::delete((int) $_POST["id"]);
+            $this->backToIndex();
+          } catch (\Throwable $th) {
+            $this->data = array_merge($this->data, [
+              "erro" => "Falha ao atualizar registro. Erro: ".$th->getMessage(),
+              "exception" => $th->getMessage()
+            ]);
+          }
+        }
+    
+        $this->render();
+      }  else {
+        $this->backToIndex();
+      }    
+    } else {
+      $this->backToIndex();
     }
-  }
-
-  public static function listar() : void {
-    parent::isProtected();
-
-    echo "listagem de usuários";
-    $usuario = new Usuario();
-    $lista = $usuario->getAllRows();
-    var_dump($lista);
-  }
-
-  public static function deletar() : void {
-    parent::isProtected();
-
-    if($_SERVER["REQUEST_METHOD"] === "POST") {
-      $sucesso = Usuario::delete((int) $_POST["id"]);
-
-      echo $sucesso ? "Usuário excluído com sucesso!" : "Falha ao excluir o usuário!";
-    }  
   }
 }

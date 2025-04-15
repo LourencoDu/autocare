@@ -13,7 +13,7 @@ abstract class Controller {
       "data" => $this->data,
     ];
     extract($config);
-    require_once VIEWS.'/Layout/index.php';
+    require_once VIEWS.'/Layout/index.php';    
   }
 
   protected static function isProtected() {

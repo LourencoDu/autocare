@@ -20,7 +20,9 @@ final class Usuario {
   }
 
   public function save() : Usuario {
-    $this->senha =  password_hash($this->senha, PASSWORD_DEFAULT);
+    if($this->id === null) {
+      $this->senha =  password_hash($this->senha, PASSWORD_DEFAULT);
+    }  
 
     return (new UsuarioDAO())->save($this);
   }

@@ -5,6 +5,15 @@ namespace AutoCare\Controller;
 use AutoCare\Model\Prestador;
 
 final class PrestadorController extends Controller {
+  public function index(): void
+  {
+    parent::isProtected();
+
+    $this->view = "Crud/listar.php";
+    $this->titulo = "Prestadores";
+    $this->render();
+  }
+
   public static function cadastrar() : void {
     parent::isProtected();
 
@@ -17,12 +26,15 @@ final class PrestadorController extends Controller {
     echo "Prestador cadastrado com sucesso!";
   }
 
-  public static function listar() : void {
+  public function listar() : void {
     parent::isProtected();
 
-    echo "listagem de Prestadores";
-    $prestador = new Prestador();
-    $lista = $prestador->getAllRows();
-    var_dump($lista);
+    $model = new Prestador();
+    
+    $this->data = [
+      "lista" => $model->getAllRows()
+    ];
+
+    $this->index();
   }
 }
