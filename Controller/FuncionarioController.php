@@ -6,17 +6,19 @@ use AutoCare\Model\Funcionario;
 
 final class FuncionarioController extends Controller {
   public static function cadastrar() : void {
-    parent::isProtected();
+    //parent::isProtected();
 
-    if($_SERVER["REQUEST_METHOD"] === "POST") {
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
       $model = new Funcionario();
 
-      $model->nome = $_POST["nome"];
-      $model->sobrenome = $_POST["sobrenome"];
-      $model->email = $_POST["email"];
-      $model->senha = $_POST["senha"];
-      $model->id_empresa = $_POST["id_empresa"];
-      $model->administrador = $_POST["administrador"];
+      $data = json_decode(file_get_contents('php://input'), true);
+
+      $model->nome = $data["nome"];
+      $model->sobrenome = $data["sobrenome"];
+      $model->email = $data["email"];
+      $model->senha = $data["senha"];
+      $model->id_empresa = $data["id_empresa"];
+      $model->administrador = $data["administrador"];
 
       $model->save();
   
@@ -42,7 +44,7 @@ final class FuncionarioController extends Controller {
   }
 
   public static function listar() : void {
-    parent::isProtected();
+    //parent::isProtected();
 
     echo "listagem de funcionarios";
     $funcionario = new Funcionario();

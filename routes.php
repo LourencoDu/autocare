@@ -1,7 +1,8 @@
 <?php
 
 use AutoCare\Controller\{
-    CadastroController,
+  CadastroController,
+    FuncionarioController,
     HomeController,
   LoginController,
   UsuarioController,
@@ -46,6 +47,12 @@ switch ($url) {
     break;
   case '/prestador/cadastro':
     PrestadorController::cadastrar();
+    break;
+  case '/funcionario':
+    FuncionarioController::listar();
+    break;
+  case '/funcionario/cadastro':
+    FuncionarioController::cadastrar();
     break;
   default:
     $controller = new HomeController();
