@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background-dark: #030712;
+
+  --color-primary: #615FFF;
+  --color-primary-hover: #7C86FF;
+}
+
+:root {
+  --primary-color: #615FFF;
+  --primary-20-color: #625fff;
+  --primary-hover-color: #7C86FF;
+
+  --secondary-color: #28303E;
+
+  --text-color: #FFFFFF;
+
+  --button-text-color: #FFFFFF;
+
+  --divider-color: #BCB8B1;
+
+  --bg-dark: #030712;
+}
+
+html {
+  font-size: 14px;
+}
+
+div, p {
+  margin: 0;
+}
+
+body {
+  font-family: Inter, Helvetica, sans-serif;
+}
+
+.container {
+  display: flex;
+  flex: 1;
+  padding: 16px;
+  min-height: 100vh;
+}
+
+.form-control {
+  @apply flex flex-col gap-1;
+}
+
+.form-control label {
+  @apply font-medium  text-white;
+}
+
+.form-control input {
+  @apply h-12 px-3 py-1.5;
+  @apply border rounded-md border-gray-700 bg-gray-900;
+  @apply text-black dark:text-white placeholder-gray-400;
+  @apply focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary
+}
+
+.button {
+  @apply border border-primary hover:border-primary-hover rounded-md h-12 bg-primary hover:bg-primary-hover transition duration-300 cursor-pointer;
+}
+
+.hoverable {
+  @apply text-primary hover:text-primary-hover transition duration-300 cursor-pointer decoration-0
+}

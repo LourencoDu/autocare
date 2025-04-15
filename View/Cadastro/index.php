@@ -21,9 +21,19 @@ if (isset($data["form"])) {
     <?php endif; ?>
 
     <form class="w-100" method="POST" action="login">
-      <span>Em construção</span>
+    <div class="type-select">
+        <span class="title">Você é...</span>
 
-      <button class="w-100" type="submit">Próximo</button>
+        <div class="option">
+          <span class="label">Dono de veículo</span>
+        </div>
+
+        <div class="option">
+          <span class="label">Prestador de serviços</span>
+        </div>
+      </div>
+
+      <button class="btn w-100" type="submit">Próximo</button>
 
       <div class="nova-conta">
         <span>Já tem uma conta?</span>
