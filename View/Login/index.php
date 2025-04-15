@@ -9,7 +9,7 @@
 
 <div class="content">
   <div class="left-side">
-    <div>IMAGEM</div>
+    <img src="public/svg/not-logged.svg" alt="carro sendo levantado por um elevador">
   </div>
   <div class="right-side">
     <span>LOGO</span>
@@ -38,7 +38,7 @@
 
       <div class="nova-conta">
         <span>Não tem uma conta?</span>
-        <a href="#" class="hoverable">Criar uma conta</a>
+        <a href="cadastro" class="hoverable">Criar uma conta</a>
       </div>
     </form>
   </div>

@@ -17,7 +17,7 @@ abstract class Controller {
   }
 
   protected static function isProtected() {
-    // if(!isset($_SESSION["usuario"]))
-    //   header("Location: login");
+    if(!isset($_SESSION["usuario"]))
+      header("Location: login");
   }
 }
