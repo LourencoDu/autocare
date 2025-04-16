@@ -1,1 +1,0 @@
-<h3>Usuário Autenticado!</h3>
