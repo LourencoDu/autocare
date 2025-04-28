@@ -42,6 +42,7 @@ final class MapController extends Controller
       $context = stream_context_create($opts);
 
       $response = file_get_contents($url, false, $context);
+      
       if ($response !== false) {
         $data = json_decode($response, true);
         if (!empty($data)) {
