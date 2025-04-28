@@ -11,6 +11,8 @@ $senha = "";
 $prestadorNome = "";
 $prestadorEmail = "";
 $prestadorSenha = "";
+$prestadorApelido = "";
+$prestadorCEP = "";
 
 if (isset($data["form"])) {
   $tipoUsuario = $data["form"]["tipoUsuario"] ?? "";
@@ -24,6 +26,8 @@ if (isset($data["form"])) {
   $prestadorNome = $data["form"]["prestadorNome"] ?? "";
   $prestadorEmail = $data["form"]["prestadorEmail"] ?? "";
   $prestadorSenha = $data["form"]["prestadorSenha"] ?? "";
+  $prestadorApelido = $data["form"]["prestadorApelido"] ?? "";
+  $prestadorCEP = $data["form"]["prestadorCEP"] ?? "";
 }
 
 ?>
@@ -97,8 +101,18 @@ if (isset($data["form"])) {
 
       <div id="step-2-prestador" class="step w-full flex flex-col gap-2 <?= $tipoUsuario == "prestador" ? "" : "hidden" ?>">
         <div class="form-control">
-          <label for="prestadorNome">Nome Empresarial<span class="text-red-500">*</span></label>
+          <label for="prestadorNome">Nome Empresarial <span class="text-red-500">*</span></label>
           <input type="text" name="prestadorNome" id="prestadorNome" value="<?= $prestadorNome ?>">
+        </div>
+
+        <div class="form-control">
+          <label for="prestadorApelido">Apelido <span class="text-red-500">*</span></label>
+          <input type="text" name="prestadorApelido" id="prestadorApelido" value="<?= $prestadorApelido ?>">
+        </div>
+
+        <div class="form-control">
+          <label for="prestadorCEP">CEP <span class="text-red-500">*</span></label>
+          <input type="text" name="prestadorCEP" id="prestadorCEP" maxlength="8" value="<?= $prestadorCEP ?>">
         </div>
 
         <div class="form-control">

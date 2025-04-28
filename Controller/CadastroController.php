@@ -83,7 +83,10 @@ final class CadastroController extends Controller
     $email = $_POST["prestadorEmail"];
     $senha = $_POST["prestadorSenha"];
 
-    if(!$nome || !$email || !$senha) {
+    $apelido = $_POST["prestadorApelido"];
+    $cep = $_POST["prestadorCEP"];
+
+    if(!$nome || !$email || !$senha || !$apelido || !$cep) {
       $this->data['erro'] = "Preencha todos os campos obrigatórios (*).";
       $this->data['form'] = [
         "tipoUsuario" => $tipoUsuario,
@@ -100,9 +103,9 @@ final class CadastroController extends Controller
       $modelPrestador = new Prestador();
 
       $modelPrestador->nome = $nome;
-      $modelPrestador->apelido = $sobrenome;
+      $modelPrestador->apelido = $apelido;
 
-      $modelPrestador->endereco_cep = "";
+      $modelPrestador->endereco_cep = $cep;
       $modelPrestador->endereco_numero = "";
 
       $prestador = $modelPrestador->save();
