@@ -43,7 +43,7 @@ final class VeiculoController extends Controller {
     parent::isProtected();
 
     $this->view = "Crud/form.php";
-    $this->titulo = "Novo Prestador";
+    $this->titulo = "Novo Veículo";
 
     $this->data = [
       "fields" => [

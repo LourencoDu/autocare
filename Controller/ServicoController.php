@@ -11,7 +11,7 @@ final class ServicoController extends Controller
     parent::isProtected();
 
     $this->view = "Crud/listar.php";
-    $this->titulo = "Servicos";
+    $this->titulo = "Serviços";
     $this->render();
   }
 
@@ -46,13 +46,14 @@ final class ServicoController extends Controller
     $this->view = "Crud/form.php";
     $this->titulo = "Novo Serviço";
 
-
-    //validar campos depois
     $this->data = [
       "fields" => [
-        
-      ]
-    ];
+        "descricao" => ["name" => "descricao", "label" => "descricao", "type" => "text", "required" => true],
+        "data" => ["name" => "data", "label" => "data", "type" => "date", "required" => true],
+        "id_usuario" => ["name" => "id_usuario", "label" => "id_usuario", "type" => "number", "required" => true],
+        "id_prestador" => ["name" => "id_prestador", "label" => "id_prestador", "type" => "number", "required" => true],
+        "id_veiculo" => ["name" => "id_veiculo", "label" => "id_veiculo", "type" => "number", "required" => true]
+      ]];
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
       try {
@@ -64,11 +65,14 @@ final class ServicoController extends Controller
         $model->id_prestador = $_POST["id_prestador"];
         $model->id_veiculo = $_POST["id_veiculo"];
 
-
-        //validar depois
-        $this->data["form"] = [
-          
-        ];
+        $this->data = [
+          "fields" => [
+            "descricao" => ["name" => "descricao", "label" => "descricao", "type" => "text", "required" => true],
+            "data" => ["name" => "data", "label" => "data", "type" => "date", "required" => true],
+            "id_usuario" => ["name" => "id_usuario", "label" => "id_usuario", "type" => "number", "required" => true],
+            "id_prestador" => ["name" => "id_prestador", "label" => "id_prestador", "type" => "number", "required" => true],
+            "id_veiculo" => ["name" => "id_veiculo", "label" => "id_veiculo", "type" => "number", "required" => true]
+          ]];
 
         $model->save();
 
@@ -91,13 +95,14 @@ final class ServicoController extends Controller
     $this->view = "Crud/form.php";
     $this->titulo = "Atualizar Serviço";
 
-
-    //validar depois
     $this->data = [
       "fields" => [
-
-      ]
-    ];
+        "descricao" => ["name" => "descricao", "label" => "descricao", "type" => "text", "required" => true],
+        "data" => ["name" => "data", "label" => "data", "type" => "date", "required" => true],
+        "id_usuario" => ["name" => "id_usuario", "label" => "id_usuario", "type" => "number", "required" => true],
+        "id_prestador" => ["name" => "id_prestador", "label" => "id_prestador", "type" => "number", "required" => true],
+        "id_veiculo" => ["name" => "id_veiculo", "label" => "id_veiculo", "type" => "number", "required" => true]
+      ]];
 
     $model = new Servico();
     $id = isset($_GET["id"]) ? $_GET["id"] : null;

@@ -20,6 +20,11 @@
       <a href="/<?= BASE_DIR_NAME; ?>/funcionario" class="flex h-12 w-12 border rounded-lg border-zinc-700/40 justify-center items-center hover:border-primary/40 hover:text-primary transition duration-300 cursor-pointer">
         <i class="fa-solid fa-user-group"></i>
       </a>
+
+      <a href="/<?= BASE_DIR_NAME; ?>/servico" class="flex h-12 w-12 border rounded-lg border-zinc-700/40 justify-center items-center hover:border-primary/40 hover:text-primary transition duration-300 cursor-pointer">
+        <i class="fa-solid fa-gear"></i>
+      </a>
+
     </div>
 
     <div class="flex flex-col justify-end items-center">
