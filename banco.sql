@@ -29,12 +29,16 @@ CREATE TABLE IF NOT EXISTS `autocare`.`usuario` (
   `senha` VARCHAR(255) NOT NULL,
   `tipo` VARCHAR(20) NOT NULL,
   `id_prestador` INT,
+  `id_funcionario` INT,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
     INDEX `fk_id_prestador_usuario_idx` (`id_prestador` ASC) VISIBLE,
   CONSTRAINT `fk_id_prestador_usuario`
     FOREIGN KEY (`id_prestador`)
-    REFERENCES `autocare`.`prestador` (`id`))
+    REFERENCES `autocare`.`prestador` (`id`),
+  CONSTRAINT `fk_id_funcionario_usuario`
+    FOREIGN KEY (`id_funcionario`)
+    REFERENCES `autocare`.`funcionario` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
@@ -156,17 +160,11 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `autocare`.`funcionario` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `nome` VARCHAR(45) NULL DEFAULT NULL,
-  `sobrenome` VARCHAR(45) NULL DEFAULT NULL,
-  `email` VARCHAR(45) NOT NULL,
-  `senha` VARCHAR(45) NOT NULL,
-  `id_empresa` INT NULL DEFAULT NULL,
   `administrador` TINYINT NULL DEFAULT NULL,
+  `id_prestador` INT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
-  UNIQUE INDEX `id_empresa_UNIQUE` (`id_empresa` ASC) VISIBLE,
-  CONSTRAINT `fk_id_prestador`
-    FOREIGN KEY (`id_empresa`)
+  CONSTRAINT `fk_id_prestador_funcionario`
+    FOREIGN KEY (`id_prestador`)
     REFERENCES `autocare`.`prestador` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;

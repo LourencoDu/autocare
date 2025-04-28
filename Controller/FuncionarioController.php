@@ -3,6 +3,7 @@
 namespace AutoCare\Controller;
 
 use AutoCare\Model\Funcionario;
+use AutoCare\Model\Usuario;
 
 final class FuncionarioController extends Controller
 {
@@ -51,8 +52,8 @@ final class FuncionarioController extends Controller
         "nome" => ["name" => "nome", "label" => "Nome", "type" => "text", "required" => true],
         "sobrenome" => ["name" => "sobrenome", "label" => "Sobrenome", "type" => "text", "required" => true],
         "email" => ["name" => "email", "label" => "Email", "type" => "text", "required" => true],
-        "senha" => ["name" => "senha", "label" => "Senha", "type" => "text", "required" => true],
-        "id_empresa" => ["name" => "id_empresa", "label" => "Id_empresa", "type" => "text", "required" => true],
+        "senha" => ["name" => "senha", "label" => "Senha", "type" => "password", "required" => true],
+        "id_prestador" => ["name" => "id_prestador", "label" => "Id_prestador", "type" => "text", "required" => true],
         "administrador" => ["name" => "administrador", "label" => "Administrador", "type" => "text", "required" => true]
 
       ]
@@ -61,24 +62,30 @@ final class FuncionarioController extends Controller
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
       try {
         $model = new Funcionario();
+        $usuarioModel = new Usuario();
 
-        $model->nome = $_POST["nome"];
-        $model->sobrenome = $_POST["sobrenome"];
-        $model->email = $_POST["email"];
-        $model->senha = $_POST["senha"];
-        $model->id_empresa = $_POST["id_empresa"];
-        $model->administrador = $_POST["administrador"];
+        $usuarioModel->nome = $_POST["nome"];
+        $usuarioModel->sobrenome = $_POST["sobrenome"];
+        $usuarioModel->email = $_POST["email"];
+        $usuarioModel->senha = $_POST["senha"];
+        $usuarioModel->telefone = "";
+
+        $model->id_prestador = $_POST["id_prestador"];
+        $model->administrador = $_POST["administrador"] ?? false;
 
         $this->data["form"] = [
-          "nome" => $model->nome,
-          "sobrenome" => $model->sobrenome,
-          "email" => $model->email,
-          "senha" => $model->senha,
-          "id_empresa" => $model->id_empresa,
+          "nome" => $usuarioModel->nome,
+          "sobrenome" => $usuarioModel->sobrenome,
+          "email" => $usuarioModel->email,
+          "senha" => $usuarioModel->senha,
+          "id_prestador" => $model->id_prestador,
           "administrador" => $model->administrador
         ];
 
-        $model->save();
+        $funcionario = $model->save();
+        $usuarioModel->id_funcionario = $funcionario->id;
+        $usuarioModel->tipo = "funcionario";
+        $usuarioModel->save();
 
         $this->backToIndex();
       } catch (\Throwable $th) {
@@ -103,32 +110,33 @@ final class FuncionarioController extends Controller
       "fields" => [
         "nome" => ["name" => "nome", "label" => "Nome", "type" => "text", "required" => true],
         "sobrenome" => ["name" => "sobrenome", "label" => "Sobrenome", "type" => "text", "required" => true],
-        "email" => ["name" => "email", "label" => "Email", "type" => "text", "required" => true],
+        "email" => ["name" => "email", "label" => "Email", "type" => "text", "required" => true, "readonly" => true],
       ]
     ];
 
     $model = new Funcionario();
+    $usuarioModel = new Usuario();
     $id = isset($_GET["id"]) ? $_GET["id"] : null;
 
     if($id != null) {
       $model = $model->getById((int) $id);
 
       if($model != null) {
+        $usuarioModel = $usuarioModel->getById((int) $model->usuario->id);
+
         $this->data["form"] = [
-          "nome" => $model->nome,
-          "sobrenome" => $model->sobrenome,
-          "email" => $model->email,
+          "nome" => $model->usuario->nome,
+          "sobrenome" => $model->usuario->sobrenome,
+          "email" => $model->usuario->email,
         ];
     
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
           try {           
-            $model->nome = $_POST["nome"];
-            $model->sobrenome = $_POST["sobrenome"];
-            $model->email = $_POST["email"];
-
-            var_dump($model);
+            $usuarioModel->nome = $_POST["nome"];
+            $usuarioModel->sobrenome = $_POST["sobrenome"];
+            $usuarioModel->email = $_POST["email"];
     
-            $model->save();
+            $usuarioModel->save();
     
             $this->backToIndex();
           } catch (\Throwable $th) {
@@ -156,24 +164,25 @@ final class FuncionarioController extends Controller
     $this->titulo = "Deletar Funcionario";
 
     $model = new Funcionario();
+
     $id = isset($_GET["id"]) ? $_GET["id"] : null;
 
     if($id != null) {
       $model = $model->getById((int) $id);
-
       if($model != null) {
         $this->data["infos"] = [
           "id" => $model->id,
-          "nome" => $model->nome,
-          "sobrenome" => $model->sobrenome,
-          "email" => $model->email,
-          "senha" => $model->senha,
-          "id_empresa" => $model->id_empresa,
+          "nome" => $model->usuario->nome,
+          "sobrenome" => $model->usuario->sobrenome,
+          "email" => $model->usuario->email,
+          "senha" => $model->usuario->senha,
+          "id_prestador" => $model->id_prestador,
           "administrador" => $model->administrador
         ];
     
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
-          try {           
+          try {          
+            Usuario::delete((int) $model->usuario->id);
             Funcionario::delete((int) $id);
             $this->backToIndex();
           } catch (\Throwable $th) {

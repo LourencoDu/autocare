@@ -5,7 +5,8 @@ namespace AutoCare\Model;
 use AutoCare\DAO\FuncionarioDAO;
 
 final class Funcionario {
-  public $id, $nome, $sobrenome, $email, $senha, $id_empresa, $administrador;
+  public $id, $id_prestador, $administrador;
+  public Usuario $usuario;
 
   public static function getById(int $id) : ?Funcionario {
     return (new FuncionarioDAO())->selectById($id);
@@ -20,8 +21,6 @@ final class Funcionario {
   }
 
   public function save() : Funcionario {
-    $this->senha =  password_hash($this->senha, PASSWORD_DEFAULT);
-
     return (new FuncionarioDAO())->save($this);
   }
 
