@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ptBR" data-theme="dark">
+<html lang="ptBR" class="dark" data-theme="dark">
 
 <head>
     <meta charset="UTF-8" />
