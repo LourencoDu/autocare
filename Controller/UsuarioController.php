@@ -128,8 +128,6 @@ final class UsuarioController extends Controller
             $model->nome = $_POST["nome"];
             $model->sobrenome = $_POST["sobrenome"];
             $model->telefone = $_POST["telefone"];
-
-            var_dump($model);
     
             $model->save();
     

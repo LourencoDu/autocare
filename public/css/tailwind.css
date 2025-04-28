@@ -676,6 +676,12 @@
   .mt-4 {
     margin-top: calc(var(--spacing) * 4);
   }
+  .mt-6 {
+    margin-top: calc(var(--spacing) * 6);
+  }
+  .mt-8 {
+    margin-top: calc(var(--spacing) * 8);
+  }
   .mb-8 {
     margin-bottom: calc(var(--spacing) * 8);
   }
@@ -771,6 +777,9 @@
   }
   .h-12 {
     height: calc(var(--spacing) * 12);
+  }
+  .h-45 {
+    height: calc(var(--spacing) * 45);
   }
   .h-screen {
     height: 100vh;
@@ -1251,6 +1260,9 @@
   .gap-2 {
     gap: calc(var(--spacing) * 2);
   }
+  .gap-3 {
+    gap: calc(var(--spacing) * 3);
+  }
   .gap-4 {
     gap: calc(var(--spacing) * 4);
   }
@@ -1295,6 +1307,11 @@
   .divide-gray-200 {
     :where(& > :not(:last-child)) {
       border-color: var(--color-gray-200);
+    }
+  }
+  .divide-zinc-700 {
+    :where(& > :not(:last-child)) {
+      border-color: var(--color-zinc-700);
     }
   }
   .divide-zinc-700\/40 {
@@ -1511,17 +1528,26 @@
     --tw-border-style: solid;
     border-style: solid;
   }
+  .border-gray-700 {
+    border-color: var(--color-gray-700);
+  }
   .border-primary {
     border-color: var(--color-primary);
   }
   .border-red-600 {
     border-color: var(--color-red-600);
   }
+  .border-zinc-700 {
+    border-color: var(--color-zinc-700);
+  }
   .border-zinc-700\/40 {
     border-color: color-mix(in srgb, oklch(37% 0.013 285.805) 40%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       border-color: color-mix(in oklab, var(--color-zinc-700) 40%, transparent);
     }
+  }
+  .border-y-zinc-700 {
+    border-block-color: var(--color-zinc-700);
   }
   .border-y-zinc-700\/20 {
     border-block-color: color-mix(in srgb, oklch(37% 0.013 285.805) 20%, transparent);
@@ -1905,8 +1931,14 @@
   .object-top-right {
     object-position: right top;
   }
+  .p-4 {
+    padding: calc(var(--spacing) * 4);
+  }
   .p-5 {
     padding: calc(var(--spacing) * 5);
+  }
+  .px-1 {
+    padding-inline: calc(var(--spacing) * 1);
   }
   .px-1\.5 {
     padding-inline: calc(var(--spacing) * 1.5);
@@ -1980,6 +2012,10 @@
   .text-2xl {
     font-size: var(--text-2xl);
     line-height: var(--tw-leading, var(--text-2xl--line-height));
+  }
+  .text-6xl {
+    font-size: var(--text-6xl);
+    line-height: var(--tw-leading, var(--text-6xl--line-height));
   }
   .text-lg {
     font-size: var(--text-lg);
@@ -2084,6 +2120,12 @@
   }
   .text-black {
     color: var(--color-black);
+  }
+  .text-red-300 {
+    color: var(--color-red-300);
+  }
+  .text-red-500 {
+    color: var(--color-red-500);
   }
   .text-white {
     color: var(--color-white);
@@ -2522,6 +2564,13 @@
   .transform-view {
     transform-box: view-box;
   }
+  .hover\:cursor-pointer {
+    &:hover {
+      @media (hover: hover) {
+        cursor: pointer;
+      }
+    }
+  }
   .hover\:border-primary-hover {
     &:hover {
       @media (hover: hover) {
@@ -2582,6 +2631,21 @@
       @media (hover: hover) {
         color: var(--color-red-500);
       }
+    }
+  }
+  .has-\[input\:checked\]\:border-primary {
+    &:has(*:is(input:checked)) {
+      border-color: var(--color-primary);
+    }
+  }
+  .has-\[input\:checked\]\:bg-primary {
+    &:has(*:is(input:checked)) {
+      background-color: var(--color-primary);
+    }
+  }
+  .has-\[input\:checked\]\:text-white {
+    &:has(*:is(input:checked)) {
+      color: var(--color-white);
     }
   }
   .lg\:flex {
@@ -2773,6 +2837,18 @@ body {
     @media (hover: hover) {
       background-color: var(--color-primary-hover);
     }
+  }
+  &:disabled {
+    cursor: not-allowed;
+  }
+  &:disabled {
+    border-color: var(--color-gray-500);
+  }
+  &:disabled {
+    background-color: var(--color-gray-500);
+  }
+  &:disabled {
+    color: var(--color-gray-400);
   }
 }
 .hoverable {

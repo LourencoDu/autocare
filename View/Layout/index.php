@@ -13,7 +13,7 @@
     
     <?php
     if (isset($css)) {
-        echo "<link rel='stylesheet' href='".BASE_DIR_NAME."/view/$css'>";
+        echo "<link rel='stylesheet' href='/".BASE_DIR_NAME."/view/$css'>";
     }
     ?>
 
@@ -24,6 +24,12 @@
 
 <body class="bg-white dark:bg-zinc-950 flex min-h-screen m-0 text-black dark:text-white">
     <?php include VIEWS . "Layout/" . (isset($_SESSION["usuario"]) ? "logged.php" : "not-logged.php"); ?>
+
+    <?php
+    if (isset($js)) {
+        echo "<script src='/".BASE_DIR_NAME."/view/$js'></script>";
+    }
+    ?>
 </body>
 
 </html>

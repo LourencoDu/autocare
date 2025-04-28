@@ -3,12 +3,13 @@
 namespace AutoCare\Controller;
 
 abstract class Controller {
-  protected $view, $css, $titulo, $data;
+  protected $view, $css, $js, $titulo, $data;
 
   public function render() {
     $config = [
       "view" => $this->view,
       "css" => $this->css,
+      "js" => $this->js,
       "titulo" => $this->titulo,
       "data" => $this->data,
     ];

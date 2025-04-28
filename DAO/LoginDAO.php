@@ -20,6 +20,7 @@ final class LoginDAO extends DAO {
 
     $login = $stmt->fetchObject("AutoCare\Model\Login");
 
+    
     if(is_object($login)) {
       if(password_verify($model->senha, $login->senha)) {
         return $login;

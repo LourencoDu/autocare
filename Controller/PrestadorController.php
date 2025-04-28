@@ -121,8 +121,6 @@ final class PrestadorController extends Controller
             $model->apelido = $_POST["apelido"];
             $model->endereco_cep = $_POST["endereco_cep"];
             $model->endereco_numero = $_POST["endereco_numero"];
-
-            var_dump($model);
     
             $model->save();
     
