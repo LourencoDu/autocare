@@ -3,16 +3,16 @@
 use AutoCare\Controller\FuncionarioController;
 
 switch ($url) {
-  case '/functionario':
+  case '/funcionario':
     (new FuncionarioController())->listar();
     exit;
-  case '/functionario/cadastrar':
+  case '/funcionario/cadastrar':
     (new FuncionarioController())->cadastrar();
     exit;
-  case '/functionario/atualizar':
+  case '/funcionario/atualizar':
     (new FuncionarioController())->atualizar();
     exit;
-  case '/functionario/deletar':
+  case '/funcionario/deletar':
     (new FuncionarioController())->deletar();
     exit;
 }
