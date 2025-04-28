@@ -27,6 +27,7 @@ switch ($url) {
     require_once __DIR__ . '/veiculo.php';
     require_once __DIR__ . '/prestador.php';
     require_once __DIR__ . '/funcionario.php';
+    require_once __DIR__ . '/servico.php';
 
     // Se nenhuma rota for encontrada
     (new HomeController())->index();
