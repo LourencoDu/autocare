@@ -5,7 +5,7 @@ namespace AutoCare\Model;
 use AutoCare\DAO\UsuarioDAO;
 
 final class Usuario {
-  public $id, $nome, $sobrenome, $telefone, $email, $senha;
+  public $id, $nome, $sobrenome, $telefone, $email, $senha, $tipo, $id_prestador;
 
   public static function getById(int $id) : ?Usuario {
     return (new UsuarioDAO())->selectById($id);

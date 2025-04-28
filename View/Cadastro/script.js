@@ -24,14 +24,17 @@ function getSelectedTipoUsuario() {
 
 function nextStep(currentStep) {
   const tipoUsuario = getSelectedTipoUsuario();
-  console.log(tipoUsuario, currentStep);
-  if(currentStep === 2 && tipoUsuario === "usuario") {
-    form.submit();
+
+  if(currentStep == 1) {
+    document.getElementById(`step-${currentStep}`).classList.add("hidden");
   } else {
-    document.getElementById("step-" + currentStep).classList.add("hidden");
-    document
-      .getElementById("step-" + (currentStep + 1))
-      .classList.remove("hidden");
-    step = "step-" + (currentStep + 1);
+    document.getElementById(`step-${currentStep}-${tipoUsuario}`).classList.add("hidden");
   }
+  document
+    .getElementById(`step-${(currentStep + 1)}-${tipoUsuario}`)
+    .classList.remove("hidden");
+}
+
+function submitForm() {
+  form.submit();
 }

@@ -18,20 +18,6 @@ CREATE SCHEMA IF NOT EXISTS `autocare` DEFAULT CHARACTER SET utf8mb3 ;
 USE `autocare` ;
 
 -- -----------------------------------------------------
--- Table `autocare`.`prestador`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `autocare`.`prestador` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `nome` VARCHAR(45) NOT NULL,
-  `apelido` VARCHAR(45) NOT NULL,
-  `endereco_cep` VARCHAR(8) NULL DEFAULT NULL,
-  `endereco_numero` INT NULL DEFAULT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
 -- Table `autocare`.`usuario`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `autocare`.`usuario` (
@@ -41,8 +27,27 @@ CREATE TABLE IF NOT EXISTS `autocare`.`usuario` (
   `email` VARCHAR(45) NOT NULL,
   `telefone` VARCHAR(11) NOT NULL,
   `senha` VARCHAR(255) NOT NULL,
+  `tipo` VARCHAR(20) NOT NULL,
+  `id_prestador` INT,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
+    INDEX `fk_id_prestador_usuario_idx` (`id_prestador` ASC) VISIBLE,
+  CONSTRAINT `fk_id_prestador_usuario`
+    FOREIGN KEY (`id_prestador`)
+    REFERENCES `autocare`.`prestador` (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+
+-- -----------------------------------------------------
+-- Table `autocare`.`prestador`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `autocare`.`prestador` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(45) NOT NULL,
+  `apelido` VARCHAR(45) NOT NULL,
+  `endereco_cep` VARCHAR(8) NULL DEFAULT NULL,
+  `endereco_numero` INT NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 

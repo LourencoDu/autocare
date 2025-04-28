@@ -3,6 +3,7 @@
 namespace AutoCare\Controller;
 
 use AutoCare\Model\Usuario;
+use AutoCare\Model\Prestador;
 
 final class CadastroController extends Controller
 {
@@ -21,6 +22,17 @@ final class CadastroController extends Controller
   private function cadastrar(): void
   {
     $tipoUsuario = $_POST["tipoUsuario"];
+
+    if($tipoUsuario === "usuario") {
+      $this->cadastrarUsuario();
+    } else {
+      $this->cadastrarPrestador();
+    }
+  }
+
+  private function cadastrarUsuario(): void
+  {
+    $tipoUsuario = "usuario";
 
     $nome = $_POST["nome"];
     $sobrenome = $_POST["sobrenome"];
@@ -49,6 +61,61 @@ final class CadastroController extends Controller
       $model->telefone = $telefone;
       $model->email = $email;
       $model->senha = $senha;
+
+      $model->save();
+
+      Header("Location: /".BASE_DIR_NAME."");
+    } catch (\Throwable $th) {
+      $this->data = array_merge($this->data ?? [], [
+        "erro" => "Falha ao adicionar registro. Erro: ".$th->getMessage(),
+        "exception" => $th->getMessage()
+      ]);
+    }
+  }
+
+  private function cadastrarPrestador(): void
+  {
+    $tipoUsuario = "prestador";
+
+    $nome = $_POST["prestadorNome"];
+    $sobrenome = $nome;
+    $telefone = "";
+    $email = $_POST["prestadorEmail"];
+    $senha = $_POST["prestadorSenha"];
+
+    if(!$nome || !$email || !$senha) {
+      $this->data['erro'] = "Preencha todos os campos obrigatórios (*).";
+      $this->data['form'] = [
+        "tipoUsuario" => $tipoUsuario,
+        "nome" => $nome,
+        "sobrenome" => $sobrenome,
+        "telefone" => $telefone,
+        "email" => $email,
+        "senha" => $senha,
+      ];
+      return;
+    }
+
+    try {
+      $modelPrestador = new Prestador();
+
+      $modelPrestador->nome = $nome;
+      $modelPrestador->apelido = $sobrenome;
+
+      $modelPrestador->endereco_cep = "";
+      $modelPrestador->endereco_numero = "";
+
+      $prestador = $modelPrestador->save();
+
+      $model = new Usuario();
+
+      $model->nome = $nome;
+      $model->sobrenome = $sobrenome;
+      $model->telefone = $telefone;
+      $model->email = $email;
+      $model->senha = $senha;
+      $model->tipo = "prestador";
+      $model->id_prestador = $prestador->id;
 
       $model->save();
 
