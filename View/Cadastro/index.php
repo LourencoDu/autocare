@@ -37,7 +37,7 @@ if (isset($data["form"])) {
     <img class="w-full max-w-88" src="public/svg/not-logged.svg" alt="carro sendo levantado por um elevador">
   </div>
   <div class="flex flex-col flex-1 max-w-120 py-12 px-6 gap-8">
-    <span>LOGO</span>
+    <span>AutoCare</span>
 
     <h2 class="text-2xl font-semibold">Criar uma conta</h2>
 
