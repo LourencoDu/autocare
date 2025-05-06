@@ -74,7 +74,7 @@ body {
 .button {
   @apply text-white;
   @apply border border-primary hover:border-primary-hover rounded-md h-12 bg-primary hover:bg-primary-hover transition duration-300 cursor-pointer px-2;
-  @apply disabled:border-gray-500 disabled:bg-gray-500 disabled:text-gray-400 disabled:cursor-not-allowed;
+  @apply disabled:border-gray-400 disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed;
 }
 
 .hoverable {

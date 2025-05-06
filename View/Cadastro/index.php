@@ -51,13 +51,13 @@ if (isset($data["form"])) {
           <span>Você é...</span>
 
           <div class="flex flex-row gap-3 h-45">
-            <label class="group flex flex-col items-center justify-center gap-3 p-4 flex-1 border border-gray-400 rounded-md transition hover:border-primary-hover hover:text-primary hover:cursor-pointer has-[input:checked]:bg-primary has-[input:checked]:text-white has-[input:checked]:border-primary">
+            <label class="group flex flex-col items-center justify-center gap-3 p-4 flex-1 border border-gray-400 rounded-md transition hover:border-primary-hover hover:bg-primary/10 hover:cursor-pointer has-[input:checked]:bg-primary has-[input:checked]:text-white has-[input:checked]:border-primary">
               <input <?= $tipoUsuario === "usuario" ? 'checked' : '' ?> type="radio" name="tipoUsuario" value="usuario" class="hidden person-type-radio">
               <i class="fa-solid fa-user text-6xl group-has-[input:checked]:text-white transition"></i>
               <span class="group-has-[input:checked]:text-white transition">Dono de veículo</span>
             </label>
 
-            <label class="group flex flex-col items-center justify-center gap-3 p-4 flex-1 border border-gray-400 rounded-md transition hover:border-primary-hover hover:text-primary hover:cursor-pointer has-[input:checked]:bg-primary has-[input:checked]:text-white has-[input:checked]:border-primary">
+            <label class="group flex flex-col items-center justify-center gap-3 p-4 flex-1 border border-gray-400 rounded-md transition hover:border-primary-hover hover:bg-primary/10 hover:cursor-pointer has-[input:checked]:bg-primary has-[input:checked]:text-white has-[input:checked]:border-primary">
               <input <?= $tipoUsuario === "prestador" ? 'checked' : '' ?> type="radio" name="tipoUsuario" value="prestador" class="hidden person-type-radio">
               <i class="fa-solid fa-wrench text-6xl group-has-[input:checked]:text-white transition"></i>
               <span class="group-has-[input:checked]:text-white transition">Prestador de serviços</span>
