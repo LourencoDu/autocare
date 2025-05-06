@@ -3,10 +3,13 @@
     <div class="flex h-10 w-10 border rounded-lg border-gray-700/20 justify-center items-center">AC</div>
 
     <div class="flex flex-row items-center gap-2">
-      <div>
-        <?= isset($_SESSION["usuario"]) ? $_SESSION["usuario"]["email"] : "" ?>
+      <div class="flex flex-col items-end">
+        <span class="text-base/5 font-medium"><?= isset($_SESSION["usuario"]) ? $_SESSION["usuario"]["nome_completo"] : "" ?></span>
+        <span class="text-sm/4 text-gray-600"><?= isset($_SESSION["usuario"]) ? $_SESSION["usuario"]["email"] : "" ?></span>
       </div>
-      <div class="w-8 h-8 bg-gray-700 rounded-4xl"></div>
+      <div class="w-10 h-10 flex items-center justify-center border border-gray-400 rounded-4xl">
+        <i class="fa-regular fa-user text-xl text-gray-700"></i>
+      </div>
     </div>
   </div>
   <div class="flex flex-row flex-1 gap-4">

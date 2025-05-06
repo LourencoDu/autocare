@@ -29,6 +29,14 @@ final class LoginController extends Controller
     if ($logado != null) {
       $_SESSION['usuario']['id'] = $logado->id;  
       $_SESSION['usuario']['email'] = $logado->email; 
+      $_SESSION['usuario']['nome'] = $logado->nome; 
+      $_SESSION['usuario']['sobrenome'] = $logado->sobrenome; 
+      $_SESSION['usuario']['tipo'] = $logado->tipo;
+      $_SESSION['usuario']['nome_completo'] = $logado->nome." ".trim($logado->sobrenome);
+      if($logado->tipo === "prestador") {
+        $_SESSION['usuario']['nome_completo'] = $logado->nome;
+      }
+      
       header("Location: home");
     } else {
       $this->data['erro'] = "E-mail ou senha inválidos.";
