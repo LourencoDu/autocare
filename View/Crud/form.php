@@ -15,10 +15,10 @@ $fields = isset($data["fields"]) ? $data["fields"] : [];
   <?php } ?>
 
   <div class="flex flex-row gap-4 pt-4">
-    <a href="." class="flex flex-row justify-center items-center border border-red-600 hover:border-red-900 rounded-md bg-red-600 hover:bg-red-900 transition duration-300 cursor-pointer px-2 h-12 w-full max-w-40">
+    <a href="." class="flex flex-row justify-center items-center border border-red-600 hover:border-red-900 rounded-md bg-red-600 hover:bg-red-900 text-white transition duration-300 cursor-pointer px-2 h-12 w-full max-w-40">
       Voltar
     </a>
-    <button class="flex flex-row justify-center items-center border border-primary hover:border-primary-hover rounded-md bg-primary hover:bg-primary-hover transition duration-300 cursor-pointer px-2 h-12 w-full max-w-40">
+    <button class="flex flex-row justify-center items-center border border-primary hover:border-primary-hover rounded-md bg-primary hover:bg-primary-hover text-white transition duration-300 cursor-pointer px-2 h-12 w-full max-w-40">
       Enviar
     </button>
   </div>

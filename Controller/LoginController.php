@@ -28,6 +28,7 @@ final class LoginController extends Controller
 
     if ($logado != null) {
       $_SESSION['usuario']['id'] = $logado->id;  
+      $_SESSION['usuario']['email'] = $logado->email; 
       header("Location: home");
     } else {
       $this->data['erro'] = "E-mail ou senha inválidos.";

@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --color-background-dark: #030712;
@@ -48,7 +47,7 @@ body {
 }
 
 .form-control label {
-  @apply font-medium  text-white;
+  @apply font-medium  text-black;
 }
 
 .form-control input {
@@ -58,24 +57,22 @@ body {
   min-w-0 flex-auto px-3 h-12
 
   /* Aparência básica */
-  appearance-none rounded-md bg-white shadow-md shadow-zinc-800/5
+  appearance-none rounded-md bg-white shadow-md shadow-gray-800/5
 
   /* Bordas */
-  border border-zinc-900/10
+  border border-gray-300
 
   /* Placeholder */
-  placeholder:text-zinc-400
+  placeholder:text-gray-400
 
   /* Foco */
   focus:border-primary focus:ring-4 focus:ring-teal-500/10 focus:outline-hidden
 
-  /* Dark mode */
-  dark:border-zinc-700 dark:bg-zinc-700/[0.15] dark:text-zinc-200 dark:placeholder:text-zinc-500 dark:focus:border-primary dark:focus:ring-teal-400/10
-
-  read-only:text-zinc-500;
+  read-only:text-gray-500;
 }
 
 .button {
+  @apply text-white;
   @apply border border-primary hover:border-primary-hover rounded-md h-12 bg-primary hover:bg-primary-hover transition duration-300 cursor-pointer px-2;
   @apply disabled:border-gray-500 disabled:bg-gray-500 disabled:text-gray-400 disabled:cursor-not-allowed;
 }
