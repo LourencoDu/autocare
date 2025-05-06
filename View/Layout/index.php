@@ -22,7 +22,7 @@
     <link href="/<?= BASE_DIR_NAME; ?>/public/fontawesome/css/solid.css" rel="stylesheet" />
 </head>
 
-<body class="bg-gray-200 flex min-h-screen m-0 text-black">
+<body class="bg-gray-500/10 flex min-h-screen m-0 text-black">
     <?php include VIEWS . "Layout/" . (isset($_SESSION["usuario"]) ? "logged.php" : "not-logged.php"); ?>
 
     <?php
