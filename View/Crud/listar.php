@@ -27,7 +27,7 @@ if (count($lista)) {
             $values = get_object_vars($item);
 
             foreach ($values as $value) {
-              echo "<td class='px-6 py-4 whitespace-nowrap'>$value</td>";
+              echo "<td class='px-6 py-4 whitespace-nowrap text-ellipsis'>$value</td>";
             }
             ?>
             <td class="flex flex-row px-6 py-4 whitespace-nowrap text-center gap-2">
