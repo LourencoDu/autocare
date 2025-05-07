@@ -36,6 +36,14 @@ final class LoginController extends Controller
       if($logado->tipo === "prestador") {
         $_SESSION['usuario']['nome_completo'] = $logado->nome;
       }
+
+      $iconePorTipo = array(
+        "prestador" => "fa-wrench",
+        "usuario" => "fa-user",
+        "funcionario" => "fa-id-badge"
+      );
+
+      $_SESSION['usuario']['icone'] = $iconePorTipo[$logado->tipo];
       
       header("Location: home");
     } else {

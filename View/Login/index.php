@@ -12,7 +12,10 @@ if (isset($data["form"])) {
     <img class="w-full max-w-88" src="public/svg/not-logged.svg" alt="carro sendo levantado por um elevador">
   </div>
   <div class="flex flex-col flex-1 max-w-120 py-12 px-6 gap-8">
-    <span>AutoCare</span>
+    <div class="flex flex-row h-12 items-center gap-1">
+      <i class="fa-solid fa-car-side text-3xl"></i>
+      <span class="text-2xl font-semibold">AutoCare</span>
+    </div>
 
     <h2 class="text-2xl font-semibold">Acesse sua conta</h2>
 
