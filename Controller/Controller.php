@@ -3,7 +3,7 @@
 namespace AutoCare\Controller;
 
 abstract class Controller {
-  protected $view, $css, $js, $titulo, $data;
+  protected $view, $css, $js, $titulo, $path, $data;
 
   public function render() {
     $config = [
@@ -11,6 +11,7 @@ abstract class Controller {
       "css" => $this->css,
       "js" => $this->js,
       "titulo" => $this->titulo,
+      "path" => $this->path,
       "data" => $this->data,
     ];
     extract($config);

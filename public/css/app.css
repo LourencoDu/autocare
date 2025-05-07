@@ -3,22 +3,22 @@
 @theme {
   --color-background-dark: #030712;
 
-  --color-primary: #615FFF;
-  --color-primary-hover: #7C86FF;
+  --color-primary: #615fff;
+  --color-primary-hover: #7c86ff;
 }
 
 :root {
-  --primary-color: #615FFF;
+  --primary-color: #615fff;
   --primary-20-color: #625fff;
-  --primary-hover-color: #7C86FF;
+  --primary-hover-color: #7c86ff;
 
-  --secondary-color: #28303E;
+  --secondary-color: #28303e;
 
-  --text-color: #FFFFFF;
+  --text-color: #ffffff;
 
-  --button-text-color: #FFFFFF;
+  --button-text-color: #ffffff;
 
-  --divider-color: #BCB8B1;
+  --divider-color: #bcb8b1;
 
   --bg-dark: #030712;
 }
@@ -27,12 +27,9 @@ html {
   font-size: 14px;
 }
 
-div, p {
+div,
+p {
   margin: 0;
-}
-
-body {
-  font-family: Inter, Helvetica, sans-serif;
 }
 
 .container {
@@ -51,9 +48,7 @@ body {
 }
 
 .form-control input {
-
-  @apply 
-  /* Layout e tamanho */
+  @apply /* Layout e tamanho */
   min-w-0 flex-auto px-3 h-12
 
   /* Aparência básica */
@@ -78,5 +73,5 @@ body {
 }
 
 .hoverable {
-  @apply text-primary hover:text-primary-hover transition duration-300 cursor-pointer decoration-0
+  @apply text-primary hover:text-primary-hover transition duration-300 cursor-pointer decoration-0;
 }
