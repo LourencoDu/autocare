@@ -12,7 +12,7 @@ final class LoginController extends Controller
     $this->css = "Login/style.css";
     $this->titulo = "Login";
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (parent::isPost()) {
       $this->logar();
     }
 
@@ -27,14 +27,10 @@ final class LoginController extends Controller
     $logado = $model->logar($model);
 
     if ($logado != null) {
-      $_SESSION['usuario']['id'] = $logado->id;  
-      $_SESSION['usuario']['email'] = $logado->email; 
-      $_SESSION['usuario']['nome'] = $logado->nome; 
-      $_SESSION['usuario']['sobrenome'] = $logado->sobrenome; 
-      $_SESSION['usuario']['tipo'] = $logado->tipo;
-      $_SESSION['usuario']['nome_completo'] = $logado->nome." ".trim($logado->sobrenome);
+      $_SESSION['usuario'] = $logado;  
+      $_SESSION['usuario']->nome_completo = $logado->nome." ".trim($logado->sobrenome);
       if($logado->tipo === "prestador") {
-        $_SESSION['usuario']['nome_completo'] = $logado->nome;
+        $_SESSION['usuario']->nome_completo = $logado->nome;
       }
 
       $iconePorTipo = array(
@@ -43,7 +39,7 @@ final class LoginController extends Controller
         "funcionario" => "fa-id-badge"
       );
 
-      $_SESSION['usuario']['icone'] = $iconePorTipo[$logado->tipo];
+      $_SESSION['usuario']->icone = $iconePorTipo[$logado->tipo];
       
       header("Location: home");
     } else {

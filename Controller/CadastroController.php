@@ -13,7 +13,7 @@ final class CadastroController extends Controller
     $this->css = "Cadastro/style.css";
     $this->js = "Cadastro/script.js";
     $this->titulo = "Cadastro";
-    if($_SERVER["REQUEST_METHOD"] === "POST") {
+    if(parent::isPost()) {
       $this->cadastrar();
     }
     $this->render();

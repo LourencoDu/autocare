@@ -46,6 +46,10 @@ final class ServicoController extends Controller
     $this->view = "Crud/form.php";
     $this->titulo = "Novo Serviço";
 
+    $this->caminho = [
+      new CaminhoItem("Serviços", "servico")
+    ];
+
     $this->data = [
       "fields" => [
         "descricao" => ["name" => "descricao", "label" => "descricao", "type" => "text", "required" => true],
@@ -94,6 +98,10 @@ final class ServicoController extends Controller
 
     $this->view = "Crud/form.php";
     $this->titulo = "Atualizar Serviço";
+
+    $this->caminho = [
+      new CaminhoItem("Serviços", "servico")
+    ];
 
     $this->data = [
       "fields" => [
@@ -155,6 +163,10 @@ final class ServicoController extends Controller
 
     $this->view = "Crud/deletar.php";
     $this->titulo = "Deletar Serviço";
+
+    $this->caminho = [
+      new CaminhoItem("Serviços", "servico")
+    ];
 
     $model = new Servico();
     $id = isset($_GET["id"]) ? $_GET["id"] : null;

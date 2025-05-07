@@ -4,7 +4,7 @@ namespace AutoCare\Model;
 
 use AutoCare\DAO\FuncionarioDAO;
 
-final class Funcionario {
+final class Funcionario extends Model {
   public $id, $id_prestador, $administrador;
   public Usuario $usuario;
 

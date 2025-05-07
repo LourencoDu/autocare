@@ -4,19 +4,19 @@ namespace AutoCare\Model;
 
 use AutoCare\DAO\VeiculoDAO;
 
-final class Veiculo {
+final class Veiculo extends Model {
   public $id, $ano, $apelido, $id_usuario, $id_modelo_veiculo;
   
   public static function getById(int $id) : ?Veiculo {
     return (new VeiculoDAO())->selectById($id);
   }
 
-  public static function getAllByLoggedUser() : array {
-    $id_usuario = $_SESSION["usuario"]["id"];
+  public function getAllByLoggedUser() : array {
+    $id_usuario = $_SESSION["usuario"]->id;
     return (new VeiculoDAO())->selectByUser($id_usuario);
   }
 
-  public static function getAllRows() : array {
+  public function getAllRows() : array {
     return (new VeiculoDAO())->select();
   }
 

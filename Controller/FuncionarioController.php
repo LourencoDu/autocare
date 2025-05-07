@@ -12,7 +12,7 @@ final class FuncionarioController extends Controller
     parent::isProtected();
 
     $this->view = "Crud/listar.php";
-    $this->titulo = "Funcionario";
+    $this->titulo = "Funcionarios";
     $this->render();
   }
 
@@ -37,7 +37,7 @@ final class FuncionarioController extends Controller
   }
 
   private function backToIndex(): void {
-    Header("Location: /".BASE_DIR_NAME."/funcionario");
+    parent::redirect("funcionario");
   }
 
   public function cadastrar(): void
@@ -46,6 +46,10 @@ final class FuncionarioController extends Controller
 
     $this->view = "Crud/form.php";
     $this->titulo = "Novo Funcionario";
+
+    $this->caminho = [
+      new CaminhoItem("Funcionários", "funcionario")
+    ];
 
     $this->data = [
       "fields" => [
@@ -59,7 +63,7 @@ final class FuncionarioController extends Controller
       ]
     ];
 
-    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    if (parent::isPost()) {
       try {
         $model = new Funcionario();
         $usuarioModel = new Usuario();
@@ -106,6 +110,10 @@ final class FuncionarioController extends Controller
     $this->view = "Crud/form.php";
     $this->titulo = "Atualizar Funcionario";
 
+    $this->caminho = [
+      new CaminhoItem("Funcionários", "funcionario")
+    ];
+
     $this->data = [
       "fields" => [
         "nome" => ["name" => "nome", "label" => "Nome", "type" => "text", "required" => true],
@@ -130,7 +138,7 @@ final class FuncionarioController extends Controller
           "email" => $model->usuario->email,
         ];
     
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        if (parent::isPost()) {
           try {           
             $usuarioModel->nome = $_POST["nome"];
             $usuarioModel->sobrenome = $_POST["sobrenome"];
@@ -163,6 +171,10 @@ final class FuncionarioController extends Controller
     $this->view = "Crud/deletar.php";
     $this->titulo = "Deletar Funcionario";
 
+    $this->caminho = [
+      new CaminhoItem("Funcionários", "funcionario")
+    ];
+
     $model = new Funcionario();
 
     $id = isset($_GET["id"]) ? $_GET["id"] : null;
@@ -180,7 +192,7 @@ final class FuncionarioController extends Controller
           "administrador" => $model->administrador
         ];
     
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        if (parent::isPost()) {
           try {          
             Usuario::delete((int) $model->usuario->id);
             Funcionario::delete((int) $id);

@@ -46,6 +46,10 @@ final class PrestadorController extends Controller
     $this->view = "Crud/form.php";
     $this->titulo = "Novo Prestador";
 
+    $this->caminho = [
+      new CaminhoItem("Prestadores", "prestador")
+    ];
+
     $this->data = [
       "fields" => [
         "nome" => ["name" => "nome", "label" => "Nome", "type" => "text", "required" => true],
@@ -91,6 +95,10 @@ final class PrestadorController extends Controller
 
     $this->view = "Crud/form.php";
     $this->titulo = "Atualizar Prestador";
+
+    $this->caminho = [
+      new CaminhoItem("Prestadores", "prestador")
+    ];
 
     $this->data = [
       "fields" => [
@@ -148,6 +156,10 @@ final class PrestadorController extends Controller
 
     $this->view = "Crud/deletar.php";
     $this->titulo = "Deletar Prestador";
+
+    $this->caminho = [
+      new CaminhoItem("Prestadores", "prestador")
+    ];
 
     $model = new Prestador();
     $id = isset($_GET["id"]) ? $_GET["id"] : null;

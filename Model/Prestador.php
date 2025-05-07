@@ -4,14 +4,14 @@ namespace AutoCare\Model;
 
 use AutoCare\DAO\PrestadorDAO;
 
-final class Prestador {
+final class Prestador extends Model {
   public $id, $nome, $apelido, $endereco_cep, $endereco_numero;
 
   public static function getById(int $id) : ?Prestador {
     return (new PrestadorDAO())->selectById($id);
   }
 
-  public static function getAllRows() : array {
+  public function getAllRows() : array {
     return (new PrestadorDAO())->select();
   }
 

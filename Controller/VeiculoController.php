@@ -9,13 +9,13 @@ final class VeiculoController extends Controller {
   {
     parent::isProtected();
 
-    $this->view = "Crud/listar.php";
+    $this->view = "Veiculo/index.php";
     $this->titulo = "Meus Veículos";
     $this->render();
   }
 
   private function backToIndex(): void {
-    Header("Location: /".BASE_DIR_NAME."/veiculo");
+    parent::redirect("veiculo");
   }
 
   public function listar(): void
@@ -25,15 +25,6 @@ final class VeiculoController extends Controller {
     $model = new Veiculo();
 
     $lista = $model->getAllRows();
-
-    $baseDirName = BASE_DIR_NAME;
-
-    $this->data = [
-      "lista" => $lista,
-      "addLink" => "/$baseDirName/veiculo/cadastrar",
-      "editLink" => "/$baseDirName/veiculo/atualizar",
-      "deleteLink" => "/$baseDirName/veiculo/deletar",
-    ];
 
     $this->index();
   }

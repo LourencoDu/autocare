@@ -3,6 +3,7 @@
 namespace AutoCare\Controller;
 
 use AutoCare\Model\Usuario;
+use AutoCare\Model\Login;
 
 final class UsuarioController extends Controller
 {
@@ -24,7 +25,7 @@ final class UsuarioController extends Controller
     $lista = $model->getAllRows();
 
     $lista = array_filter($lista, function ($item) {
-      return $item->id != $_SESSION["usuario"]["id"];
+      return $item->id != $_SESSION["usuario"]->id;
     });
 
     $baseDirName = BASE_DIR_NAME;
@@ -49,6 +50,10 @@ final class UsuarioController extends Controller
 
     $this->view = "Crud/form.php";
     $this->titulo = "Novo Usuário";
+
+    $this->caminho = [
+      new CaminhoItem("Usuários", "usuario")
+    ];
 
     $this->data = [
       "fields" => [
@@ -98,6 +103,10 @@ final class UsuarioController extends Controller
 
     $this->view = "Crud/form.php";
     $this->titulo = "Atualizar Usuário";
+
+    $this->caminho = [
+      new CaminhoItem("Usuários", "usuario")
+    ];
 
     $this->data = [
       "fields" => [
@@ -155,6 +164,10 @@ final class UsuarioController extends Controller
 
     $this->view = "Crud/deletar.php";
     $this->titulo = "Deletar Usuário";
+
+    $this->caminho = [
+      new CaminhoItem("Usuários", "usuario")
+    ];
 
     $model = new Usuario();
     $id = isset($_GET["id"]) ? $_GET["id"] : null;

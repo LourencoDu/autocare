@@ -4,7 +4,7 @@ namespace AutoCare\Model;
 
 use AutoCare\DAO\UsuarioDAO;
 
-final class Usuario {
+final class Usuario extends Model {
   public $id, $nome, $sobrenome, $telefone, $email, $senha, $tipo, $id_prestador, $id_funcionario;
 
   public static function getById(int $id) : ?Usuario {
