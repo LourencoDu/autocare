@@ -7,6 +7,8 @@
 
     <title>AutoCare<?= isset($titulo) ? " - " . $titulo : "" ?></title>
 
+    <link rel="icon" type="image/x-icon" href="/<?= BASE_DIR_NAME; ?>/public/ico/favicon.ico">
+
     <script src="/<?= BASE_DIR_NAME; ?>/public/js/tailwind.min.js"></script>
 
     <link rel="stylesheet" href="/<?= BASE_DIR_NAME; ?>/public/css/tailwind.css">
