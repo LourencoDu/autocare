@@ -1,1 +1,14 @@
 https://www.youtube.com/watch?v=4h6j3ODwsEw&list=PLHVpcBDJr5dmL-5tYqBmf_PxJrtrdAMT6&ab_channel=TiagoA.Silva
+
+
+João - Listar prestadores de serviço por localização (melhoria da sprint 01)
+
+Veiga - Manter troca de mensagens entre prestador de serviço e cliente (chat)
+Veiga - Manter cadastro de especialidade (prestador)
+Veiga - Permitir alerta de recebimento de mensagem (cliente e prestador) - central de notificação
+
+Eduardo - Manter atendimento do serviço (status do serviço - funcionário)
+Eduardo - Manter cadastro de avaliação do serviço (cliente)
+Eduardo - Manter cadastro de comentários do serviço (cliente)
+
+Fernando - Permitir busca avançada de prestadores (filtros - mapa)
