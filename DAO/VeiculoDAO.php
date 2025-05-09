@@ -3,6 +3,7 @@
 namespace AutoCare\DAO;
 
 use AutoCare\Model\Veiculo;
+use PDO;
 
 final class VeiculoDAO extends DAO {
   public function __construct()
@@ -71,14 +72,28 @@ final class VeiculoDAO extends DAO {
 
   public function selectByUser(int $id_usuario): array
   {
-    $sql = "SELECT * FROM veiculo WHERE id_usuario = ?;";
+    $sql = "SELECT v.id id, v.apelido apelido, v.ano ano, mv.nome as modelo, fv.nome as fabricante FROM veiculo as v JOIN modelo_veiculo as mv ON mv.id = v.id_modelo_veiculo JOIN fabricante_veiculo as fv ON fv.id = mv.id_fabricante_veiculo WHERE id_usuario = ?;";
 
     $stmt = parent::$conexao->prepare($sql);
     $stmt->bindValue(1, $id_usuario);
-
     $stmt->execute();
 
-    return $stmt->fetchAll(DAO::FETCH_CLASS, "AutoCare\Model\Veiculo");
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $lista = array();
+
+    foreach ($data as $key => $row) {
+      $model = new \AutoCare\Model\Veiculo();
+
+      $model->id = $row["id"]; 
+      $model->apelido = $row["apelido"];
+      $model->ano = $row["ano"];
+      $model->modelo = $row["modelo"];
+      $model->fabricante = $row["fabricante"];
+
+      array_push($lista, $model);
+    }
+
+    return $lista;
   }
 
   public function delete(int $id): bool

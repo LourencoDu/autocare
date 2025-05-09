@@ -72,6 +72,10 @@ p {
   @apply disabled:border-gray-400 disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed;
 }
 
+.button.small {
+  @apply h-8 px-3 space-x-1;
+}
+
 .hoverable {
   @apply text-primary hover:text-primary-hover transition duration-300 cursor-pointer decoration-0;
 }

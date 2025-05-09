@@ -24,7 +24,8 @@ final class VeiculoController extends Controller {
 
     $model = new Veiculo();
 
-    $lista = $model->getAllRows();
+    $veiculos = $model->getAllByLoggedUser();
+    $this->data["veiculos"] = $veiculos;
 
     $this->index();
   }
