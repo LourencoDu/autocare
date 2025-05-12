@@ -9,8 +9,8 @@ switch ($url) {
   case '/funcionario/cadastrar':
     (new FuncionarioController())->cadastrar();
     exit;
-  case '/funcionario/atualizar':
-    (new FuncionarioController())->atualizar();
+  case '/funcionario/alterar':
+    (new FuncionarioController())->alterar();
     exit;
   case '/funcionario/deletar':
     (new FuncionarioController())->deletar();

@@ -18,7 +18,7 @@ function isActiveRoute($rotaItem)
 <div class="flex flex-col flex-1 max-w-12 items-center gap-4">
   <div class="flex flex-1 w-full flex-col justify-start items-center border-y border-y-gray-700/40 py-4 gap-2">
     <?php foreach ($menuItens as $item): ?>
-      <a aria-selected="<?= isActiveRoute($item['rota']); ?>" href="/<?= BASE_DIR_NAME ?>/<?= $item['rota'] ?>" class="flex h-12 w-12 border rounded-lg border-gray-700/20 justify-center items-center hover:border-primary/60 hover:text-primary transition duration-300 cursor-pointer  aria-selected:bg-white aria-selected:text-primary aria-selected:border-primary/60">
+      <a aria-selected="<?= isActiveRoute($item['rota']); ?>" href="/<?= BASE_DIR_NAME ?>/<?= $item['rota'] ?>" class="sidemenu item">
         <i class="fa-solid <?= $item['icone'] ?>"></i>
       </a>
     <?php endforeach; ?>
@@ -26,7 +26,7 @@ function isActiveRoute($rotaItem)
 
   <!-- Botão de logout -->
   <div class="flex flex-col justify-end items-center">
-    <a href="/<?= BASE_DIR_NAME ?>/logout" class="flex h-12 w-12 border rounded-lg border-gray-700/20 justify-center items-center hover:border-primary/60 hover:text-primary transition duration-300 cursor-pointer">
+    <a href="/<?= BASE_DIR_NAME ?>/logout" class="sidemenu item">
       <i class="fa-solid fa-arrow-right-from-bracket"></i>
     </a>
   </div>

@@ -12,10 +12,10 @@
     <script src="/<?= BASE_DIR_NAME; ?>/public/js/tailwind.min.js"></script>
 
     <link rel="stylesheet" href="/<?= BASE_DIR_NAME; ?>/public/css/tailwind.css">
-    
+
     <?php
     if (isset($css)) {
-        echo "<link rel='stylesheet' href='/".BASE_DIR_NAME."/view/$css'>";
+        echo "<link rel='stylesheet' href='/" . BASE_DIR_NAME . "/view/$css'>";
     }
     ?>
 
@@ -28,10 +28,22 @@
     <?php include VIEWS . "Layout/" . (isset($_SESSION["usuario"]) ? "logged.php" : "not-logged.php"); ?>
 
     <?php
+        include COMPONENTS . "modal/delete.php";
+    ?>
+
+    <?php
+        include COMPONENTS . "loading.php";
+    ?>
+
+    <?php
     if (isset($js)) {
-        echo "<script src='/".BASE_DIR_NAME."/view/$js'></script>";
+        echo "<script src='/" . BASE_DIR_NAME . "/view/$js'></script>";
     }
     ?>
+
+    <script src="/<?= BASE_DIR_NAME ?>/public/js/api.js"></script>
+    <script src="/<?= BASE_DIR_NAME ?>/public/js/common.js"></script>
+    <script src="/<?= BASE_DIR_NAME ?>/public/js/modal.js"></script>
 </body>
 
 </html>

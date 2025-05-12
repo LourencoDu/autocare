@@ -2,6 +2,9 @@
 
 namespace AutoCare\Controller;
 
+use AutoCare\Helper\JsonResponse;
+use AutoCare\Model\FabricanteVeiculo;
+use AutoCare\Model\ModeloVeiculo;
 use AutoCare\Model\Veiculo;
 
 final class VeiculoController extends Controller {
@@ -27,6 +30,8 @@ final class VeiculoController extends Controller {
     $veiculos = $model->getAllByLoggedUser();
     $this->data["veiculos"] = $veiculos;
 
+    $this->js = "Veiculo/script.js";
+
     $this->index();
   }
 
@@ -34,15 +39,17 @@ final class VeiculoController extends Controller {
   {
     parent::isProtected();
 
-    $this->view = "Crud/form.php";
+    $this->view = "Veiculo/form.php";
+    $this->js = "Veiculo/form.js";
     $this->titulo = "Novo Veículo";
 
+
+    $this->caminho = [
+      new CaminhoItem("Meus Veículos", "veiculo")
+    ];
+
     $this->data = [
-      "fields" => [
-        "ano" => ["name" => "ano", "label" => "Ano", "type" => "number", "required" => true],
-        "apelido" => ["name" => "apelido", "label" => "Apelido", "type" => "text", "required" => true],
-        "id_modelo_veiculo" => ["name" => "id_modelo_veiculo", "label" => "Modelo Veiculo", "type" => "text", "required" => true]
-      ]
+      "fabricantes" => FabricanteVeiculo::getAllRows()
     ];
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -73,20 +80,13 @@ final class VeiculoController extends Controller {
     $this->render();
   }
 
-  public function atualizar(): void
+  public function alterar(): void
   {
     parent::isProtected();
 
-    $this->view = "Crud/form.php";
-    $this->titulo = "Atualizar Veículo";
-
-    $this->data = [
-      "fields" => [
-        "ano" => ["name" => "ano", "label" => "Ano", "type" => "number", "required" => true],
-        "apelido" => ["name" => "apelido", "label" => "Apelido", "type" => "text", "required" => true],
-        "id_modelo_veiculo" => ["name" => "id_modelo_veiculo", "label" => "Modelo Veiculo", "type" => "text", "required" => true]
-      ]
-    ];
+    $this->view = "Veiculo/form.php";
+    $this->js = "Veiculo/form.js";
+    $this->titulo = "Alterar Veículo";
 
     $model = new Veiculo();
     $id = isset($_GET["id"]) ? $_GET["id"] : null;
@@ -95,10 +95,20 @@ final class VeiculoController extends Controller {
       $model = $model->getById((int) $id);
 
       if($model != null) {
+        $modeloModel = ModeloVeiculo::getById($model->id_modelo_veiculo);
+        $id_fabricante_veiculo = $modeloModel->id_fabricante_veiculo;
+
+        $this->data = [
+          "fabricantes" => FabricanteVeiculo::getAllRows(),
+          "modelos" => ModeloVeiculo::getRowsByIdFabricante($id_fabricante_veiculo),
+          "action" => "alterar"
+        ];
+
         $this->data["form"] = [
           "ano" => $model->ano,
           "apelido" => $model->apelido,
-          "id_modelo_veiculo" => $model->id_modelo_veiculo
+          "id_modelo_veiculo" => $model->id_modelo_veiculo,
+          "id_fabricante_veiculo" => $id_fabricante_veiculo
         ];
     
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -112,7 +122,7 @@ final class VeiculoController extends Controller {
             $this->backToIndex();
           } catch (\Throwable $th) {
             $this->data = array_merge($this->data, [
-              "erro" => "Falha ao atualizar registro. Erro: ".$th->getMessage(),
+              "erro" => "Falha ao alterar registro. Erro: ".$th->getMessage(),
               "exception" => $th->getMessage()
             ]);
           }
@@ -131,41 +141,19 @@ final class VeiculoController extends Controller {
   {
     parent::isProtected();
 
-    $this->view = "Crud/deletar.php";
-    $this->titulo = "Deletar Veículo";
+    $id = isset($_POST["id"]) ? $_POST["id"] : null;
 
-    $model = new Veiculo();
-    $id = isset($_GET["id"]) ? $_GET["id"] : null;
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+      $response = null;
+      try {           
+        Veiculo::delete((int) $id);
 
-    if($id != null) {
-      $model = $model->getById((int) $id);
+        $response = JsonResponse::sucesso("Veículo deletado com sucesso!");
+      } catch (\Throwable $th) {
+        $response = JsonResponse::erro("Falha ao deletar veículo!");
+      }
 
-      if($model != null) {
-        $this->data["infos"] = [
-          "id" => $model->id,
-          "ano" => $model->ano,
-          "apelido" => $model->apelido,
-          "id_modelo_veiculo" => $model->id_modelo_veiculo,
-        ];
-    
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
-          try {           
-            Veiculo::delete((int) $id);
-            $this->backToIndex();
-          } catch (\Throwable $th) {
-            $this->data = array_merge($this->data, [
-              "erro" => "Falha ao atualizar registro. Erro: ".$th->getMessage(),
-              "exception" => $th->getMessage()
-            ]);
-          }
-        }
-    
-        $this->render();
-      }  else {
-        $this->backToIndex();
-      }    
-    } else {
-      $this->backToIndex();
+      $response->enviar();
     }
   }
 }

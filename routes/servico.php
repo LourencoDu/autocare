@@ -9,8 +9,8 @@ switch ($url) {
   case '/servico/cadastrar':
     (new ServicoController())->cadastrar();
     exit;
-  case '/servico/atualizar':
-    (new ServicoController())->atualizar();
+  case '/servico/alterar':
+    (new ServicoController())->alterar();
     exit;
   case '/servico/deletar':
     (new ServicoController())->deletar();

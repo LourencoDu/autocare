@@ -9,8 +9,8 @@ switch ($url) {
   case '/usuario/cadastrar':
     (new UsuarioController())->cadastrar();
     exit;
-  case '/usuario/atualizar':
-    (new UsuarioController())->atualizar();
+  case '/usuario/alterar':
+    (new UsuarioController())->alterar();
     exit;
   case '/usuario/deletar':
     (new UsuarioController())->deletar();

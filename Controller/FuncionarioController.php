@@ -29,7 +29,7 @@ final class FuncionarioController extends Controller
     $this->data = [
       "lista" => $lista,
       "addLink" => "/$baseDirName/funcionario/cadastrar",
-      "editLink" => "/$baseDirName/funcionario/atualizar",
+      "editLink" => "/$baseDirName/funcionario/alterar",
       "deleteLink" => "/$baseDirName/funcionario/deletar",
     ];
 
@@ -103,12 +103,12 @@ final class FuncionarioController extends Controller
     $this->render();
   }
 
-  public function atualizar(): void
+  public function alterar(): void
   {
     parent::isProtected();
 
     $this->view = "Crud/form.php";
-    $this->titulo = "Atualizar Funcionario";
+    $this->titulo = "Alterar Funcionario";
 
     $this->caminho = [
       new CaminhoItem("Funcionários", "funcionario")
@@ -149,7 +149,7 @@ final class FuncionarioController extends Controller
             $this->backToIndex();
           } catch (\Throwable $th) {
             $this->data = array_merge($this->data, [
-              "erro" => "Falha ao atualizar registro. Erro: ".$th->getMessage(),
+              "erro" => "Falha ao alterar registro. Erro: ".$th->getMessage(),
               "exception" => $th->getMessage()
             ]);
           }

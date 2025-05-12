@@ -28,7 +28,7 @@ final class ServicoController extends Controller
     $this->data = [
       "lista" => $lista,
       "addLink" => "/$baseDirName/servico/cadastrar",
-      "editLink" => "/$baseDirName/servico/atualizar",
+      "editLink" => "/$baseDirName/servico/alterar",
       "deleteLink" => "/$baseDirName/servico/deletar",
     ];
 
@@ -92,12 +92,12 @@ final class ServicoController extends Controller
     $this->render();
   }
 
-  public function atualizar(): void
+  public function alterar(): void
   {
     parent::isProtected();
 
     $this->view = "Crud/form.php";
-    $this->titulo = "Atualizar Serviço";
+    $this->titulo = "Alterar Serviço";
 
     $this->caminho = [
       new CaminhoItem("Serviços", "servico")
@@ -142,7 +142,7 @@ final class ServicoController extends Controller
             $this->backToIndex();
           } catch (\Throwable $th) {
             $this->data = array_merge($this->data, [
-              "erro" => "Falha ao atualizar registro. Erro: ".$th->getMessage(),
+              "erro" => "Falha ao alterar registro. Erro: ".$th->getMessage(),
               "exception" => $th->getMessage()
             ]);
           }
@@ -190,7 +190,7 @@ final class ServicoController extends Controller
             $this->backToIndex();
           } catch (\Throwable $th) {
             $this->data = array_merge($this->data, [
-              "erro" => "Falha ao atualizar registro. Erro: ".$th->getMessage(),
+              "erro" => "Falha ao alterar registro. Erro: ".$th->getMessage(),
               "exception" => $th->getMessage()
             ]);
           }

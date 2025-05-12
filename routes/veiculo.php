@@ -9,10 +9,10 @@ switch ($url) {
   case '/veiculo/cadastrar':
     (new VeiculoController())->cadastrar();
     exit;
-  case '/veiculo/atualizar':
-    (new VeiculoController())->atualizar();
+  case '/veiculo/alterar':
+    (new VeiculoController())->alterar();
     exit;
-  case '/veiculo/deletar':
+  case '/api/veiculo/deletar':
     (new VeiculoController())->deletar();
     exit;
 }

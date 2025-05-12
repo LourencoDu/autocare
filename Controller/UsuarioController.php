@@ -33,7 +33,7 @@ final class UsuarioController extends Controller
     $this->data = [
       "lista" => $lista,
       "addLink" => "/$baseDirName/usuario/cadastrar",
-      "editLink" => "/$baseDirName/usuario/atualizar",
+      "editLink" => "/$baseDirName/usuario/alterar",
       "deleteLink" => "/$baseDirName/usuario/deletar",
     ];
 
@@ -97,12 +97,12 @@ final class UsuarioController extends Controller
     $this->render();
   }
 
-  public function atualizar(): void
+  public function alterar(): void
   {
     parent::isProtected();
 
     $this->view = "Crud/form.php";
-    $this->titulo = "Atualizar Usuário";
+    $this->titulo = "Alterar Usuário";
 
     $this->caminho = [
       new CaminhoItem("Usuários", "usuario")
@@ -143,7 +143,7 @@ final class UsuarioController extends Controller
             $this->backToIndex();
           } catch (\Throwable $th) {
             $this->data = array_merge($this->data, [
-              "erro" => "Falha ao atualizar registro. Erro: ".$th->getMessage(),
+              "erro" => "Falha ao alterar registro. Erro: ".$th->getMessage(),
               "exception" => $th->getMessage()
             ]);
           }
@@ -190,7 +190,7 @@ final class UsuarioController extends Controller
             $this->backToIndex();
           } catch (\Throwable $th) {
             $this->data = array_merge($this->data, [
-              "erro" => "Falha ao atualizar registro. Erro: ".$th->getMessage(),
+              "erro" => "Falha ao alterar registro. Erro: ".$th->getMessage(),
               "exception" => $th->getMessage()
             ]);
           }

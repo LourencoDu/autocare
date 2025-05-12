@@ -34,22 +34,36 @@ $quantidade = count($veiculos);
           </div>
         </div>
 
-        <div class="flex flex-row">
+        <div class="flex flex-row items-center gap-14">
           <div class="flex flex-row gap-4">
-            <div class="flex flex-col border border-dashed border-gray-300 rounded-xl px-2 py-1 min-w-24 max-w-auto gap-1">
+            <div class="flex flex-col border border-dashed border-gray-300 rounded-xl px-2.5 py-2 min-w-24 max-w-auto gap-1">
               <span class="text-sm font-semibold"><?= $veiculo->fabricante ?></span>
               <span class="text-xs text-gray-700">Fabricante</span>
             </div>
 
-            <div class="flex flex-col border border-dashed border-gray-300 rounded-xl px-2 py-1 min-w-24 max-w-auto gap-1">
+            <div class="flex flex-col border border-dashed border-gray-300 rounded-xl px-2.5 py-2 min-w-24 max-w-auto gap-1">
               <span class="text-sm font-semibold"><?= $veiculo->modelo ?></span>
               <span class="text-xs text-gray-700">Modelo</span>
             </div>
 
-            <div class="flex flex-col border border-dashed border-gray-300 rounded-xl px-2 py-1 min-w-24 max-w-auto gap-1">
+            <div class="flex flex-col border border-dashed border-gray-300 rounded-xl px-2.5 py-2 min-w-24 max-w-auto gap-1">
               <span class="text-sm font-semibold"><?= $veiculo->ano ?></span>
               <span class="text-xs text-gray-700">Ano</span>
             </div>
+          </div>
+
+          <div class="flex flex-row items-center h-6 px-2 border border-gray-300 rounded-md bg-gray-200">
+            <span class="text-xs text-gray-600 font-medium">Sem serviço</span>
+          </div>
+
+          <div class="flex flex-row items-center gap-2">
+          <a href="/<?= BASE_DIR_NAME ?>/veiculo/alterar?id=<?= $veiculo->id ?>" class="flex flex-row items-center justify-center w-8 h-8 rounded-md text-gray-600 hover:text-primary hover:bg-primary/10 transition cursor-pointer">
+            <i class="fa-solid fa-pen mt-[2px] transition"></i>
+          </a>
+
+          <a onclick="handleDeleteClick(<?= $veiculo->id ?>, '<?= $veiculo->apelido ?>')" class="flex flex-row items-center justify-center w-8 h-8 rounded-md text-gray-600 hover:text-red-500 hover:bg-red-500/10 transition cursor-pointer">
+            <i class="fa-solid fa-trash mt-[2px] transition"></i>
+          </a>
           </div>
         </div>
       </div>

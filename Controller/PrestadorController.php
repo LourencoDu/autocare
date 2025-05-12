@@ -28,7 +28,7 @@ final class PrestadorController extends Controller
     $this->data = [
       "lista" => $lista,
       "addLink" => "/$baseDirName/prestador/cadastrar",
-      "editLink" => "/$baseDirName/prestador/atualizar",
+      "editLink" => "/$baseDirName/prestador/alterar",
       "deleteLink" => "/$baseDirName/prestador/deletar",
     ];
 
@@ -89,12 +89,12 @@ final class PrestadorController extends Controller
     $this->render();
   }
 
-  public function atualizar(): void
+  public function alterar(): void
   {
     parent::isProtected();
 
     $this->view = "Crud/form.php";
-    $this->titulo = "Atualizar Prestador";
+    $this->titulo = "Alterar Prestador";
 
     $this->caminho = [
       new CaminhoItem("Prestadores", "prestador")
@@ -135,7 +135,7 @@ final class PrestadorController extends Controller
             $this->backToIndex();
           } catch (\Throwable $th) {
             $this->data = array_merge($this->data, [
-              "erro" => "Falha ao atualizar registro. Erro: ".$th->getMessage(),
+              "erro" => "Falha ao alterar registro. Erro: ".$th->getMessage(),
               "exception" => $th->getMessage()
             ]);
           }
@@ -182,7 +182,7 @@ final class PrestadorController extends Controller
             $this->backToIndex();
           } catch (\Throwable $th) {
             $this->data = array_merge($this->data, [
-              "erro" => "Falha ao atualizar registro. Erro: ".$th->getMessage(),
+              "erro" => "Falha ao alterar registro. Erro: ".$th->getMessage(),
               "exception" => $th->getMessage()
             ]);
           }

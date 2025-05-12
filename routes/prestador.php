@@ -10,8 +10,8 @@ switch ($url) {
   case '/prestador/cadastrar':
     (new PrestadorController())->cadastrar();
     exit;
-  case '/prestador/atualizar':
-    (new PrestadorController())->atualizar();
+  case '/prestador/alterar':
+    (new PrestadorController())->alterar();
     exit;
   case '/prestador/deletar':
     (new PrestadorController())->deletar();

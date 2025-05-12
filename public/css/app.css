@@ -43,11 +43,23 @@ p {
   @apply flex flex-col gap-1;
 }
 
-.form-control label {
-  @apply font-medium  text-black;
+.form-control.row {
+  @apply flex flex-row gap-1;
 }
 
-.form-control input {
+.form-control label {
+  @apply font-medium text-black;
+}
+
+.form-control.row label {
+  @apply font-medium text-black w-full max-w-56 text-base/[3rem];
+}
+
+.form-control.row.medium label {
+  @apply font-medium text-black w-full max-w-56 text-base/[2.5rem];
+}
+
+.form-control input, .form-control select {
   @apply /* Layout e tamanho */
   min-w-0 flex-auto px-3 h-12
 
@@ -66,10 +78,23 @@ p {
   read-only:text-gray-500;
 }
 
+.form-control.medium input, .form-control.medium select {
+  @apply h-10;
+}
+
 .button {
   @apply text-white;
   @apply border border-primary hover:border-primary-hover rounded-md h-12 bg-primary hover:bg-primary-hover transition duration-300 cursor-pointer px-2;
   @apply disabled:border-gray-400 disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed;
+}
+
+.button.ghost {
+  @apply text-black;
+  @apply border-gray-300 bg-transparent hover:bg-gray-200;
+}
+
+.button.medium {
+  @apply h-10 px-3 space-x-1;
 }
 
 .button.small {
@@ -78,4 +103,11 @@ p {
 
 .hoverable {
   @apply text-primary hover:text-primary-hover transition duration-300 cursor-pointer decoration-0;
+}
+
+.sidemenu.item {
+  @apply flex h-12 w-12 justify-center items-center cursor-pointer transition duration-300;
+  @apply border border-transparent rounded-4xl;
+  @apply hover:border-gray-700/20 hover:text-primary hover:bg-white;
+  @apply aria-selected:bg-white aria-selected:text-primary aria-selected:border-gray-700/20;
 }
