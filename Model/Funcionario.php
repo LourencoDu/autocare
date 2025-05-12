@@ -5,7 +5,7 @@ namespace AutoCare\Model;
 use AutoCare\DAO\FuncionarioDAO;
 
 final class Funcionario extends Model {
-  public $id, $id_prestador, $administrador;
+  public $id, $id_prestador, $administrador, $id_usuario;
   public Usuario $usuario;
 
   public static function getById(int $id) : ?Funcionario {

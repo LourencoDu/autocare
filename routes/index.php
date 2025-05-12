@@ -22,6 +22,9 @@ switch ($url) {
   case '/cadastro':
     (new CadastroController())->index();
     break;
+  case '/cadastro/bem-vindo':
+    (new CadastroController())->exibirBemVindo();
+    break;
   default:
     require_once __DIR__ . '/usuario.php';
     require_once __DIR__ . '/prestador.php';

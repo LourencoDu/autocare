@@ -28,12 +28,14 @@
     <?php include VIEWS . "Layout/" . (isset($_SESSION["usuario"]) ? "logged.php" : "not-logged.php"); ?>
 
     <?php
-        include COMPONENTS . "modal/delete.php";
+    include COMPONENTS . "modal/delete.php";
     ?>
 
     <?php
-        include COMPONENTS . "loading.php";
+    include COMPONENTS . "loading.php";
     ?>
+
+    <script src="/<?= BASE_DIR_NAME ?>/public/js/inputmask.js"></script>
 
     <?php
     if (isset($js)) {

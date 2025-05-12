@@ -82,6 +82,18 @@ p {
   @apply h-10;
 }
 
+.form-control .helper-text {
+  @apply text-sm text-gray-500;
+}
+
+.form-control .helper-text.danger {
+  @apply text-sm text-red-500;
+}
+
+.form-control .helper-text.success {
+  @apply text-sm text-green-500;
+}
+
 .button {
   @apply text-white;
   @apply border border-primary hover:border-primary-hover rounded-md h-12 bg-primary hover:bg-primary-hover transition duration-300 cursor-pointer px-2;

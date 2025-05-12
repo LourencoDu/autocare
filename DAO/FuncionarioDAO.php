@@ -18,11 +18,12 @@ final class FuncionarioDAO extends DAO {
 
   private function insert(Funcionario $model) : Funcionario
   {
-    $sql = "INSERT INTO funcionario (id_prestador, administrador) VALUES (?, ?);";
+    $sql = "INSERT INTO funcionario (id_prestador, administrador, id_usuario) VALUES (?, ?, ?);";
 
     $stmt = parent::$conexao->prepare($sql);
     $stmt->bindValue(1, $model->id_prestador);
     $stmt->bindValue(2, $model->administrador ?? false);
+    $stmt->bindValue(1, $model->id_usuario);
     $stmt->execute();
 
     $model->id = parent::$conexao->lastInsertId();
@@ -46,7 +47,7 @@ final class FuncionarioDAO extends DAO {
   public function selectById(int $id) : ?Funcionario
   {
     $sql = "SELECT f.*, u.id as u_id, u.nome as u_nome, u.sobrenome as u_sobrenome, u.email as u_email, u.senha as u_senha FROM funcionario f 
-    JOIN usuario u ON u.id_funcionario = f.id
+    JOIN usuario u ON u.id = f.id_usuario
     WHERE f.id = ?;";
 
     $stmt = parent::$conexao->prepare($sql);

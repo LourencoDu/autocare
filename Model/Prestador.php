@@ -5,7 +5,8 @@ namespace AutoCare\Model;
 use AutoCare\DAO\PrestadorDAO;
 
 final class Prestador extends Model {
-  public $id, $nome, $apelido, $endereco_cep, $endereco_numero;
+  public $id, $documento, $id_usuario;
+  public Usuario $usuario;
 
   public static function getById(int $id) : ?Prestador {
     return (new PrestadorDAO())->selectById($id);

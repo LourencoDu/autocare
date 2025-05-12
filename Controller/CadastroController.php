@@ -10,12 +10,40 @@ final class CadastroController extends Controller
   public function index(): void
   {
     $this->view = "Cadastro/index.php";
-    $this->css = "Cadastro/style.css";
     $this->js = "Cadastro/script.js";
+
     $this->titulo = "Cadastro";
-    if(parent::isPost()) {
+    if (parent::isPost()) {
       $this->cadastrar();
+    } else if (isset($_GET["tipoUsuario"])) {
+      if ($_GET["tipoUsuario"] == "usuario") {
+        $this->exibirCadastroUsuario();
+      } else if ($_GET["tipoUsuario"] == "prestador") {
+        $this->exibirCadastroPrestador();
+      }
     }
+    $this->render();
+  }
+
+  private function exibirCadastroUsuario()
+  {
+    $this->view = "Cadastro/usuario/index.php";
+    $this->js = "Cadastro/usuario/script.js";
+  }
+
+  private function exibirCadastroPrestador()
+  {
+    $this->view = "Cadastro/prestador/index.php";
+    $this->js = "Cadastro/prestador/script.js";
+  }
+
+  public function exibirBemVindo()
+  {
+    $this->titulo = "Bem-vindo";
+    $this->view = "Cadastro/bem-vindo/index.php";
+
+    $this->data["tipoUsuario"] = $_GET["tipoUsuario"] ?? "usuario";
+
     $this->render();
   }
 
@@ -23,7 +51,7 @@ final class CadastroController extends Controller
   {
     $tipoUsuario = $_POST["tipoUsuario"];
 
-    if($tipoUsuario === "usuario") {
+    if ($tipoUsuario === "usuario") {
       $this->cadastrarUsuario();
     } else {
       $this->cadastrarPrestador();
@@ -40,7 +68,7 @@ final class CadastroController extends Controller
     $email = $_POST["email"];
     $senha = $_POST["senha"];
 
-    if(!$nome || !$sobrenome || !$telefone || !$email || !$senha) {
+    if (!$nome || !$sobrenome || !$telefone || !$email || !$senha) {
       $this->data['erro'] = "Preencha todos os campos obrigatórios (*).";
       $this->data['form'] = [
         "tipoUsuario" => $tipoUsuario,
@@ -64,10 +92,10 @@ final class CadastroController extends Controller
 
       $model->save();
 
-      Header("Location: /".BASE_DIR_NAME."");
+      Header("Location: /" . BASE_DIR_NAME . "/cadastro/bem-vindo?tipoUsuario=".$tipoUsuario);
     } catch (\Throwable $th) {
       $this->data = array_merge($this->data ?? [], [
-        "erro" => "Falha ao adicionar registro. Erro: ".$th->getMessage(),
+        "erro" => "Falha ao adicionar registro. Erro: " . $th->getMessage(),
         "exception" => $th->getMessage()
       ]);
     }
@@ -77,21 +105,18 @@ final class CadastroController extends Controller
   {
     $tipoUsuario = "prestador";
 
-    $nome = $_POST["prestadorNome"];
-    $sobrenome = $nome;
-    $telefone = "";
-    $email = $_POST["prestadorEmail"];
-    $senha = $_POST["prestadorSenha"];
+    $nome = $_POST["nome"];
+    $documento = $_POST["documento"];
+    $telefone = $_POST["telefone"];
+    $email = $_POST["email"];
+    $senha = $_POST["senha"];
 
-    $apelido = $_POST["prestadorApelido"];
-    $cep = $_POST["prestadorCEP"];
-
-    if(!$nome || !$email || !$senha || !$apelido || !$cep) {
+    if (!$nome || !$documento || !$telefone || !$email || !$senha) {
       $this->data['erro'] = "Preencha todos os campos obrigatórios (*).";
       $this->data['form'] = [
         "tipoUsuario" => $tipoUsuario,
         "nome" => $nome,
-        "sobrenome" => $sobrenome,
+        "documento" => $documento,
         "telefone" => $telefone,
         "email" => $email,
         "senha" => $senha,
@@ -100,32 +125,25 @@ final class CadastroController extends Controller
     }
 
     try {
+      $modelUsuario = new Usuario();
+
+      $modelUsuario->nome = $nome;
+      $modelUsuario->telefone = $telefone;
+      $modelUsuario->email = $email;
+      $modelUsuario->senha = $senha;
+      $modelUsuario->tipo = $tipoUsuario;
+
+      $modelUsuario->save();
+
       $modelPrestador = new Prestador();
+      $modelPrestador->documento = $documento;
+      $modelPrestador->id_usuario = $modelUsuario->id;
+      $modelPrestador->save();
 
-      $modelPrestador->nome = $nome;
-      $modelPrestador->apelido = $apelido;
-
-      $modelPrestador->endereco_cep = $cep;
-      $modelPrestador->endereco_numero = "";
-
-      $prestador = $modelPrestador->save();
-
-      $model = new Usuario();
-
-      $model->nome = $nome;
-      $model->sobrenome = $sobrenome;
-      $model->telefone = $telefone;
-      $model->email = $email;
-      $model->senha = $senha;
-      $model->tipo = "prestador";
-      $model->id_prestador = $prestador->id;
-
-      $model->save();
-
-      Header("Location: /".BASE_DIR_NAME."");
+      Header("Location: /" . BASE_DIR_NAME . "/cadastro/bem-vindo?tipoUsuario=".$tipoUsuario);
     } catch (\Throwable $th) {
       $this->data = array_merge($this->data ?? [], [
-        "erro" => "Falha ao adicionar registro. Erro: ".$th->getMessage(),
+        "erro" => "Falha ao adicionar registro. Erro: " . $th->getMessage(),
         "exception" => $th->getMessage()
       ]);
     }

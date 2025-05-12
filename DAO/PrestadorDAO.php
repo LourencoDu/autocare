@@ -17,13 +17,11 @@ final class PrestadorDAO extends DAO {
 
   private function insert(Prestador $model) : Prestador
   {
-    $sql = "INSERT INTO prestador (nome, apelido, endereco_cep, endereco_numero) VALUES (?, ?, ?, ?);";
+    $sql = "INSERT INTO prestador (documento, id_usuario) VALUES (?, ?);";
 
     $stmt = parent::$conexao->prepare($sql);
-    $stmt->bindValue(1, $model->nome);
-    $stmt->bindValue(2, $model->apelido);
-    $stmt->bindValue(3, $model->endereco_cep);
-    $stmt->bindValue(4, $model->endereco_numero);
+    $stmt->bindValue(1, $model->documento);
+    $stmt->bindValue(2, $model->id_usuario);
     $stmt->execute();
 
     $model->id = parent::$conexao->lastInsertId();
@@ -31,16 +29,13 @@ final class PrestadorDAO extends DAO {
     return $model;
   }
 
-  private function update(Prestador $model) : Prestador
+  private function update(Prestador $model)
   {
-    $sql = "UPDATE prestador SET nome=?, apelido=?, endereco_cep=?,  endereco_numero=? WHERE id=?;";
+    $sql = "UPDATE prestador SET documento=? WHERE id=?;";
 
     $stmt = parent::$conexao->prepare($sql);
-    $stmt->bindValue(1, $model->nome);
-    $stmt->bindValue(2, $model->apelido);
-    $stmt->bindValue(3, $model->endereco_cep);
-    $stmt->bindValue(4, $model->endereco_numero);
-    $stmt->bindValue(5, $model->id);
+    $stmt->bindValue(1, $model->documento);
+    $stmt->bindValue(2, $model->id);
     $stmt->execute();
 
     return $model;
