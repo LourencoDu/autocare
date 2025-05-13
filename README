@@ -7,8 +7,16 @@ Veiga - Manter troca de mensagens entre prestador de serviço e cliente (chat)
 Veiga - Manter cadastro de especialidade (prestador)
 Veiga - Permitir alerta de recebimento de mensagem (cliente e prestador) - central de notificação
 
-Eduardo - Manter atendimento do serviço (status do serviço - funcionário)
+Eduardo - Manter atendimento do serviço
 Eduardo - Manter cadastro de avaliação do serviço (cliente)
 Eduardo - Manter cadastro de comentários do serviço (cliente)
 
-Fernando - Permitir busca avançada de prestadores (filtros - mapa)
+Fernando - Permitir busca avançada de prestadores (filtros (buscar por lava car, buscar por BMW)- mapa)
+Fernando - criar listagem de serviços em andamento por prestador logado, existindo a possibilidade de trocar o status do serviço
+(
+0 - cancelado
+1 - agendado
+2 - Em Execução
+3 - Aguardando Retirada
+10 - Finalizado
+)( criar uma tabela nova)
