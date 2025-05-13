@@ -22,7 +22,7 @@
 <div id="map"></div>
 
 <script src="https://openlayers.org/en/v6.15.1/build/ol.js"></script>
-<script src="map.js"></script>
+<script src="View\Prestador\Map\clickMapScript.js"></script>
 
 </body>
 </html>

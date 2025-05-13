@@ -2,6 +2,8 @@
 
 use AutoCare\Controller\PrestadorController;
 use AutoCare\Controller\MapController;
+use AutoCare\Controller\MapClickController;
+
 
 switch ($url) {
   case '/prestador':
@@ -21,5 +23,8 @@ switch ($url) {
     exit;
   case '/mapa/json':
     (new MapController())->listar();
+    exit;
+  case '/mapaclick': 
+    (new MapClickController())->index();
     exit;
 }
