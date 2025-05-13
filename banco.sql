@@ -18,20 +18,33 @@ CREATE SCHEMA IF NOT EXISTS `autocare` DEFAULT CHARACTER SET utf8mb3 ;
 USE `autocare` ;
 
 -- -----------------------------------------------------
+-- Table `autocare`.`localizacao`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `autocare`.`localizacao` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `latitude` DECIMAL(11,8) NOT NULL,
+  `longitude` DECIMAL(11,8) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
 -- Table `autocare`.`usuario`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `autocare`.`usuario` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(50) NOT NULL,
-  `sobrenome` VARCHAR(45),
+  `sobrenome` VARCHAR(45) NULL DEFAULT NULL,
   `email` VARCHAR(45) NOT NULL,
   `telefone` VARCHAR(11) NOT NULL,
   `senha` VARCHAR(255) NOT NULL,
-  `tipo` ENUM("usuario", "prestador", "funcionario", "moderador", "administrador") NOT NULL,
+  `tipo` ENUM('usuario', 'prestador', 'funcionario', 'moderador', 'administrador') NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
+
 
 -- -----------------------------------------------------
 -- Table `autocare`.`prestador`
@@ -40,16 +53,17 @@ CREATE TABLE IF NOT EXISTS `autocare`.`prestador` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `documento` VARCHAR(255) NOT NULL,
   `id_usuario` INT NOT NULL,
-  `id_localizacao` INT,
+  `id_localizacao` INT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-    UNIQUE INDEX `documento_UNIQUE` (`documento` ASC) VISIBLE,
-	INDEX `fk_prestador_usuario_idx` (`id_usuario` ASC) VISIBLE,
+  UNIQUE INDEX `documento_UNIQUE` (`documento` ASC) VISIBLE,
+  INDEX `fk_prestador_usuario_idx` (`id_usuario` ASC) VISIBLE,
+  INDEX `fk_prestador_localizacao` (`id_localizacao` ASC) VISIBLE,
+  CONSTRAINT `fk_prestador_localizacao`
+    FOREIGN KEY (`id_localizacao`)
+    REFERENCES `autocare`.`localizacao` (`id`),
   CONSTRAINT `fk_prestador_usuario`
     FOREIGN KEY (`id_usuario`)
-    REFERENCES `autocare`.`usuario` (`id`),
-      CONSTRAINT `fk_prestador_localizacao`
-    FOREIGN KEY (`id_localizacao`)
-    REFERENCES `autocare`.`localizacao` (`id`))
+    REFERENCES `autocare`.`usuario` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
@@ -62,6 +76,7 @@ CREATE TABLE IF NOT EXISTS `autocare`.`fabricante_veiculo` (
   `nome` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 30
 DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -78,6 +93,7 @@ CREATE TABLE IF NOT EXISTS `autocare`.`modelo_veiculo` (
     FOREIGN KEY (`id_fabricante_veiculo`)
     REFERENCES `autocare`.`fabricante_veiculo` (`id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 161
 DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -125,9 +141,7 @@ CREATE TABLE IF NOT EXISTS `autocare`.`servico` (
     REFERENCES `autocare`.`usuario` (`id`),
   CONSTRAINT `fk_id_veiculo_servico`
     FOREIGN KEY (`id_veiculo`)
-    REFERENCES `autocare`.`veiculo` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `autocare`.`veiculo` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
@@ -154,39 +168,15 @@ DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `autocare`.`funcionario`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `autocare`.`funcionario` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `administrador` TINYINT NULL DEFAULT NULL,
-  `id_prestador` INT NULL DEFAULT NULL,
-  `id_usuario` INT NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  CONSTRAINT `fk_id_prestador_funcionario`
-    FOREIGN KEY (`id_prestador`)
-    REFERENCES `autocare`.`prestador` (`id`),
-	CONSTRAINT `fk_funcionario_usuario`
-    FOREIGN KEY (`id_usuario`)
-    REFERENCES `autocare`.`usuario` (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
 -- Table `autocare`.`chat`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `autocare`.`chat` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_usuario` INT NOT NULL,
   `id_prestador` INT NULL DEFAULT NULL,
-  `id_funcionario` INT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_id_usuario_idx` (`id_usuario` ASC) VISIBLE,
   INDEX `fk_id_prestador_idx` (`id_prestador` ASC) VISIBLE,
-  INDEX `fk_id_funcionario_idx` (`id_funcionario` ASC) VISIBLE,
-  CONSTRAINT `fk_id_funcionario_chat`
-    FOREIGN KEY (`id_funcionario`)
-    REFERENCES `autocare`.`funcionario` (`id`),
   CONSTRAINT `fk_id_prestador_chat`
     FOREIGN KEY (`id_prestador`)
     REFERENCES `autocare`.`prestador` (`id`),
@@ -241,31 +231,22 @@ DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `autocare`.`localizacao`
+-- Table `autocare`.`funcionario`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `autocare`.`localizacao` (
+CREATE TABLE IF NOT EXISTS `autocare`.`funcionario` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `latitude` DECIMAL(11,8) NOT NULL,
-  `longitude` DECIMAL(11,8) NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `autocare`.`mensagem`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `autocare`.`mensagem` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `texto` VARCHAR(400) NOT NULL,
-  `data` DATE NOT NULL,
-  `cliente` TINYINT NOT NULL,
-  `id_chat` INT NULL DEFAULT NULL,
+  `administrador` TINYINT NULL DEFAULT NULL,
+  `id_prestador` INT NULL DEFAULT NULL,
+  `id_usuario` INT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_id_chat_idx` (`id_chat` ASC) VISIBLE,
-  CONSTRAINT `fk_id_chat`
-    FOREIGN KEY (`id_chat`)
-    REFERENCES `autocare`.`chat` (`id`))
+  INDEX `fk_id_prestador_funcionario` (`id_prestador` ASC) VISIBLE,
+  INDEX `fk_funcionario_usuario` (`id_usuario` ASC) VISIBLE,
+  CONSTRAINT `fk_funcionario_usuario`
+    FOREIGN KEY (`id_usuario`)
+    REFERENCES `autocare`.`usuario` (`id`),
+  CONSTRAINT `fk_id_prestador_funcionario`
+    FOREIGN KEY (`id_prestador`)
+    REFERENCES `autocare`.`prestador` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
@@ -290,9 +271,62 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
 
+-- -----------------------------------------------------
+-- Table `autocare`.`chat_mesagem_usuario`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `autocare`.`chat_mesagem_usuario` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `id_chat` INT NOT NULL,
+  `texto` TEXT(750) NOT NULL,
+  `data` DATETIME NOT NULL,
+  `visualizado` TINYINT(1) NULL,
+  `id_usuario` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_chat_mensagem_usuario_idx` (`id_chat` ASC) VISIBLE,
+  INDEX `fk_chat_mensagem_usuario_usuario_idx` (`id_usuario` ASC) VISIBLE,
+  CONSTRAINT `fk_chat_mensagem_usuario`
+    FOREIGN KEY (`id_chat`)
+    REFERENCES `autocare`.`chat` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_chat_mensagem_usuario_usuario`
+    FOREIGN KEY (`id_usuario`)
+    REFERENCES `autocare`.`usuario` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `autocare`.`chat_mesagem_funcionario`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `autocare`.`chat_mesagem_funcionario` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `id_chat` INT NOT NULL,
+  `texto` TEXT(750) NOT NULL,
+  `data` DATETIME NOT NULL,
+  `visualizado` TINYINT(1) NULL,
+  `id_funcionario` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_mensagem_funcionario_funcionario_idx` (`id_funcionario` ASC) VISIBLE,
+  INDEX `fk_mensagrm_funcionario_chat_idx` (`id_chat` ASC) VISIBLE,
+  CONSTRAINT `fk_mensagem_funcionario_funcionario`
+    FOREIGN KEY (`id_funcionario`)
+    REFERENCES `autocare`.`funcionario` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_mensagrm_funcionario_chat`
+    FOREIGN KEY (`id_chat`)
+    REFERENCES `autocare`.`chat` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
 
 INSERT INTO autocare.fabricante_veiculo (id, nome) VALUES
 (1, 'Chevrolet'),
