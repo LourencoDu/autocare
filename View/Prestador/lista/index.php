@@ -3,6 +3,7 @@
 use AutoCare\Helper\Util;
 
 $prestadores = isset($data["lista"]) ? $data["lista"] : [];
+$quantidade = count($prestadores);
 
 ?>
 
@@ -12,15 +13,24 @@ $prestadores = isset($data["lista"]) ? $data["lista"] : [];
     <input id="search-input" type="text" placeholder="Buscar por prestador" />
   </div>
 
+  <div class="flex items-center justify-between">
+    <span class="font-medium">
+      Exibindo
+      <span id="search-count"><?= $quantidade ?></span>
+      de <?= $quantidade ?> <?= $quantidade == 1 ? "resultado" : "resultados" ?>
+      <span id="search-value-label" class="hidden">para "<span id="search-value" class="text-red-500">Nike</span>"</span>
+    </span>
+  </div>
+
   <div id="lista" class="flex flex-col gap-4">
     <?php foreach ($prestadores as $index => $prestador) : ?>
       <?php
-        $nome_sem_acentos = Util::removerAcentos($prestador->usuario->nome);
-        $telefone = $prestador->usuario->telefone;
-        $documento = $prestador->documento;
+      $nome_sem_acentos = Util::removerAcentos($prestador->usuario->nome);
+      $telefone = $prestador->usuario->telefone;
+      $documento = $prestador->documento;
       ?>
 
-      <div data-search="<?= strtolower($nome_sem_acentos." ".$telefone." ".$documento." ") ?>" class="search-item flex flex-row flex-wrap justify-between p-2.5 pe-5 border border-gray-300 rounded-xl gap-4">
+      <div data-search="<?= strtolower($nome_sem_acentos . " " . $telefone . " " . $documento . " ") ?>" class="search-item flex flex-row flex-wrap justify-between p-2.5 pe-5 border border-gray-300 rounded-xl gap-4">
         <div class="flex flex-row items-center gap-4">
           <div class="flex flex-row items-center justify-center bg-gray-200/50 border border-gray-300 h-18 w-26 rounded-xl">
             <i class="fa-solid fa-screwdriver-wrench text-gray-600 text-2xl"></i>
