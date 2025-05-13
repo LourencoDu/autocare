@@ -11,6 +11,9 @@ final class HomeController extends Controller
     $this->view = "Home/index.php";
     $this->css = "Home/style.css";
     $this->titulo = "Início";
+
+    $this->caminho = null;
+
     $this->render();
   }
 }

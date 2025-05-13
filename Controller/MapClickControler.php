@@ -23,8 +23,8 @@ final class MapController extends Controller
     $results = [];
 
     foreach ($prestadores as $prestador) {
-      $nome = $prestador->nome;
-      $cep = $prestador->endereco_cep;
+      $nome = $prestador->usuario->nome;
+      $cep = "11050240";
 
       $cep = preg_replace('/[^0-9]/', '', $cep);
 

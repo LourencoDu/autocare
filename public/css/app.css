@@ -40,7 +40,7 @@ p {
 }
 
 .form-control {
-  @apply flex flex-col gap-1;
+  @apply flex flex-col gap-1 relative;
 }
 
 .form-control.row {
@@ -94,6 +94,19 @@ p {
   @apply text-sm text-green-500;
 }
 
+.form-control.has-search {
+  @apply flex flex-row items-center;
+}
+
+.form-control.has-search input {
+  @apply pl-10;
+}
+
+.form-control.has-search .fa-search {
+  @apply absolute inline-block left-4;
+  @apply text-gray-400;
+}
+
 .button {
   @apply text-white;
   @apply border border-primary hover:border-primary-hover rounded-md h-12 bg-primary hover:bg-primary-hover transition duration-300 cursor-pointer px-2;
@@ -101,7 +114,7 @@ p {
 }
 
 .button.ghost {
-  @apply text-black;
+  @apply text-gray-600 font-medium;
   @apply border-gray-300 bg-transparent hover:bg-gray-200;
 }
 
@@ -110,7 +123,7 @@ p {
 }
 
 .button.small {
-  @apply h-8 px-3 space-x-1;
+  @apply h-8 px-3 space-x-1 text-sm;
 }
 
 .hoverable {

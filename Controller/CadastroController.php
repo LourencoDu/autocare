@@ -5,6 +5,8 @@ namespace AutoCare\Controller;
 use AutoCare\Model\Usuario;
 use AutoCare\Model\Prestador;
 
+use AutoCare\Helper\Util;
+
 final class CadastroController extends Controller
 {
   public function index(): void
@@ -68,7 +70,7 @@ final class CadastroController extends Controller
     $email = $_POST["email"];
     $senha = $_POST["senha"];
 
-    if (!$nome || !$sobrenome || !$telefone || !$email || !$senha) {
+    if (!$nome || !$sobrenome || !$telefone || !$email || !$senha) {    
       $this->data['erro'] = "Preencha todos os campos obrigatórios (*).";
       $this->data['form'] = [
         "tipoUsuario" => $tipoUsuario,
@@ -86,7 +88,7 @@ final class CadastroController extends Controller
 
       $model->nome = $nome;
       $model->sobrenome = $sobrenome;
-      $model->telefone = $telefone;
+      $model->telefone = Util::removerMascara($telefone);
       $model->email = $email;
       $model->senha = $senha;
 
@@ -128,7 +130,7 @@ final class CadastroController extends Controller
       $modelUsuario = new Usuario();
 
       $modelUsuario->nome = $nome;
-      $modelUsuario->telefone = $telefone;
+      $modelUsuario->telefone = Util::removerMascara($telefone);
       $modelUsuario->email = $email;
       $modelUsuario->senha = $senha;
       $modelUsuario->tipo = $tipoUsuario;
@@ -136,7 +138,7 @@ final class CadastroController extends Controller
       $modelUsuario->save();
 
       $modelPrestador = new Prestador();
-      $modelPrestador->documento = $documento;
+      $modelPrestador->documento = Util::removerMascara($documento);
       $modelPrestador->id_usuario = $modelUsuario->id;
       $modelPrestador->save();
 

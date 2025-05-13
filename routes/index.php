@@ -11,6 +11,7 @@ $url = rtrim(str_replace("autocare/", "", parse_url($_SERVER["REQUEST_URI"], PHP
 // Rotas principais
 switch ($url) {
   case '':
+  case '/home':
     (new HomeController())->index();
     break;
   case '/login':

@@ -3,7 +3,6 @@
 namespace AutoCare\DAO;
 
 use AutoCare\Model\Funcionario;
-use PDO;
 
 final class FuncionarioDAO extends DAO {
   public function __construct()
@@ -54,7 +53,7 @@ final class FuncionarioDAO extends DAO {
     $stmt->bindValue(1, $id);
     $stmt->execute();
 
-    $data = $stmt->fetch(PDO::FETCH_ASSOC);
+    $data = $stmt->fetch(DAO::FETCH_ASSOC);
 
     if ($data) {
         $model = new \AutoCare\Model\Funcionario();

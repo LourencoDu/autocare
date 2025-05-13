@@ -5,7 +5,7 @@ namespace AutoCare\Model;
 use AutoCare\DAO\LocalDAO;
 
 final class Local extends Model {
-  public $id, $latidude, $longitude;
+  public $id, $latitude, $longitude;
 
   public static function getById(int $id) : ?Local {
     return (new LocalDAO())->selectById($id);

@@ -17,10 +17,10 @@ final class LocalDAO extends DAO {
 
   private function insert(Local $model) : Local
   {
-    $sql = "INSERT INTO localizacao (latidude, longitude) VALUES (?, ?);";
+    $sql = "INSERT INTO localizacao (latitude, longitude) VALUES (?, ?);";
 
     $stmt = parent::$conexao->prepare($sql);
-    $stmt->bindValue(1, $model->latidude);
+    $stmt->bindValue(1, $model->latitude);
     $stmt->bindValue(2, $model->longitude);
 
 
@@ -31,10 +31,10 @@ final class LocalDAO extends DAO {
 
   private function update(Local $model) : Local
   {
-    $sql = "UPDATE localizacao SET latidude=?, longitude=? WHERE id=?;";
+    $sql = "UPDATE localizacao SET latitude=?, longitude=? WHERE id=?;";
 
     $stmt = parent::$conexao->prepare($sql);
-    $stmt->bindValue(1, $model->latidude);
+    $stmt->bindValue(1, $model->latitude);
     $stmt->bindValue(2, $model->longitude);
 
 

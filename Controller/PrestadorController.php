@@ -10,7 +10,8 @@ final class PrestadorController extends Controller
   {
     parent::isProtected();
 
-    $this->view = "Crud/listar.php";
+    $this->view = "Prestador/lista/index.php";
+    $this->js = "Prestador/lista/script.js";
     $this->titulo = "Prestadores";
     $this->render();
   }
@@ -22,15 +23,7 @@ final class PrestadorController extends Controller
     $model = new Prestador();
 
     $lista = $model->getAllRows();
-
-    $baseDirName = BASE_DIR_NAME;
-
-    $this->data = [
-      "lista" => $lista,
-      "addLink" => "/$baseDirName/prestador/cadastrar",
-      "editLink" => "/$baseDirName/prestador/alterar",
-      "deleteLink" => "/$baseDirName/prestador/deletar",
-    ];
+    $this->data["lista"] = $lista;
 
     $this->index();
   }

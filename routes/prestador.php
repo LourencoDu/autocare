@@ -16,10 +16,10 @@ switch ($url) {
   case '/prestador/deletar':
     (new PrestadorController())->deletar();
     exit;
-  case '/prestador/proximos':
+  case '/mapa':
     (new MapController())->index();
     exit;
-  case '/prestador/proximos/json':
+  case '/mapa/json':
     (new MapController())->listar();
     exit;
 }

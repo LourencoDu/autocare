@@ -10,6 +10,8 @@
       <span class="text-gray-600">/</span>
     <?php endforeach; ?>
 
+    <?php if($titulo != "Início"): ?>
     <span><?= htmlspecialchars($titulo) ?></span>
+    <?php endif; ?>
   </div>
 <?php endif; ?>

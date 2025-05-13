@@ -32,7 +32,7 @@ const map = new ol.Map({
 });
 
 // Fetch prestadores and add markers
-fetch('/autocare/prestador/proximos/json')
+fetch('/autocare/mapa/json')
     .then(response => {
         // First check the raw response text
         return response.text().then(text => {
@@ -46,7 +46,7 @@ fetch('/autocare/prestador/proximos/json')
     .catch(error => {
         console.error('Error details:', error);
     });
-fetch('/autocare/prestador/proximos/json')
+fetch('/autocare/mapa/json')
     .then(response => response.json())
     .then(data => {
         data.forEach(prestador => {

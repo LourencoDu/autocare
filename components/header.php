@@ -3,9 +3,9 @@ $usuario = $_SESSION["usuario"];
 ?>
 
 <div class="flex flex-row w-full justify-between">
-  <div class="flex flex-row h-10 w-12 items-center justify-center gap-1">
+  <a href="/<?= BASE_DIR_NAME ?>/home" class="flex flex-row h-10 w-12 items-center justify-center gap-1 hover:text-primary transition">
     <i class="fa-solid fa-car-side text-3xl"></i>
-  </div>
+  </a>
 
   <div class="flex flex-row items-center gap-2">
     <div class="flex flex-col items-end">
