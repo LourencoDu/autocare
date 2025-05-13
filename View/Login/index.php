@@ -34,7 +34,7 @@ if (isset($data["form"])) {
         <input type="password" name="senha" id="senha" placeholder="" value="<?= $senha ?>">
       </div>
 
-      <a href="#" class="hoverable">Esqueci minha senha</a>
+      <!-- <a href="#" class="hoverable">Esqueci minha senha</a> -->
 
       <button class="button mt-4 mb-8" type="submit">Entrar</button>
 

@@ -52,7 +52,7 @@ if (isset($data["form"])) {
         <div class="form-control">
           <label for="telefone">Telefone <span class="text-red-500">*</span></label>
           <input type="text" name="telefone" id="telefone" data-validate="telefone" value="<?= $telefone ?>" placeholder="(__) ____-____">
-          <span class="helper-text danger hidden">Insira um telefone válido no formato (99) 99999-9999.</span>
+          <span class="helper-text danger hidden">Digite um telefone válido no formato (99) 99999-9999.</span>
         </div>
 
         <div class="form-control">
