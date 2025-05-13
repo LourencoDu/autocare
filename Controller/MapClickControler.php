@@ -4,7 +4,7 @@ namespace AutoCare\Controller;
 
 use AutoCare\Model\Prestador;
 
-final class MapController extends Controller
+final class MapClickController extends Controller
 {
   public function index(): void
   {
