@@ -7,7 +7,11 @@ use AutoCare\Controller\MapClickController;
 
 switch ($url) {
   case '/prestador':
-    (new PrestadorController())->listar();
+    if(isset($_GET) && isset($_GET["id"])) {
+      (new PrestadorController())->ver();
+    } else {
+      (new PrestadorController())->listar();
+    }
     exit;
   case '/prestador/cadastrar':
     (new PrestadorController())->cadastrar();

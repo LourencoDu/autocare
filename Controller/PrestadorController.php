@@ -28,8 +28,39 @@ final class PrestadorController extends Controller
     $this->index();
   }
 
-  private function backToIndex(): void {
-    Header("Location: /".BASE_DIR_NAME."/prestador");
+  public function ver(): void
+  {
+    parent::isProtected();
+
+    $id = $_GET["id"];
+
+    if (!isset($id)) {
+      $this->backToIndex();
+      return;
+    }
+
+    $model = new Prestador();
+    $prestador = $model->getById((int) $id);
+
+    if (!isset($prestador)) {
+      $this->backToIndex();
+      return;
+    }
+
+    $this->view = "Prestador/ver/index.php";
+    $this->js = "Prestador/ver/script.js";
+    $this->titulo = $prestador->usuario->nome;
+
+    $this->caminho = [
+      new CaminhoItem("Prestadores", "prestador")
+    ];
+
+    $this->render();
+  }
+
+  private function backToIndex(): void
+  {
+    Header("Location: /" . BASE_DIR_NAME . "/prestador");
   }
 
   public function cadastrar(): void
@@ -73,7 +104,7 @@ final class PrestadorController extends Controller
         $this->backToIndex();
       } catch (\Throwable $th) {
         $this->data = array_merge($this->data, [
-          "erro" => "Falha ao adicionar registro. Erro: ".$th->getMessage(),
+          "erro" => "Falha ao adicionar registro. Erro: " . $th->getMessage(),
           "exception" => $th->getMessage()
         ]);
       }
@@ -105,39 +136,39 @@ final class PrestadorController extends Controller
     $model = new Prestador();
     $id = isset($_GET["id"]) ? $_GET["id"] : null;
 
-    if($id != null) {
+    if ($id != null) {
       $model = $model->getById((int) $id);
 
-      if($model != null) {
+      if ($model != null) {
         $this->data["form"] = [
           "nome" => $model->nome,
           "apelido" => $model->apelido,
           "endereco_cep" => $model->endereco_cep,
           "endereco_numero" => $model->endereco_numero
         ];
-    
+
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
-          try {           
+          try {
             $model->nome = $_POST["nome"];
             $model->apelido = $_POST["apelido"];
             $model->endereco_cep = $_POST["endereco_cep"];
             $model->endereco_numero = $_POST["endereco_numero"];
-    
+
             $model->save();
-    
+
             $this->backToIndex();
           } catch (\Throwable $th) {
             $this->data = array_merge($this->data, [
-              "erro" => "Falha ao alterar registro. Erro: ".$th->getMessage(),
+              "erro" => "Falha ao alterar registro. Erro: " . $th->getMessage(),
               "exception" => $th->getMessage()
             ]);
           }
         }
-    
+
         $this->render();
-      }  else {
+      } else {
         $this->backToIndex();
-      }    
+      }
     } else {
       $this->backToIndex();
     }
@@ -157,10 +188,10 @@ final class PrestadorController extends Controller
     $model = new Prestador();
     $id = isset($_GET["id"]) ? $_GET["id"] : null;
 
-    if($id != null) {
+    if ($id != null) {
       $model = $model->getById((int) $id);
 
-      if($model != null) {
+      if ($model != null) {
         $this->data["infos"] = [
           "id" => $model->id,
           "nome" => $model->nome,
@@ -168,23 +199,23 @@ final class PrestadorController extends Controller
           "endereco_cep" => $model->endereco_cep,
           "endereco_numero" => $model->endereco_numero
         ];
-    
+
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
-          try {           
+          try {
             Prestador::delete((int) $id);
             $this->backToIndex();
           } catch (\Throwable $th) {
             $this->data = array_merge($this->data, [
-              "erro" => "Falha ao alterar registro. Erro: ".$th->getMessage(),
+              "erro" => "Falha ao alterar registro. Erro: " . $th->getMessage(),
               "exception" => $th->getMessage()
             ]);
           }
         }
-    
+
         $this->render();
-      }  else {
+      } else {
         $this->backToIndex();
-      }    
+      }
     } else {
       $this->backToIndex();
     }

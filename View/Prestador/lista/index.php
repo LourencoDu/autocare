@@ -37,7 +37,7 @@ $quantidade = count($prestadores);
           </div>
 
           <div class="flex flex-col gap-2">
-            <a class="font-medium leading-5.5 hover:text-primary transition cursor-pointer w-fit"><?= $prestador->usuario->nome ?></a>
+            <a href="/<?= BASE_DIR_NAME ?>/prestador?id=<?= $prestador->id ?>" class="font-medium leading-5.5 hover:text-primary transition cursor-pointer w-fit"><?= $prestador->usuario->nome ?></a>
 
             <div class="flex flex-row items-center flex-wrap gap-4">
               <div class="flex items-center gap-1 px-1 min-h-5 rounded-full bg-yellow-400 text-white text-xs">

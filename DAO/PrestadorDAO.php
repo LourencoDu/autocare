@@ -44,13 +44,14 @@ final class PrestadorDAO extends DAO
     return $model;
   }
 
-  public function selectById(int $id): ?Prestador
+  public function selectById(int $id)
   {
     $sql = "
     SELECT 
       p.id, 
-      p.id_usuario,
       p.documento,
+      p.id_usuario,
+      p.id_localizacao,
       u.id AS u_id, 
       u.nome AS u_nome, 
       u.email AS u_email, 
@@ -70,7 +71,7 @@ final class PrestadorDAO extends DAO
     $stmt->bindValue(1, $id);
     $stmt->execute();
 
-    $data = $stmt->fetchObject(DAO::FETCH_ASSOC);
+    $data = $stmt->fetchObject();
 
     if (!$data) {
       return null;
@@ -95,7 +96,7 @@ final class PrestadorDAO extends DAO
     $model->id_usuario = $data->id_usuario;
     $model->usuario = $usuario;
     $model->localizacao = $localizacao;
-
+    
     return $model;
   }
 
@@ -122,7 +123,6 @@ final class PrestadorDAO extends DAO
 
     $stmt = parent::$conexao->prepare($sql);
     $stmt->execute();
-
     $resultados = $stmt->fetchAll(DAO::FETCH_ASSOC);
     $prestadores = [];
 
