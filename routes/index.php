@@ -31,7 +31,7 @@ switch ($url) {
     require_once __DIR__ . '/prestador.php';
     require_once __DIR__ . '/funcionario.php';
     require_once __DIR__ . '/servico.php';
-
+    require_once __DIR__ . '/chat.php';
     require_once __DIR__ . '/veiculo.php';
     require_once __DIR__ . '/fabricanteVeiculo.php';
     require_once __DIR__ . '/modeloVeiculo.php';
