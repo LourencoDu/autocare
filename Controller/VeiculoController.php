@@ -86,7 +86,6 @@ final class VeiculoController extends Controller {
 
     $this->view = "Veiculo/form.php";
     $this->js = "Veiculo/form.js";
-    $this->titulo = "Alterar Veículo";
 
     $model = new Veiculo();
     $id = isset($_GET["id"]) ? $_GET["id"] : null;
@@ -97,6 +96,12 @@ final class VeiculoController extends Controller {
       if($model != null) {
         $modeloModel = ModeloVeiculo::getById($model->id_modelo_veiculo);
         $id_fabricante_veiculo = $modeloModel->id_fabricante_veiculo;
+
+        $this->titulo = 'Alterar "'.$model->apelido.'"';
+
+        $this->caminho = [
+          new CaminhoItem("Meus Veículos", "veiculo"),
+        ];
 
         $this->data = [
           "fabricantes" => FabricanteVeiculo::getAllRows(),
