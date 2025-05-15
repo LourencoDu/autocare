@@ -10,7 +10,14 @@ $prestador = $data["prestador"];
     <div class="flex items-center justify-center w-25 h-25 border border-gray-300 rounded-full text-gray-600 shadow-lg bg-white">
       <i class="fa-solid fa-wrench text-5xl"></i>
     </div>
-    <div class="font-semibold text-xl"><?= $prestador->usuario->nome ?></div>
+    <div class="flex gap-4 items-center">
+      <div class="font-semibold text-xl"><?= $prestador->usuario->nome ?></div>
+
+      <div class="flex items-center gap-1 px-1.5 min-h-6 h-fit rounded-full bg-yellow-400 text-white text-sm">
+        <i class="fa-solid fa-star"></i>
+        <span class="font-semibold">5.0</span>
+      </div>
+    </div>
     <div class="flex gap-6">
       <!-- Localização -->
       <div class="relative group flex items-center gap-2 text-gray-600">
@@ -44,10 +51,12 @@ $prestador = $data["prestador"];
   <div class="flex items-center justify-between gap-6 border-b border-gray-300 pb-4">
     <div></div>
     <div class="flex items-center gap-2">
-      <a href="/<?= BASE_DIR_NAME ?>/chat" class="button medium flex items-center gap-2">
+      <?php if($_SESSION["usuario"]->tipo == "usuario"): ?>
+        <a href="/<?= BASE_DIR_NAME ?>/chat" class="button medium flex items-center gap-2">
         <i class="fa-solid fa-comments"></i>
         Enviar mensagem
       </a>
+      <?php endif; ?>
     </div>
   </div>
 </div>

@@ -54,19 +54,35 @@ CREATE TABLE IF NOT EXISTS `autocare`.`prestador` (
   `documento` VARCHAR(255) NOT NULL,
   `id_usuario` INT NOT NULL,
   `id_localizacao` INT NULL DEFAULT NULL,
+  `id_prestador_contato` INT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `documento_UNIQUE` (`documento` ASC) VISIBLE,
   INDEX `fk_prestador_usuario_idx` (`id_usuario` ASC) VISIBLE,
-  INDEX `fk_prestador_localizacao` (`id_localizacao` ASC) VISIBLE,
+  INDEX `fk_prestador_localizacao_idx` (`id_localizacao` ASC) VISIBLE,
+  INDEX `fk_prestador_contato_idx` (`id_prestador_contato` ASC) VISIBLE,
   CONSTRAINT `fk_prestador_localizacao`
     FOREIGN KEY (`id_localizacao`)
     REFERENCES `autocare`.`localizacao` (`id`),
   CONSTRAINT `fk_prestador_usuario`
     FOREIGN KEY (`id_usuario`)
-    REFERENCES `autocare`.`usuario` (`id`))
+    REFERENCES `autocare`.`usuario` (`id`),
+  CONSTRAINT `fk_prestador_contato`
+    FOREIGN KEY (`id_prestador_contato`)
+    REFERENCES `autocare`.`prestador_contato` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
+-- -----------------------------------------------------
+-- Table `autocare`.`prestador_contato`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `autocare`.`prestador_contato` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `whatsapp` VARCHAR(11) NULL,
+  `telefone` VARCHAR(11) NULL,
+  `email` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 -- -----------------------------------------------------
 -- Table `autocare`.`fabricante_veiculo`

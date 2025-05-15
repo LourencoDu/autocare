@@ -5,6 +5,7 @@ namespace AutoCare\DAO;
 use AutoCare\Model\Prestador;
 use AutoCare\Model\Usuario;
 use AutoCare\Model\Local;
+use AutoCare\Model\PrestadorContato;
 
 final class PrestadorDAO extends DAO
 {
@@ -52,7 +53,8 @@ final class PrestadorDAO extends DAO
       p.documento,
       p.id_usuario,
       p.id_localizacao,
-      u.id AS u_id, 
+      p.id_prestador_contato,
+      u.id AS u_id,
       u.nome AS u_nome, 
       u.email AS u_email, 
       u.senha AS u_senha,
@@ -60,9 +62,14 @@ final class PrestadorDAO extends DAO
       u.tipo as u_tipo,   
       l.id AS l_id, 
       l.latitude AS l_latitude, 
-      l.longitude AS l_longitude
+      l.longitude AS l_longitude,
+      pc.id AS pc_id,
+      pc.whatsapp AS pc_whatsapp,
+      pc.telefone AS pc_telefone,
+      pc.email AS pc_email
     FROM prestador p
     JOIN usuario u ON u.id = p.id_usuario
+    LEFT JOIN prestador_contato pc ON p.id_prestador_contato = pc.id
     LEFT JOIN localizacao l ON l.id = p.id_localizacao
     WHERE p.id = ?
   ";
@@ -85,18 +92,33 @@ final class PrestadorDAO extends DAO
     $usuario->telefone = $data->u_telefone;
     $usuario->tipo = $data->u_tipo;
 
-    $localizacao = new Local();
-    $localizacao->id = $data->l_id;
-    $localizacao->latitude = $data->l_latitude;
-    $localizacao->longitude = $data->l_longitude;
-
     $model = new Prestador();
     $model->id = $data->id;
     $model->documento = $data->documento;
     $model->id_usuario = $data->id_usuario;
     $model->usuario = $usuario;
-    $model->localizacao = $localizacao;
-    
+
+    if ($data->pc_id != null) {
+      $prestador_contato = new PrestadorContato();
+      $prestador_contato->id = $data->pc_id;
+      $prestador_contato->whatsapp = $data->pc_whatsapp;
+      $prestador_contato->telefone = $data->pc_telefone;
+      $prestador_contato->email = $data->pc_email;
+      $model->prestador_contato = $prestador_contato;
+    } else {
+      $model->prestador_contato = null;
+    }
+
+    if ($data->l_id != null) {
+      $localizacao = new Local();
+      $localizacao->id = $data->l_id;
+      $localizacao->latitude = $data->l_latitude;
+      $localizacao->longitude = $data->l_longitude;
+      $model->localizacao = $localizacao;
+    } else {
+      $model->localizacao = null;
+    }
+
     return $model;
   }
 
@@ -115,9 +137,14 @@ final class PrestadorDAO extends DAO
       u.tipo as u_tipo,   
       l.id AS l_id, 
       l.latitude AS l_latitude, 
-      l.longitude AS l_longitude
+      l.longitude AS l_longitude,
+      pc.id AS pc_id,
+      pc.whatsapp AS pc_whatsapp,
+      pc.telefone AS pc_telefone,
+      pc.email AS pc_email
     FROM prestador p
     JOIN usuario u ON u.id = p.id_usuario
+    LEFT JOIN prestador_contato pc ON p.id_prestador_contato = pc.id
     LEFT JOIN localizacao l ON l.id = p.id_localizacao
   ";
 
@@ -140,6 +167,18 @@ final class PrestadorDAO extends DAO
       $model->documento = $data['documento'];
       $model->id_usuario = $data['id_usuario'];
       $model->usuario = $usuario;
+
+
+      if ($data['pc_id'] !== null) {
+        $prestador_contato = new PrestadorContato();
+        $prestador_contato->id = ['pc_id'];
+        $prestador_contato->whatsapp = ['pc_whatsapp'];
+        $prestador_contato->telefone = ['pc_telefone'];
+        $prestador_contato->email = ['pc_email'];
+        $model->prestador_contato = $prestador_contato;
+      } else {
+        $model->prestador_contato = null;
+      }
 
       if ($data['l_id'] !== null) {
         $localizacao = new Local();
