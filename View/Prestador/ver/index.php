@@ -43,11 +43,11 @@ $prestador = $data["prestador"];
 
   <div class="flex items-center justify-between gap-6 border-b border-gray-300 pb-4">
     <div></div>
-    <div>
-      <button class="button medium flex items-center gap-2">
+    <div class="flex items-center gap-2">
+      <a href="/<?= BASE_DIR_NAME ?>/chat" class="button medium flex items-center gap-2">
         <i class="fa-solid fa-comments"></i>
         Enviar mensagem
-      </button>
+      </a>
     </div>
   </div>
 </div>
