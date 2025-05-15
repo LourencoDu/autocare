@@ -55,6 +55,8 @@ final class PrestadorController extends Controller
       new CaminhoItem("Prestadores", "prestador")
     ];
 
+    $this->data["prestador"] = $prestador;
+
     $this->render();
   }
 
