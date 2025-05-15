@@ -31,4 +31,7 @@ switch ($url) {
   case '/mapaclick': 
     (new MapClickController())->index();
     exit;
+    case '/mapaclick/save':
+    (new MapClickController())->salvar();
+    exit;
 }

@@ -1,8 +1,8 @@
 <?php
-//Apenas uma Copia do MapControler por enquanto 
 namespace AutoCare\Controller;
 
 use AutoCare\Model\Prestador;
+use Throwable;
 
 final class MapClickController extends Controller
 {
@@ -14,49 +14,35 @@ final class MapClickController extends Controller
     $this->titulo = "Click";
     $this->render();
   }
+ public function salvar(): void
+{
+    header('Content-Type: application/json');
 
-  public function listar()
-  {
-    $model = new Prestador();
-    $prestadores = $model->getAllRows();
+    try {
+        $input = json_decode(file_get_contents('php://input'), true);
 
-    $results = [];
-
-    foreach ($prestadores as $prestador) {
-      $nome = $prestador->usuario->nome;
-      $cep = "11050240";
-
-      $cep = preg_replace('/[^0-9]/', '', $cep);
-
-      $url = "https://nominatim.openstreetmap.org/search?postalcode=$cep&country=Brazil&format=json";
-
-      $opts = [
-        "http" => [
-          "method" => "GET",
-          "header" => "User-Agent: MyPrestadorMap/1.0\r\n"
-        ]
-      ];
-      $context = stream_context_create($opts);
-
-      $response = file_get_contents($url, false, $context);
-      
-      if ($response !== false) {
-        $data = json_decode($response, true);
-        if (!empty($data)) {
-          $lat = $data[0]['lat'];
-          $lon = $data[0]['lon'];
-
-          $results[] = [
-            'nome' => $nome,
-            'lat' => $lat,
-            'lon' => $lon
-          ];
+        if (!isset($input['latitude'], $input['longitude'])) {
+            echo json_encode(['success' => false, 'message' => 'Missing data']);
+            return;
         }
-      }
 
-      sleep(1);
+        $model = new \AutoCare\Model\Local();
+        $model->latitude = $input['latitude'];
+        $model->longitude = $input['longitude'];
+
+        $saved = $model->save();
+
+        echo json_encode([
+            'success' => true,
+            'id' => $saved->id
+        ]);
+    } catch (Throwable $e) {
+        echo json_encode([
+            'success' => false,
+            'message' => 'Exception: ' . $e->getMessage()
+        ]);
     }
+}
 
-    echo json_encode($results);
-  }
+
 }

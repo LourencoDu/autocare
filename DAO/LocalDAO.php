@@ -16,30 +16,29 @@ final class LocalDAO extends DAO {
   }
 
   private function insert(Local $model) : Local
-  {
+{
     $sql = "INSERT INTO localizacao (latitude, longitude) VALUES (?, ?);";
-
     $stmt = parent::$conexao->prepare($sql);
     $stmt->bindValue(1, $model->latitude);
     $stmt->bindValue(2, $model->longitude);
-
+    $stmt->execute();
 
     $model->id = parent::$conexao->lastInsertId();
-
     return $model;
-  }
+}
 
-  private function update(Local $model) : Local
-  {
+private function update(Local $model) : Local
+{
     $sql = "UPDATE localizacao SET latitude=?, longitude=? WHERE id=?;";
-
     $stmt = parent::$conexao->prepare($sql);
     $stmt->bindValue(1, $model->latitude);
     $stmt->bindValue(2, $model->longitude);
-
+    $stmt->bindValue(3, $model->id);
+    $stmt->execute();
 
     return $model;
-  }
+}
+
 
   public function selectById(int $id) : ?Local
   {
