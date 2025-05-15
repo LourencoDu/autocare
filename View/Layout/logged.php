@@ -1,6 +1,6 @@
 <div class="flex flex-1 grow">
   <div class="flex flex-col flex-1 max-h-screen max-w-screen p-5 gap-4">
-    <?php include COMPONENTS . "header.php"; ?>
+    <?php include COMPONENTS . "header/header.php"; ?>
 
     <div class="flex flex-row grow flex-1 gap-4 overflow-y-auto pr-1">
       <?php include COMPONENTS . "sidemenu.php"; ?>
