@@ -1,5 +1,3 @@
-// map.js
-
 let selectedLat = null;
 let selectedLon = null;
 
@@ -11,12 +9,12 @@ const map = new ol.Map({
         })
     ],
     view: new ol.View({
-        center: ol.proj.fromLonLat([-51.9253, -14.2350]), 
+        center: ol.proj.fromLonLat([-51.9253, -14.2350]),
         zoom: 4
     })
 });
 
-map.on('click', function(event) {
+map.on('click', async function(event) {
     const coord = ol.proj.toLonLat(event.coordinate);
     selectedLon = coord[0];
     selectedLat = coord[1];
@@ -48,4 +46,31 @@ map.on('click', function(event) {
     });
 
     map.addLayer(window.clickLayer);
+
+
+    try {
+        const response = await fetch('mapaclick/save', {
+            
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                latitude: selectedLat,
+                longitude: selectedLon
+            })
+        });
+
+        const text = await response.text();
+        const data = JSON.parse(text);
+
+        if (data.success) {
+            alert("Salvo!! ID: " + data.id);
+        } else {
+            alert("Error: " + data.message);
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Não foi possivel salvar.");
+    }
 });
