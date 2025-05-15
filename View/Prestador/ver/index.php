@@ -10,7 +10,7 @@ $prestador = $data["prestador"];
     <div class="flex items-center justify-center w-25 h-25 border border-gray-300 rounded-full text-gray-600 shadow-lg bg-white">
       <i class="fa-solid fa-wrench text-5xl"></i>
     </div>
-    <div class="font-semibold text-lg"><?= $prestador->usuario->nome ?></div>
+    <div class="font-semibold text-xl"><?= $prestador->usuario->nome ?></div>
     <div class="flex gap-6">
       <!-- Localização -->
       <div class="relative group flex items-center gap-2 text-gray-600">
