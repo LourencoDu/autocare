@@ -2,7 +2,7 @@
 
 namespace AutoCare\Controller;
 
-use AutoCare\Model\Prestador;
+use AutoCare\Model\Local;
 
 final class MapController extends Controller
 {
@@ -14,10 +14,10 @@ final class MapController extends Controller
     $this->titulo = "Prestadores próximos";
     $this->render();
   }
-
+/* Código antigo com geocodificação via CEP - mantido para referência
   public function listar()
   {
-    $model = new Prestador();
+    $model = new Local();
     $prestadores = $model->getAllRows();
 
     $results = [];
@@ -60,7 +60,27 @@ final class MapController extends Controller
       // Sleep 1 second to respect Nominatim API rate limit
       sleep(1);
     }
+    
+    echo json_encode($results);
+  }*/
+  public function listar()
+{
+    $model = new Local();
+    $locais = $model->getAllRows();
+
+    $results = [];
+
+    foreach ($locais as $local) {
+        if (!empty($local->latitude) && !empty($local->longitude)) {
+            $results[] = [
+                'lat' => $local->latitude,
+                'lon' => $local->longitude
+                // 'nome' => 'Nome do prestador' // <- adicionar no futuro se quiser
+            ];
+        }
+    }
 
     echo json_encode($results);
-  }
+}
+
 }
