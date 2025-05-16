@@ -36,11 +36,24 @@ abstract class Controller
     require_once VIEWS . '/Layout/index.php';
   }
 
-  final protected static function isProtected()
-  {
-    if (!isset($_SESSION["usuario"]))
-      header("Location: login");
+final protected static function isProtected(?array $tiposBloqueados = null)
+{
+  if (!isset($_SESSION["usuario"])) {
+    header("Location: login");
+    exit;
   }
+
+  if(!$tiposBloqueados) return;
+
+  $usuario = $_SESSION["usuario"];
+  $tipoUsuario = strtolower($usuario->tipo);
+
+  // Se o tipo do usuário estiver na lista de tipos bloqueados, redireciona
+  if ($tiposBloqueados && in_array($tipoUsuario, array_map('strtolower', $tiposBloqueados))) {
+    header("Location: /" . BASE_DIR_NAME . "/home");
+    exit;
+  }
+}
 
   final protected static function isPost(): bool
   {

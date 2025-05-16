@@ -1,13 +1,32 @@
 <?php
+$usuario = $_SESSION["usuario"];
+
 $menuItens = [
   ['rota' => 'home', 'icone' => 'fa-home', 'label' => "Início"],
   ['rota' => 'veiculo', 'icone' => 'fa-car', 'label' => "Meus Veículos"],
   ['rota' => 'prestador', 'icone' => 'fa-screwdriver-wrench', 'label' => "Prestadores"],
   ['rota' => 'usuario', 'icone' => 'fa-user', 'label' => "Usuários"],
-  ['rota' => 'funcionario', 'icone' => 'fa-user-group', 'label' => "Funcionários"],
+  ['rota' => 'funcionario', 'icone' => 'fa-user-group', 'label' => "Meus Funcionários"],
   ['rota' => 'servico', 'icone' => 'fa-gear', 'label' => "Serviços"],
   ['rota' => 'mapa', 'icone' => 'fa-map-location-dot', 'label' => "Mapa"],
 ];
+
+// Permissões por tipo de usuário (rotas permitidas)
+$permissoesPorTipo = [
+  'administrador'   => ['home', 'veiculo', 'prestador', 'usuario', 'funcionario', 'servico', 'mapa'],
+  'prestador'       => ['home', 'prestador', 'funcionario', 'servico', 'mapa'],
+  'funcionario'     => ['home', 'prestador', 'servico', 'mapa'],
+  'usuario'         => ['home', 'veiculo', 'prestador', 'mapa'],
+  // adicione mais tipos se necessário
+];
+
+// Obtem a lista de rotas permitidas para o tipo atual
+$rotasPermitidas = $permissoesPorTipo[strtolower($usuario->tipo)] ?? [];
+
+// Filtra os itens do menu conforme as permissões
+$menuItens = array_filter($menuItens, function ($item) use ($rotasPermitidas) {
+  return in_array($item['rota'], $rotasPermitidas);
+});
 
 function isActiveRoute($rotaItem)
 {

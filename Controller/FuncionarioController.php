@@ -9,7 +9,7 @@ final class FuncionarioController extends Controller
 {
   public function index(): void
   {
-    parent::isProtected();
+    parent::isProtected(["usuario", "funcionario"]);
 
     $this->view = "Crud/listar.php";
     $this->titulo = "Funcionarios";
@@ -18,7 +18,7 @@ final class FuncionarioController extends Controller
 
   public function listar(): void
   {
-    parent::isProtected();
+    parent::isProtected(["usuario", "funcionario"]);
 
     $model = new Funcionario();
 
@@ -42,7 +42,7 @@ final class FuncionarioController extends Controller
 
   public function cadastrar(): void
   {
-    parent::isProtected();
+    parent::isProtected(["usuario", "funcionario"]);
 
     $this->view = "Crud/form.php";
     $this->titulo = "Novo Funcionario";
@@ -105,7 +105,7 @@ final class FuncionarioController extends Controller
 
   public function alterar(): void
   {
-    parent::isProtected();
+    parent::isProtected(["usuario", "funcionario"]);
 
     $this->view = "Crud/form.php";
     $this->titulo = "Alterar Funcionario";
@@ -166,7 +166,7 @@ final class FuncionarioController extends Controller
 
   public function deletar(): void
   {
-    parent::isProtected();
+    parent::isProtected(["usuario", "funcionario"]);
 
     $this->view = "Crud/deletar.php";
     $this->titulo = "Deletar Funcionario";

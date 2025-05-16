@@ -10,7 +10,7 @@ use AutoCare\Model\Veiculo;
 final class VeiculoController extends Controller {
   public function index(): void
   {
-    parent::isProtected();
+    parent::isProtected(["prestador", "funcionario"]);
 
     $this->view = "Veiculo/index.php";
     $this->titulo = "Meus Veículos";
@@ -23,7 +23,7 @@ final class VeiculoController extends Controller {
 
   public function listar(): void
   {
-    parent::isProtected();
+    parent::isProtected(["prestador", "funcionario"]);
 
     $model = new Veiculo();
 
@@ -37,7 +37,7 @@ final class VeiculoController extends Controller {
 
   public function cadastrar(): void
   {
-    parent::isProtected();
+    parent::isProtected(["prestador", "funcionario"]);
 
     $this->view = "Veiculo/form.php";
     $this->js = "Veiculo/form.js";
@@ -82,7 +82,7 @@ final class VeiculoController extends Controller {
 
   public function alterar(): void
   {
-    parent::isProtected();
+    parent::isProtected(["prestador", "funcionario"]);
 
     $this->view = "Veiculo/form.php";
     $this->js = "Veiculo/form.js";
@@ -144,7 +144,7 @@ final class VeiculoController extends Controller {
 
   public function deletar(): void
   {
-    parent::isProtected();
+    parent::isProtected(["prestador", "funcionario"]);
 
     $id = isset($_POST["id"]) ? $_POST["id"] : null;
 

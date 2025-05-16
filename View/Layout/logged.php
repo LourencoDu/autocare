@@ -2,7 +2,7 @@
   <div class="flex flex-col flex-1 max-h-screen max-w-screen p-5 gap-4">
     <?php include COMPONENTS . "header/header.php"; ?>
 
-    <div class="flex flex-row grow flex-1 gap-4 overflow-y-auto pr-1">
+    <div class="flex flex-row grow flex-1 gap-4 overflow-y-auto">
       <?php include COMPONENTS . "sidemenu.php"; ?>
 
       <div class="flex flex-col grow border border-gray-700/20 rounded-xl px-[0.15rem] py-[0.15rem] bg-gray-50">
