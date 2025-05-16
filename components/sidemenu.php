@@ -9,14 +9,15 @@ $menuItens = [
   ['rota' => 'funcionario', 'icone' => 'fa-user-group', 'label' => "Meus Funcionários"],
   ['rota' => 'servico', 'icone' => 'fa-gear', 'label' => "Serviços"],
   ['rota' => 'mapa', 'icone' => 'fa-map-location-dot', 'label' => "Mapa"],
+  ['rota' => 'chat', 'icone' => 'fa-comments', 'label' => "Conversas"],
 ];
 
 // Permissões por tipo de usuário (rotas permitidas)
 $permissoesPorTipo = [
-  'administrador'   => ['home', 'veiculo', 'prestador', 'usuario', 'funcionario', 'servico', 'mapa'],
-  'prestador'       => ['home', 'prestador', 'funcionario', 'servico', 'mapa'],
-  'funcionario'     => ['home', 'prestador', 'servico', 'mapa'],
-  'usuario'         => ['home', 'veiculo', 'prestador', 'mapa'],
+  'administrador'   => ['home', 'veiculo', 'prestador', 'usuario', 'funcionario', 'servico', 'mapa', 'chat'],
+  'prestador'       => ['home', 'prestador', 'funcionario', 'servico', 'mapa', 'chat'],
+  'funcionario'     => ['home', 'prestador', 'servico', 'mapa', 'chat'],
+  'usuario'         => ['home', 'veiculo', 'prestador', 'mapa', 'chat'],
   // adicione mais tipos se necessário
 ];
 
@@ -51,6 +52,10 @@ function isActiveRoute($rotaItem)
 ?>
 
 <div class="flex flex-col flex-1 max-w-12 items-center gap-4">
+  <a href="/<?= BASE_DIR_NAME ?>/home" class="flex flex-row h-10 w-12 items-center justify-center gap-1 hover:text-primary transition">
+    <i class="fa-solid fa-car-side text-3xl"></i>
+  </a>
+
   <div class="flex flex-1 w-full flex-col justify-start items-center border-y border-y-gray-700/40 py-4 gap-2">
     <?php foreach ($menuItens as $item): ?>
       <div class="relative group">
@@ -67,13 +72,5 @@ function isActiveRoute($rotaItem)
     <?php endforeach; ?>
   </div>
 
-  <!-- Botão de logout -->
-  <div class="flex flex-col justify-end items-center relative group">
-    <a href="/<?= BASE_DIR_NAME ?>/logout" class="sidemenu item">
-      <i class="fa-solid fa-arrow-right-from-bracket"></i>
-    </a>
-    <div class="absolute left-full ml-2 top-1/2 -translate-y-1/2 whitespace-nowrap px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity z-10">
-      Sair
-    </div>
-  </div>
+  <?php include COMPONENTS . "user-menu.php"; ?>
 </div>

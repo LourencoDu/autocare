@@ -24,13 +24,6 @@ if ($usuario->tipo == "prestador") {
 }
 ?>
 
-<div class="flex flex-row w-full justify-between relative">
-  <!-- Logo ou Link -->
-  <a href="/<?= BASE_DIR_NAME ?>/home" class="flex flex-row h-10 w-12 items-center justify-center gap-1 hover:text-primary transition">
-    <i class="fa-solid fa-car-side text-3xl"></i>
-  </a>
-
-  <!-- Usuário -->
   <div class="flex flex-row items-center gap-2 relative">
     <!-- Ícone de usuário com botão -->
     <button id="userMenuButton" class="w-10 h-10 flex items-center justify-center border border-gray-300 text-gray-700 bg-white rounded-4xl relative focus:outline-none hover:border-primary/60 hover:text-primary cursor-pointer transition">
@@ -38,7 +31,7 @@ if ($usuario->tipo == "prestador") {
     </button>
 
     <!-- Menu Dropdown -->
-    <div id="userDropdown" class="hidden absolute right-0 top-12 bg-white border border-gray-300 rounded-md shadow-lg z-50 w-[250px]">
+    <div id="userDropdown" class="hidden absolute left-0 bottom-12 bg-white border border-gray-300 rounded-md shadow-lg z-50 w-[250px]">
       <div class="flex gap-2 px-5 py-4 border-b border-gray-300">
         <div class="w-10 min-w-10 h-10 min-h-10 flex items-center justify-center border border-gray-400 rounded-4xl relative focus:outline-none">
           <i class="fa-regular <?= htmlspecialchars($usuario->icone) ?> text-xl text-gray-700"></i>
@@ -66,7 +59,6 @@ if ($usuario->tipo == "prestador") {
       </div>
     </div>
   </div>
-</div>
 
 
 <!-- Script para toggle do menu -->

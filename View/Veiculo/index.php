@@ -5,11 +5,11 @@ $quantidade = count($veiculos);
 
 <?php if ($quantidade > 0): ?>
   <div class="flex flex-row justify-between items-center gap-2">
-    <span class="text-xl font-semibold"><?php
+    <span class="text font-semibold"><?php
                                         if ($quantidade == 0) {
                                           echo "Nenhum veículo cadastrado";
                                         } else {
-                                          echo $quantidade . " " . ($quantidade > 1 ? "Veículos" : "Veículo");
+                                          echo "Você tem <span class='text-primary'>".$quantidade. "</span> " . ($quantidade > 1 ? "veículos cadastrados" : "veículo cadastrado");
                                         }
                                         ?></span>
 
