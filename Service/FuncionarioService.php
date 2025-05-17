@@ -3,12 +3,12 @@
 namespace AutoCare\Service;
 
 use AutoCare\Model\Usuario;
-use AutoCare\Model\Prestador;
+use AutoCare\Model\Funcionario;
 use AutoCare\DAO\DAO;
 
-class CadastroService
+class FuncionarioService
 {
-  public static function cadastrarPrestador($dadosUsuario, $dadosPrestador)
+  public static function cadastrarFuncionario($dadosUsuario, $dadosFuncionario)
   {
     $pdo = DAO::getConexao();
 
@@ -17,20 +17,22 @@ class CadastroService
 
       $usuario = new Usuario();
       $usuario->nome = $dadosUsuario['nome'];
+      $usuario->sobrenome = $dadosUsuario['sobrenome'];
       $usuario->telefone = $dadosUsuario['telefone'];
       $usuario->email = $dadosUsuario['email'];
       $usuario->senha = $dadosUsuario['senha'];
-      $usuario->tipo = $dadosUsuario['tipo'];
+      $usuario->tipo = "funcionario";
       $usuario->save();
 
-      $prestador = new Prestador();
-      $prestador->documento = $dadosPrestador['documento'];
-      $prestador->id_usuario = $usuario->id;
-      $prestador->save();
+      $funcionario = new Funcionario();
+      $funcionario->id_usuario = $usuario->id;
+      $funcionario->id_prestador = $dadosFuncionario["id_prestador"];
+      $funcionario->administrador = false;
+      $funcionario->save();
 
       $pdo->commit();
 
-      return $usuario;
+      return $funcionario;
 
     } catch (\Throwable $e) {
       $pdo->rollBack();

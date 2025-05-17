@@ -14,6 +14,8 @@
             </div>
           </div>
 
+          <?php include COMPONENTS . "backend-error.php"; ?>
+
           <?php include VIEWS . $view; ?>
         </div>
       </div>

@@ -19,9 +19,7 @@ if (isset($data["form"])) {
 
     <h2 class="text-2xl font-semibold">Acesse sua conta</h2>
 
-    <?php if (!empty($data['erro'])): ?>
-      <p style="color:red"><?= $data['erro'] ?></p>
-    <?php endif; ?>
+    <?php include COMPONENTS . "backend-error.php"; ?>
 
     <form class="w-full flex flex-col gap-2" method="POST" action="login">
       <div class="form-control flex-col">

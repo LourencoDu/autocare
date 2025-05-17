@@ -30,21 +30,17 @@ if (isset($data["form"])) {
 
     <h2 class="text-2xl font-semibold">Criar uma conta</h2>
 
-    <?php if (!empty($data['erro'])): ?>
-      <p style="color:red"><?= $data['erro'] ?></p>
-    <?php endif; ?>
-
     <form id="form" class="w-full flex flex-col gap-10" method="POST" action="cadastro" novalidate>
       <div class="step w-full flex flex-col gap-2">
         <div class="form-control flex-col">
           <label for="nome">Nome <span class="text-red-500">*</span></label>
-          <input type="text" name="nome" id="nome" data-validate="nome" value="<?= $nome ?>">
+          <input type="text" name="nome" id="nome" data-validate="nome" value="<?= $nome ?>" maxlength="50">
           <span class="helper-text danger hidden">O nome deve conter pelo menos 2 caracteres.</span>
         </div>
 
         <div class="form-control flex-col">
           <label for="sobrenome">Sobrenome <span class="text-red-500">*</span></label>
-          <input type="text" name="sobrenome" id="sobrenome" data-validate="nome" value="<?= $sobrenome ?>">
+          <input type="text" name="sobrenome" id="sobrenome" data-validate="nome" value="<?= $sobrenome ?>" maxlength="45">
           <span class="helper-text danger hidden">O sobrenome deve conter pelo menos 2 caracteres.</span>
         </div>
 
@@ -56,14 +52,14 @@ if (isset($data["form"])) {
 
         <div class="form-control flex-col">
           <label for="email">E-mail <span class="text-red-500">*</span></label>
-          <input type="email" name="email" id="email" data-validate="email" placeholder="seuemail@exemplo.com" value="<?= $email ?>">
+          <input type="email" name="email" id="email" data-validate="email" placeholder="seuemail@exemplo.com" value="<?= $email ?>" maxlength="45>
           <span class="helper-text danger hidden">Digite um e-mail válido.</span>
         </div>
 
         <div class="w-full">
           <div class="form-control flex-col">
             <label for="senha">Senha <span class="text-red-500">*</span></label>
-            <input type="password" name="senha" id="senha" data-validate="senha" placeholder="" value="<?= $senha ?>">
+            <input type="password" name="senha" id="senha" data-validate="senha" placeholder="" value="<?= $senha ?>" maxlength="50">
             <span class="helper-text danger hidden">A senha deve conter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e símbolos.</span>
           </div>
         </div>

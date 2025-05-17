@@ -38,7 +38,7 @@ if (isset($data["form"])) {
       <div class="step w-full flex flex-col gap-2">
         <div class="form-control flex-col">
           <label for="nome">Nome Empresarial <span class="text-red-500">*</span></label>
-          <input type="text" name="nome" id="nome" data-validate="nome" value="<?= $nome ?>" placeholder="Ex.: Oficina do João">
+          <input type="text" name="nome" id="nome" data-validate="nome" value="<?= $nome ?>" placeholder="Ex.: Oficina do João" maxlength="50">
           <span class="helper-text danger hidden">O nome deve conter pelo menos 2 caracteres.</span>
           <span class="helper-text ">É assim que seus clientes encontrarão você.</span>
         </div>
@@ -57,14 +57,14 @@ if (isset($data["form"])) {
 
         <div class="form-control flex-col">
           <label for="email">E-mail <span class="text-red-500">*</span></label>
-          <input type="email" name="email" id="email" data-validate="email" placeholder="seuemail@exemplo.com" value="<?= $email ?>">
+          <input type="email" name="email" id="email" data-validate="email" placeholder="seuemail@exemplo.com" value="<?= $email ?>" maxlength="45">
           <span class="helper-text danger hidden">Digite um e-mail válido.</span>
         </div>
 
         <div class="w-full">
           <div class="form-control flex-col">
             <label for="senha">Senha <span class="text-red-500">*</span></label>
-            <input type="password" name="senha" id="senha" data-validate="senha" placeholder="" value="<?= $senha ?>">
+            <input type="password" name="senha" id="senha" data-validate="senha" placeholder="" value="<?= $senha ?>" maxlength="50">
             <span class="helper-text danger hidden">A senha deve conter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e símbolos.</span>
           </div>
         </div>

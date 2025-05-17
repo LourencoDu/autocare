@@ -20,6 +20,21 @@ final class Funcionario extends Model {
     return (new FuncionarioDAO())->select();
   }
 
+  public function getAllByLoggedUser() : array {
+    $usuario = $_SESSION["usuario"];
+    if($usuario->tipo == "prestador") {
+      $id_prestador = $usuario->prestador->id;
+
+      return $this->getAllByIdPrestador($id_prestador);
+    }
+
+    return $this->getAllRows();
+  }
+
+  public function getAllByIdPrestador($id_prestador) : array {
+    return (new FuncionarioDAO())->selectByIdPrestador($id_prestador);
+  }
+
   public function save() : Funcionario {
     return (new FuncionarioDAO())->save($this);
   }

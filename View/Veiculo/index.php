@@ -72,7 +72,7 @@ $quantidade = count($veiculos);
 <?php else: ?>
   <div class="flex flex-col items-center justify-center pt-20">
     <i class="text-primary text-6xl fa-solid fa-car mb-4"></i>
-    <span class="text-lg font-semibold mb-4">Você ainda não tem veículos adicionados ao seu perfil</span>
+    <span class="text-lg font-semibold mb-4 text-center">Você ainda não tem veículos adicionados ao seu perfil</span>
 
     <a href="/<?= BASE_DIR_NAME ?>/veiculo/cadastrar" class="button flex flex-row items-center gap-1.5">
       <i class="fa-solid fa-plus mt-[2px]"></i>

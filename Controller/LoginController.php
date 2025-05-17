@@ -31,6 +31,7 @@ final class LoginController extends Controller
       $_SESSION['usuario']->nome_completo = $logado->nome." ".trim($logado->sobrenome);
       if($logado->tipo === "prestador") {
         $_SESSION['usuario']->nome_completo = $logado->nome;
+        $_SESSION['usuario']->prestador = $logado->prestador;
       }
 
       $iconePorTipo = array(
