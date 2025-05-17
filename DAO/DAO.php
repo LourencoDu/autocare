@@ -10,6 +10,11 @@ abstract class DAO extends PDO
 
   public function __construct()
   {
+    self::criarConexao();
+  }
+
+  private static function criarConexao()
+  {
     $host = $_ENV["db"]["host"];
     $dbname = $_ENV["db"]["database"];
     $username = $_ENV["db"]["user"];
@@ -29,5 +34,13 @@ abstract class DAO extends PDO
         ]
       );
     }
+  }
+
+  public static function getConexao()
+  {
+    if (self::$conexao === null) {
+      self::criarConexao();
+    }
+    return self::$conexao;
   }
 }

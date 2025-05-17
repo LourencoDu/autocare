@@ -6,6 +6,7 @@ use AutoCare\Model\Usuario;
 use AutoCare\Model\Prestador;
 
 use AutoCare\Helper\Util;
+use AutoCare\Service\CadastroService;
 
 final class CadastroController extends Controller
 {
@@ -70,7 +71,7 @@ final class CadastroController extends Controller
     $email = $_POST["email"];
     $senha = $_POST["senha"];
 
-    if (!$nome || !$sobrenome || !$telefone || !$email || !$senha) {    
+    if (!$nome || !$sobrenome || !$telefone || !$email || !$senha) {
       $this->data['erro'] = "Preencha todos os campos obrigatórios (*).";
       $this->data['form'] = [
         "tipoUsuario" => $tipoUsuario,
@@ -94,10 +95,22 @@ final class CadastroController extends Controller
 
       $model->save();
 
-      Header("Location: /" . BASE_DIR_NAME . "/cadastro/bem-vindo?tipoUsuario=".$tipoUsuario);
+      Header("Location: /" . BASE_DIR_NAME . "/cadastro/bem-vindo?tipoUsuario=" . $tipoUsuario);
     } catch (\Throwable $th) {
+      $mensagem = "Falha ao adicionar registro. Por favor, tente novamente.";
+
+      // Se for PDOException (ou similar), pode melhorar a mensagem
+      if ($th instanceof \PDOException) {
+        // Exemplo: detectar erro de duplicidade pelo código SQLSTATE
+        if ($th->getCode() === '23000') {
+          $mensagem = "Já existe um usuário cadastrado com o e-mail informado.";
+        } else {
+          $mensagem = "Erro no banco de dados. Tente novamente mais tarde.";
+        }
+      }
+
       $this->data = array_merge($this->data ?? [], [
-        "erro" => "Falha ao adicionar registro. Erro: " . $th->getMessage(),
+        "erro" => $mensagem,
         "exception" => $th->getMessage()
       ]);
     }
@@ -127,25 +140,38 @@ final class CadastroController extends Controller
     }
 
     try {
-      $modelUsuario = new Usuario();
+      $dadosUsuario['nome'] = $nome;
+      $dadosUsuario['telefone'] = Util::removerMascara($telefone);
+      $dadosUsuario['email'] = $email;
+      $dadosUsuario['senha'] = $senha;
+      $dadosUsuario['tipo'] = $tipoUsuario;
 
-      $modelUsuario->nome = $nome;
-      $modelUsuario->telefone = Util::removerMascara($telefone);
-      $modelUsuario->email = $email;
-      $modelUsuario->senha = $senha;
-      $modelUsuario->tipo = $tipoUsuario;
+      $dadosPrestador['documento'] = Util::removerMascara($documento);
 
-      $modelUsuario->save();
+      CadastroService::cadastrarPrestador($dadosUsuario, $dadosPrestador);
 
-      $modelPrestador = new Prestador();
-      $modelPrestador->documento = Util::removerMascara($documento);
-      $modelPrestador->id_usuario = $modelUsuario->id;
-      $modelPrestador->save();
-
-      Header("Location: /" . BASE_DIR_NAME . "/cadastro/bem-vindo?tipoUsuario=".$tipoUsuario);
+      Header("Location: /" . BASE_DIR_NAME . "/cadastro/bem-vindo?tipoUsuario=" . $tipoUsuario);
     } catch (\Throwable $th) {
+      $mensagem = "Falha ao adicionar registro. Error: ".$th->getMessage();
+
+      // Se for PDOException (ou similar), pode melhorar a mensagem
+      if ($th instanceof \PDOException) {
+        // Exemplo: detectar erro de duplicidade pelo código SQLSTATE
+        if ($th->getCode() === '23000') {
+          $mensagemError = $th->getMessage();
+          
+          if (stripos($mensagemError, 'prestador.documento') !== false) {
+            $mensagem = "Já existe um prestador cadastrado com o CNPJ informado.";
+          } else {
+            $mensagem = "Já existe um usuário cadastrado com o e-mail informado.";
+          }
+        } else {
+          $mensagem = "Erro no banco de dados. Tente novamente mais tarde.";
+        }
+      }
+
       $this->data = array_merge($this->data ?? [], [
-        "erro" => "Falha ao adicionar registro. Erro: " . $th->getMessage(),
+        "erro" => $mensagem,
         "exception" => $th->getMessage()
       ]);
     }
