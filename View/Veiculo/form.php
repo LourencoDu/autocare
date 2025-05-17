@@ -30,17 +30,17 @@
     <span class="text-lg font-semibold">Informações do Veículo</span>
   </div>
   <form action="" method="post" class="flex flex-col p-5 gap-5">
-    <div class="form-control row medium">
+    <div class="form-control row medium flex-col sm:flex-row">
       <label for="apelido">Apelido <span class="text-red-500">*</span></label>
       <input required type="text" name="apelido" placeholder="ex.: Meu Corsa Azul" maxlength="60" value="<?= $apelido ?>"/>
     </div>
 
-    <div class="form-control row medium">
+    <div class="form-control row medium flex-col sm:flex-row">
       <label for="ano">Ano de Fabricação <span class="text-red-500">*</span></label>
       <input required type="number" name="ano" placeholder="ex.: 2009" min="1900" max="2099" oninput="limitarDigitos(this, 4)" value="<?= $ano ?>"/>
     </div>
 
-    <div class="form-control row medium">
+    <div class="form-control row medium flex-col sm:flex-row">
       <label for="id_fabricante_veiculo">Fabricante <span class="text-red-500">*</span></label>
       <div class="grid w-full">
         <select required class="col-start-1 row-start-1" id="select_fabricante_veiculo" name="id_fabricante_veiculo" value="<?= $id_fabricante_veiculo ?>">
@@ -53,7 +53,7 @@
       </div>
     </div>
 
-    <div class="form-control row medium">
+    <div class="form-control row medium flex-col sm:flex-row">
       <label for="id_modelo_veiculo">Modelo <span class="text-red-500">*</span></label>
       <div class="grid w-full">
         <select <?= $id_modelo_veiculo ? "" : "disabled" ?> required class="col-start-1 row-start-1 disabled:opacity-40" id="select_modelo_veiculo" name="id_modelo_veiculo" value="<?= $id_modelo_veiculo ?>">

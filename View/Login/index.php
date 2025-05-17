@@ -24,12 +24,12 @@ if (isset($data["form"])) {
     <?php endif; ?>
 
     <form class="w-full flex flex-col gap-2" method="POST" action="login">
-      <div class="form-control">
+      <div class="form-control flex-col">
         <label for="email">E-mail</label>
         <input type="email" name="email" id="email" placeholder="seuemail@exemplo.com" value="<?= $email ?>">
       </div>
 
-      <div  class="form-control">
+      <div  class="form-control flex-col">
         <label for="senha">Senha</label>
         <input type="password" name="senha" id="senha" placeholder="" value="<?= $senha ?>">
       </div>

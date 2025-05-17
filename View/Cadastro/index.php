@@ -26,7 +26,7 @@ if (isset($data["form"])) {
 
     <form id="form" class="w-full flex flex-col gap-10" method="GET" action="cadastro">
       <div class="step w-full flex flex-col gap-2">
-        <div class="form-control">
+        <div class="form-control flex-col">
           <span>Você é...</span>
 
           <div class="flex flex-row gap-3 h-45">

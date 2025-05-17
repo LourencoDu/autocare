@@ -36,33 +36,33 @@ if (isset($data["form"])) {
 
     <form id="form" class="w-full flex flex-col gap-10" method="POST" action="cadastro" novalidate>
       <div class="step w-full flex flex-col gap-2">
-        <div class="form-control">
+        <div class="form-control flex-col">
           <label for="nome">Nome Empresarial <span class="text-red-500">*</span></label>
           <input type="text" name="nome" id="nome" data-validate="nome" value="<?= $nome ?>" placeholder="Ex.: Oficina do João">
           <span class="helper-text danger hidden">O nome deve conter pelo menos 2 caracteres.</span>
           <span class="helper-text ">É assim que seus clientes encontrarão você.</span>
         </div>
 
-        <div class="form-control">
+        <div class="form-control flex-col">
           <label for="documento">CNPJ <span class="text-red-500">*</span></label>
           <input type="text" name="documento" id="documento" data-validate="cnpj" value="<?= $documento ?>" placeholder="00.000.000/0000-00" maxlength="18">
           <span class="helper-text danger hidden">Digite um CNPJ válido.</span>
         </div>
 
-        <div class="form-control">
+        <div class="form-control flex-col">
           <label for="telefone">Telefone <span class="text-red-500">*</span></label>
           <input type="text" name="telefone" id="telefone" data-validate="telefone" value="<?= $telefone ?>" placeholder="(__) ____-____">
           <span class="helper-text danger hidden">Digite um telefone válido no formato (99) 99999-9999.</span>
         </div>
 
-        <div class="form-control">
+        <div class="form-control flex-col">
           <label for="email">E-mail <span class="text-red-500">*</span></label>
           <input type="email" name="email" id="email" data-validate="email" placeholder="seuemail@exemplo.com" value="<?= $email ?>">
           <span class="helper-text danger hidden">Digite um e-mail válido.</span>
         </div>
 
         <div class="w-full">
-          <div class="form-control">
+          <div class="form-control flex-col">
             <label for="senha">Senha <span class="text-red-500">*</span></label>
             <input type="password" name="senha" id="senha" data-validate="senha" placeholder="" value="<?= $senha ?>">
             <span class="helper-text danger hidden">A senha deve conter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e símbolos.</span>

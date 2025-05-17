@@ -583,14 +583,14 @@
   .top-1\/2 {
     top: calc(1/2 * 100%);
   }
-  .top-12 {
-    top: calc(var(--spacing) * 12);
+  .top-2 {
+    top: calc(var(--spacing) * 2);
   }
   .top-full {
     top: 100%;
   }
-  .right-0 {
-    right: calc(var(--spacing) * 0);
+  .right-2 {
+    right: calc(var(--spacing) * 2);
   }
   .right-4 {
     right: calc(var(--spacing) * 4);
@@ -603,6 +603,9 @@
   }
   .left-1\/2 {
     left: calc(1/2 * 100%);
+  }
+  .left-2 {
+    left: calc(var(--spacing) * 2);
   }
   .left-full {
     left: 100%;
@@ -741,6 +744,9 @@
   }
   .mb-8 {
     margin-bottom: calc(var(--spacing) * 8);
+  }
+  .ml-1 {
+    margin-left: calc(var(--spacing) * 1);
   }
   .ml-2 {
     margin-left: calc(var(--spacing) * 2);
@@ -942,8 +948,14 @@
   .max-w-150 {
     max-width: calc(var(--spacing) * 150);
   }
+  .max-w-\[100px\] {
+    max-width: 100px;
+  }
   .max-w-\[160px\] {
     max-width: 160px;
+  }
+  .max-w-\[320px\] {
+    max-width: 320px;
   }
   .max-w-\[336px\] {
     max-width: 336px;
@@ -1429,9 +1441,6 @@
   .gap-10 {
     gap: calc(var(--spacing) * 10);
   }
-  .gap-14 {
-    gap: calc(var(--spacing) * 14);
-  }
   .space-y-reverse {
     :where(& > :not(:last-child)) {
       --tw-space-y-reverse: 1;
@@ -1750,12 +1759,6 @@
   }
   .bg-gray-50 {
     background-color: var(--color-gray-50);
-  }
-  .bg-gray-50\/50 {
-    background-color: color-mix(in srgb, oklch(98.5% 0.002 247.839) 50%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-gray-50) 50%, transparent);
-    }
   }
   .bg-gray-100 {
     background-color: var(--color-gray-100);
@@ -2154,6 +2157,9 @@
   .object-top-right {
     object-position: right top;
   }
+  .p-2 {
+    padding: calc(var(--spacing) * 2);
+  }
   .p-2\.5 {
     padding: calc(var(--spacing) * 2.5);
   }
@@ -2162,9 +2168,6 @@
   }
   .p-5 {
     padding: calc(var(--spacing) * 5);
-  }
-  .p-8 {
-    padding: calc(var(--spacing) * 8);
   }
   .px-1 {
     padding-inline: calc(var(--spacing) * 1);
@@ -2189,9 +2192,6 @@
   }
   .px-6 {
     padding-inline: calc(var(--spacing) * 6);
-  }
-  .px-24 {
-    padding-inline: calc(var(--spacing) * 24);
   }
   .px-\[0\.15rem\] {
     padding-inline: 0.15rem;
@@ -2240,9 +2240,6 @@
   }
   .pb-5 {
     padding-bottom: calc(var(--spacing) * 5);
-  }
-  .pl-3 {
-    padding-left: calc(var(--spacing) * 3);
   }
   .text-center {
     text-align: center;
@@ -2935,13 +2932,6 @@
       }
     }
   }
-  .hover\:border-primary {
-    &:hover {
-      @media (hover: hover) {
-        border-color: var(--color-primary);
-      }
-    }
-  }
   .hover\:border-primary-hover {
     &:hover {
       @media (hover: hover) {
@@ -3038,16 +3028,6 @@
       }
     }
   }
-  .hover\:text-primary\/60 {
-    &:hover {
-      @media (hover: hover) {
-        color: color-mix(in srgb, #615fff 60%, transparent);
-        @supports (color: color-mix(in lab, red, red)) {
-          color: color-mix(in oklab, var(--color-primary) 60%, transparent);
-        }
-      }
-    }
-  }
   .hover\:text-red-500 {
     &:hover {
       @media (hover: hover) {
@@ -3139,6 +3119,11 @@
       margin-left: calc(var(--spacing) * 4);
     }
   }
+  .sm\:block {
+    @media (width >= 40rem) {
+      display: block;
+    }
+  }
   .sm\:flex {
     @media (width >= 40rem) {
       display: flex;
@@ -3163,6 +3148,11 @@
   .sm\:max-w-lg {
     @media (width >= 40rem) {
       max-width: var(--container-lg);
+    }
+  }
+  .sm\:flex-row {
+    @media (width >= 40rem) {
+      flex-direction: row;
     }
   }
   .sm\:flex-row-reverse {
@@ -3190,6 +3180,11 @@
       padding: calc(var(--spacing) * 0);
     }
   }
+  .sm\:p-5 {
+    @media (width >= 40rem) {
+      padding: calc(var(--spacing) * 5);
+    }
+  }
   .sm\:p-6 {
     @media (width >= 40rem) {
       padding: calc(var(--spacing) * 6);
@@ -3198,6 +3193,11 @@
   .sm\:px-6 {
     @media (width >= 40rem) {
       padding-inline: calc(var(--spacing) * 6);
+    }
+  }
+  .sm\:px-24 {
+    @media (width >= 40rem) {
+      padding-inline: calc(var(--spacing) * 24);
     }
   }
   .sm\:pb-4 {
@@ -3210,9 +3210,49 @@
       text-align: left;
     }
   }
+  .lg\:static {
+    @media (width >= 64rem) {
+      position: static;
+    }
+  }
+  .lg\:block {
+    @media (width >= 64rem) {
+      display: block;
+    }
+  }
   .lg\:flex {
     @media (width >= 64rem) {
       display: flex;
+    }
+  }
+  .lg\:w-fit {
+    @media (width >= 64rem) {
+      width: fit-content;
+    }
+  }
+  .lg\:max-w-full {
+    @media (width >= 64rem) {
+      max-width: 100%;
+    }
+  }
+  .lg\:flex-col {
+    @media (width >= 64rem) {
+      flex-direction: column;
+    }
+  }
+  .lg\:flex-row {
+    @media (width >= 64rem) {
+      flex-direction: row;
+    }
+  }
+  .lg\:items-start {
+    @media (width >= 64rem) {
+      align-items: flex-start;
+    }
+  }
+  .lg\:justify-start {
+    @media (width >= 64rem) {
+      justify-content: flex-start;
     }
   }
   .lg\:gap-4 {
@@ -3220,14 +3260,29 @@
       gap: calc(var(--spacing) * 4);
     }
   }
+  .lg\:gap-14 {
+    @media (width >= 64rem) {
+      gap: calc(var(--spacing) * 14);
+    }
+  }
   .lg\:gap-25 {
     @media (width >= 64rem) {
       gap: calc(var(--spacing) * 25);
     }
   }
+  .lg\:p-8 {
+    @media (width >= 64rem) {
+      padding: calc(var(--spacing) * 8);
+    }
+  }
   .lg\:px-25 {
     @media (width >= 64rem) {
       padding-inline: calc(var(--spacing) * 25);
+    }
+  }
+  .lg\:pl-3 {
+    @media (width >= 64rem) {
+      padding-left: calc(var(--spacing) * 3);
     }
   }
   .xl\:gap-50 {
@@ -3303,12 +3358,10 @@ div, p {
 .form-control {
   position: relative;
   display: flex;
-  flex-direction: column;
   gap: calc(var(--spacing) * 1);
 }
 .form-control.row {
   display: flex;
-  flex-direction: row;
   gap: calc(var(--spacing) * 1);
 }
 .form-control label {
@@ -3463,20 +3516,10 @@ div, p {
 }
 .button.medium {
   height: calc(var(--spacing) * 10);
-  :where(& > :not(:last-child)) {
-    --tw-space-x-reverse: 0;
-    margin-inline-start: calc(calc(var(--spacing) * 1) * var(--tw-space-x-reverse));
-    margin-inline-end: calc(calc(var(--spacing) * 1) * calc(1 - var(--tw-space-x-reverse)));
-  }
   padding-inline: calc(var(--spacing) * 3);
 }
 .button.small {
   height: calc(var(--spacing) * 8);
-  :where(& > :not(:last-child)) {
-    --tw-space-x-reverse: 0;
-    margin-inline-start: calc(calc(var(--spacing) * 1) * var(--tw-space-x-reverse));
-    margin-inline-end: calc(calc(var(--spacing) * 1) * calc(1 - var(--tw-space-x-reverse)));
-  }
   padding-inline: calc(var(--spacing) * 3);
   font-size: var(--text-sm);
   line-height: var(--tw-leading, var(--text-sm--line-height));

@@ -8,7 +8,7 @@ $fields = isset($data["fields"]) ? $data["fields"] : [];
   <?php endif; ?>
 
   <?php foreach ($fields as $field) { ?>
-    <div class="form-control">
+    <div class="form-control flex-col">
       <label for="<?= $field["name"]; ?>"><?= $field["label"]; ?></label>
       <input autocomplete="off" <?= isset($field["readonly"]) && $field["readonly"] ? "readonly" : ""; ?> <?= $field["required"] ? "required" : ""; ?> type="<?= $field["type"]; ?>" name="<?= $field["name"]; ?>" id="<?= $field["name"]; ?>" placeholder="" value="<?= isset($data["form"][$field["name"]]) ? $data["form"][$field["name"]] : "" ?>">
     </div>

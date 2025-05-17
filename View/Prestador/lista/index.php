@@ -8,7 +8,7 @@ $quantidade = count($prestadores);
 ?>
 
 <div class="flex flex-col items-stretch gap-8">
-  <div class="form-control medium has-search">
+  <div class="form-control medium flex-col has-search">
     <i class="fa-solid fa-search"></i>
     <input id="search-input" type="text" placeholder="Buscar por prestador" />
   </div>

@@ -60,11 +60,11 @@ p {
 }
 
 .form-control {
-  @apply flex flex-col gap-1 relative;
+  @apply flex gap-1 relative;
 }
 
 .form-control.row {
-  @apply flex flex-row gap-1;
+  @apply flex gap-1;
 }
 
 .form-control label {
@@ -139,11 +139,11 @@ p {
 }
 
 .button.medium {
-  @apply h-10 px-3 space-x-1;
+  @apply h-10 px-3;
 }
 
 .button.small {
-  @apply h-8 px-3 space-x-1 text-sm;
+  @apply h-8 px-3 text-sm;
 }
 
 .hoverable {
