@@ -34,9 +34,10 @@ final class LoginController extends Controller
       }
 
       $iconePorTipo = array(
-        "prestador" => "fa-wrench",
+        "prestador" => "fa-building",
         "usuario" => "fa-user",
-        "funcionario" => "fa-id-badge"
+        "funcionario" => "fa-user-gear",
+        "administrador" => "fa-user-tie"
       );
 
       $_SESSION['usuario']->icone = $iconePorTipo[$logado->tipo];

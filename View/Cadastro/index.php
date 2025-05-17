@@ -38,7 +38,7 @@ if (isset($data["form"])) {
 
             <label class="group flex flex-col items-center justify-center gap-3 p-4 flex-1 border border-gray-400 rounded-md transition hover:border-primary-hover hover:bg-primary/10 hover:cursor-pointer has-[input:checked]:bg-primary has-[input:checked]:text-white has-[input:checked]:border-primary">
               <input type="radio" name="tipoUsuario" value="prestador" class="hidden person-type-radio">
-              <i class="fa-solid fa-wrench text-6xl group-has-[input:checked]:text-white transition"></i>
+              <i class="fa-solid fa-building text-6xl group-has-[input:checked]:text-white transition"></i>
               <span class="group-has-[input:checked]:text-white transition text-center">Prestador de serviços</span>
             </label>
           </div>

@@ -6,7 +6,7 @@ $menuItens = [
   ['rota' => 'veiculo', 'icone' => 'fa-car', 'label' => "Meus Veículos"],
   ['rota' => 'prestador', 'icone' => 'fa-screwdriver-wrench', 'label' => "Prestadores"],
   ['rota' => 'usuario', 'icone' => 'fa-user', 'label' => "Usuários"],
-  ['rota' => 'funcionario', 'icone' => 'fa-user-group', 'label' => "Meus Funcionários"],
+  ['rota' => 'funcionario', 'icone' => 'fa-users-gear', 'label' => "Meus Funcionários"],
   ['rota' => 'servico', 'icone' => 'fa-gear', 'label' => "Serviços"],
   ['rota' => 'mapa', 'icone' => 'fa-map-location-dot', 'label' => "Mapa"],
   ['rota' => 'chat', 'icone' => 'fa-comments', 'label' => "Conversas"],

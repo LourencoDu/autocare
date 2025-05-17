@@ -33,7 +33,7 @@ $quantidade = count($prestadores);
       <div data-search="<?= strtolower($nome_sem_acentos . " " . $telefone . " " . $documento . " ") ?>" class="search-item flex flex-row flex-wrap justify-between p-2.5 pe-5 border border-gray-300 rounded-xl gap-4">
         <div class="flex flex-row items-center gap-4">
           <div class="flex flex-row items-center justify-center bg-gray-200/50 border border-gray-300 h-18 w-26 rounded-xl">
-            <i class="fa-solid fa-screwdriver-wrench text-gray-600 text-2xl"></i>
+            <i class="fa-solid fa-building text-gray-600 text-2xl"></i>
           </div>
 
           <div class="flex flex-col gap-2">

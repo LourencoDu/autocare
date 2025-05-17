@@ -18,7 +18,7 @@ if ($usuario->tipo == "usuario") {
 if ($usuario->tipo == "prestador") {
   array_push($entradas_menu, [
     "texto" => "Meus Funcionários",
-    "icone" => "fa-user-group",
+    "icone" => "fa-users-gear",
     "rota" => "funcionario"
   ]);
 }
