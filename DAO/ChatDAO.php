@@ -57,4 +57,27 @@ final class ChatDAO extends DAO {
 
     return $stmt->fetchAll(DAO::FETCH_CLASS, "AutoCare\Model\Chat");
   }
+
+  public function getMensagensByIdChat(int $idChat): array
+  {
+    $sql = "SELECT texto, data, visualizado,'funcionario' AS autor
+              FROM chat_mensagem_funcionario
+              WHERE id_chat = ?
+
+              UNION ALL
+
+            SELECT texto, data, visualizado, 'usuario' AS autor
+              FROM chat_mensagem_usuario
+              WHERE id_chat = ?
+
+            ORDER BY data ASC;";
+
+    $stmt = parent::$conexao->prepare($sql);
+    $stmt->bindValue(1, $idChat);
+    $stmt->bindValue(2, $idChat);
+
+    $stmt->execute();
+
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+  }
 }

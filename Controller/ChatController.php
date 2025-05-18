@@ -16,46 +16,78 @@ final class ChatController extends Controller
   }
 
   public function listarPorUsuario(): void
-  { 
+  {
     parent::isProtected();
 
-    $model = new Chat();
-
-    $lista = $model->getRowsByIdUsuario($_SESSION['usuario']->id);
-
-    $baseDirName = BASE_DIR_NAME;
+    $listaDeChats = ChatController::getChatsPorUsuario();
 
     $this->data = [
-      "lista" => $lista,
-    //   "addLink" => "/$baseDirName/servico/cadastrar",
-    //   "editLink" => "/$baseDirName/servico/alterar",
-    //   "deleteLink" => "/$baseDirName/servico/deletar",
+      "lista" => $listaDeChats
     ];
 
     $this->index();
+  }
+
+  public static function getChatsPorUsuario(): array
+  {
+    $model = new Chat();
+    return $model->getRowsByIdUsuario($_SESSION['usuario']->id);
   }
 
   public function listarPorPrestador(): void
   {
     parent::isProtected();
 
-    $model = new Chat();
-
-    $lista = $model->getRowsByIdPrestador($_SESSION['usuario']->id);
-
-    $baseDirName = BASE_DIR_NAME;
+    $listaDeChats = ChatController::getChatsPorPrestador();
 
     $this->data = [
-      "lista" => $lista,
-    //   "addLink" => "/$baseDirName/servico/cadastrar",
-    //   "editLink" => "/$baseDirName/servico/alterar",
-    //   "deleteLink" => "/$baseDirName/servico/deletar",
+      "lista" => $listaDeChats
     ];
 
     $this->index();
   }
 
-  private function backToIndex(): void {
-    Header("Location: /".BASE_DIR_NAME."/servico");
+  public static function getChatsPorPrestador(): array
+  {
+    $model = new Chat();
+    return $model->getRowsByIdPrestador($_SESSION['usuario']->id);
+  }
+
+  private function backToIndex(): void
+  {
+    Header("Location: /" . BASE_DIR_NAME . "/servico");
+  }
+
+  public function getMensagensByIdChat(): void
+  {
+    parent::isProtected();
+
+    header("Content-Type: application/json");
+
+    $chatId = $_GET['id'] ?? null;
+
+    if (!$chatId) {
+      http_response_code(400);
+      echo json_encode(["error" => "ID do chat não informado."]);
+      return;
+    }
+
+    $model = new Chat();
+    $mensagens = $model->getMensagensByIdChat($chatId);
+
+    if ($_SESSION['usuario']->tipo == 'usuario') {
+      $lista = ChatController::getChatsPorUsuario();
+    } else {
+      $lista = ChatController::getChatsPorPrestador();
+    }
+
+    $this->data = [
+      "lista" => $lista,
+      "mensagens" => $mensagens,
+      "chatIdSelecionado" => $chatId,
+      "usuarioLogado" => $_SESSION['usuario'],
+    ];
+
+    $this->index();
   }
 }

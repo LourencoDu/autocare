@@ -1,52 +1,74 @@
 <?php
-$lista = isset($data["lista"]) ? $data["lista"] : [];
-$keys = [];
-
-if (count($lista)) {
-  $keys = array_keys(get_object_vars(reset($lista)));;
-}
+$lista = $data["lista"] ?? [];
+$mensagens = $data["mensagens"] ?? [];
+$usuarioLogado = $data["usuarioLogado"] ?? null;
 ?>
 
-<div class="overflow-x-auto">
-  <?php if (count($lista)) { ?>
-    <table class="min-w-full divide-y divide-gray-700/40 bg-white  border border-gray-200">
-      <thead class="bg-gray-100">
-        <tr>
+<div class="flex h-[80vh] border border-gray-300 rounded shadow-md overflow-hidden bg-white">
+  <!-- Lista de chats com scroll -->
+  <div class="w-1/3 border-r border-gray-200 bg-gray-50 overflow-y-auto">
+    <div class="h-full">
+      <?php if (count($lista)) { ?>
+        <?php foreach ($lista as $chat) { ?>
+          <a href="#" data-id="<?= $chat->id ?>"
+            class="chat-item block px-4 py-3 border-b border-gray-200 hover:bg-gray-100 transition duration-200">
+            <div class="text-sm font-medium"><?= htmlspecialchars($chat->nome ?? 'Sem nome') ?></div>
+            <div class="text-xs text-gray-500">ID: <?= $chat->id ?></div>
+          </a>
+        <?php } ?>
+      <?php } else { ?>
+        <div class="p-4 text-gray-600 text-sm">Nenhum chat encontrado...</div>
+      <?php } ?>
+    </div>
+  </div>
+
+  <!-- Área da conversa -->
+  <div class="w-2/3 flex flex-col p-4 overflow-y-auto" id="mensagensContainer">
+    <?php if ($usuarioLogado && count($mensagens)) : ?>
+      <?php foreach ($mensagens as $msg) : ?>
+        <?php
+        $isUsuarioLogado = ($usuarioLogado->tipo === 'usuario');
+        ?>
+
+        <?php foreach ($mensagens as $msg) : ?>
           <?php
-          foreach ($keys as $key) {
-            echo "<th class='px-6 py-3 text-start text-xs font-medium uppercase tracking-wider'>$key</th>";
+          
+          $isMsgFuncionario = ($msg['autor'] === 'funcionario');
+
+          if ($isUsuarioLogado) {
+            $classeAlinhamento = $isMsgFuncionario
+              ? 'self-start bg-gray-200 text-gray-900 rounded-r-lg rounded-tl-lg'
+              : 'self-end bg-blue-600 text-white rounded-l-lg rounded-tr-lg';
+          } else {
+            $classeAlinhamento = $isMsgFuncionario
+              ? 'self-end bg-blue-600 text-white rounded-l-lg rounded-tr-lg'
+              : 'self-start bg-gray-200 text-gray-900 rounded-r-lg rounded-tl-lg';
           }
           ?>
-          <th class="px-6 py-3 text-start text-xs font-medium uppercase tracking-wider">Ações</th>
-        </tr>
-      </thead>
-      <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-        <?php foreach ($lista as $item) { ?>
-          <tr>
-            <?php
-            $values = get_object_vars($item);
-
-            foreach ($values as $value) {
-              echo "<td class='px-6 py-4 whitespace-nowrap text-ellipsis'>$value</td>";
-            }
-            ?>
-            <td class="flex flex-row px-6 py-4 whitespace-nowrap text-center gap-2">
-              <a href="<?= isset($data["editLink"]) ? $data["editLink"] . "?id=" . $item->id : "#" ?>" class="flex justify-center items-center text-black hover:text-primary transition duration-300 cursor-pointer border border-gray-300 hover:border-primary/60 rounded-sm w-10 h-10" title="Editar">
-                <i class="fa-solid fa-pen"></i>
-              </a>
-              <a href="<?= isset($data["deleteLink"]) ? $data["deleteLink"] . "?id=" . $item->id : "#" ?>" class="flex justify-center items-center text-black hover:text-red-500 transition duration-300 cursor-pointer border border-gray-300 hover:border-red-500/60 rounded-sm w-10 h-10" title="Deletar">
-                <i class="fa-solid fa-trash"></i>
-              </a>
-            </td>
-          </tr>
-        <?php } ?>
-      </tbody>
-    </table>
-  <?php } else { ?>
-    <span>Nenhum registro encontrado...</span>
-  <?php } ?>
+          <div class="max-w-[70%] px-4 py-2 my-1 <?= $classeAlinhamento ?>">
+            <p class="font-semibold text-sm"><?= htmlspecialchars($msg['autor_nome'] ?? 'Anônimo') ?></p>
+            <p class="whitespace-pre-line"><?= htmlspecialchars($msg['texto']) ?></p>
+            <small class="text-xs text-gray-400"><?= htmlspecialchars($msg['data']) ?></small>
+          </div>
+        <?php endforeach; ?>
+      <?php endforeach; ?>
+    <?php else : ?>
+      <p class="text-sm text-gray-400">Selecione um chat à esquerda para visualizar a conversa.</p>
+    <?php endif; ?>
+  </div>
 </div>
 
-<a href="<?= isset($data["addLink"]) ? $data["addLink"] : "#" ?>" class="flex flex-row justify-center items-center border border-primary hover:border-primary-hover rounded-md bg-primary hover:bg-primary-hover text-white transition duration-300 cursor-pointer px-2 h-12 w-full max-w-40 mt-4">
-  Adicionar
-</a>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const chatItems = document.querySelectorAll(".chat-item");
+
+    chatItems.forEach(item => {
+      item.addEventListener("click", function(e) {
+        e.preventDefault();
+        const chatId = this.dataset.id;
+
+        window.location.href = `chat/conversa?id=${chatId}`;
+      });
+    });
+  });
+</script>
