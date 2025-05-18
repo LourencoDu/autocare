@@ -62,8 +62,6 @@ final class ChatController extends Controller
   {
     parent::isProtected();
 
-    header("Content-Type: application/json");
-
     $chatId = $_GET['id'] ?? null;
 
     if (!$chatId) {

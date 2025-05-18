@@ -25,6 +25,9 @@ define("BASE_DIR_NAME", basename(__DIR__));
 define("VIEWS", BASE_DIR."/AutoCare/View/");
 define("COMPONENTS", BASE_DIR."/autocare/components/");
 
+$baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/';
+define("BASE_URL", $baseUrl);
+
 $_ENV["db"]["host"] = "localhost:3306";
 $_ENV["db"]["user"] = $_ENV['DB_USER'] ?? "root";
 $_ENV["db"]["pass"] = $_ENV['DB_PASS'] ?? "";
