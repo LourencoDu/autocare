@@ -15,4 +15,7 @@ switch ($url) {
   case '/usuario/deletar':
     (new UsuarioController())->deletar();
     exit;
+  case '/api/usuario/alterar-senha':
+    (new UsuarioController())->alterarSenha();
+    exit;
 }

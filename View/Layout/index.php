@@ -28,7 +28,7 @@
     <?php include VIEWS . "Layout/" . (isset($_SESSION["usuario"]) ? "logged.php" : "not-logged.php"); ?>
 
     <?php
-    include COMPONENTS . "modal/delete.php";
+    include COMPONENTS . "modal/index.php";
     ?>
 
     <?php
@@ -45,7 +45,10 @@
 
     <script src="/<?= BASE_DIR_NAME ?>/public/js/api.js"></script>
     <script src="/<?= BASE_DIR_NAME ?>/public/js/common.js"></script>
-    <script src="/<?= BASE_DIR_NAME ?>/public/js/modal.js"></script>
+    <script src="/<?= BASE_DIR_NAME ?>/public/js/modal/form-modal.js"></script>
+    <script src="/<?= BASE_DIR_NAME ?>/public/js/modal/delete-modal.js"></script>
+
+
 </body>
 
 </html>

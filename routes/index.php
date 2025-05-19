@@ -27,6 +27,7 @@ switch ($url) {
     (new CadastroController())->exibirBemVindo();
     break;
   default:
+    require_once __DIR__ . '/meuPerfil.php';
     require_once __DIR__ . '/usuario.php';
     require_once __DIR__ . '/prestador.php';
     require_once __DIR__ . '/funcionario.php';

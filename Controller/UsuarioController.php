@@ -3,7 +3,7 @@
 namespace AutoCare\Controller;
 
 use AutoCare\Model\Usuario;
-use AutoCare\Model\Login;
+use AutoCare\Helper\JsonResponse;
 
 final class UsuarioController extends Controller
 {
@@ -40,8 +40,9 @@ final class UsuarioController extends Controller
     $this->index();
   }
 
-  private function backToIndex(): void {
-    Header("Location: /".BASE_DIR_NAME."/usuario");
+  private function backToIndex(): void
+  {
+    Header("Location: /" . BASE_DIR_NAME . "/usuario");
   }
 
   public function cadastrar(): void
@@ -88,7 +89,7 @@ final class UsuarioController extends Controller
         $this->backToIndex();
       } catch (\Throwable $th) {
         $this->data = array_merge($this->data, [
-          "erro" => "Falha ao adicionar registro. Erro: ".$th->getMessage(),
+          "erro" => "Falha ao adicionar registro. Erro: " . $th->getMessage(),
           "exception" => $th->getMessage()
         ]);
       }
@@ -120,10 +121,10 @@ final class UsuarioController extends Controller
     $model = new Usuario();
     $id = isset($_GET["id"]) ? $_GET["id"] : null;
 
-    if($id != null) {
+    if ($id != null) {
       $model = $model->getById((int) $id);
 
-      if($model != null) {
+      if ($model != null) {
         $this->data["form"] = [
           "nome" => $model->nome,
           "sobrenome" => $model->sobrenome,
@@ -131,31 +132,58 @@ final class UsuarioController extends Controller
           "email" => $model->email,
           "senha" => $model->senha
         ];
-    
+
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
-          try {           
+          try {
             $model->nome = $_POST["nome"];
             $model->sobrenome = $_POST["sobrenome"];
             $model->telefone = $_POST["telefone"];
-    
+
             $model->save();
-    
+
             $this->backToIndex();
           } catch (\Throwable $th) {
             $this->data = array_merge($this->data, [
-              "erro" => "Falha ao alterar registro. Erro: ".$th->getMessage(),
+              "erro" => "Falha ao alterar registro. Erro: " . $th->getMessage(),
               "exception" => $th->getMessage()
             ]);
           }
         }
-    
+
         $this->render();
-      }  else {
+      } else {
         $this->backToIndex();
-      }    
+      }
     } else {
       $this->backToIndex();
     }
+  }
+
+  public function alterarSenha(): void
+  {
+    parent::isProtected();
+
+    $senhaAtual = $_POST["senha-atual"] ?? "";
+    $senhaNova = $_POST["senha-nova"] ?? "";
+
+    $response = null;
+
+    if (isset($senhaAtual) && isset($senhaNova)) {
+      if (password_verify($senhaAtual, $_SESSION["usuario"]->senha)) {
+        $resultado = Usuario::alterarSenha($_SESSION["usuario"]->id, $senhaNova);
+        if ($resultado) {
+          $response = JsonResponse::sucesso("Senha alterada com sucesso");
+        } else {
+          $response = JsonResponse::erro("Falha ao alterar senha. Tente novamente mais tarde.");
+        }
+      } else {
+        $response = JsonResponse::erro("Senha atual incorreta.", [], 401);
+      }
+    } else {
+      $response = JsonResponse::erro("Preencha todos os campos.");
+    }
+
+    $response->enviar();
   }
 
   public function deletar(): void
@@ -172,10 +200,10 @@ final class UsuarioController extends Controller
     $model = new Usuario();
     $id = isset($_GET["id"]) ? $_GET["id"] : null;
 
-    if($id != null) {
+    if ($id != null) {
       $model = $model->getById((int) $id);
 
-      if($model != null) {
+      if ($model != null) {
         $this->data["infos"] = [
           "id" => $model->id,
           "nome" => $model->nome,
@@ -183,23 +211,23 @@ final class UsuarioController extends Controller
           "telefone" => $model->telefone,
           "email" => $model->email,
         ];
-    
+
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
-          try {           
+          try {
             Usuario::delete((int) $id);
             $this->backToIndex();
           } catch (\Throwable $th) {
             $this->data = array_merge($this->data, [
-              "erro" => "Falha ao alterar registro. Erro: ".$th->getMessage(),
+              "erro" => "Falha ao alterar registro. Erro: " . $th->getMessage(),
               "exception" => $th->getMessage()
             ]);
           }
         }
-    
+
         $this->render();
-      }  else {
+      } else {
         $this->backToIndex();
-      }    
+      }
     } else {
       $this->backToIndex();
     }

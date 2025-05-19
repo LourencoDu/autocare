@@ -13,7 +13,7 @@ final class LoginDAO extends DAO {
 
   public function autenticar(Login $model) : ?Login
   {
-    $sql = "SELECT u.id u_id, u.nome u_nome, u.sobrenome u_sobrenome, u.email u_email, u.senha u_senha, u.tipo u_tipo, p.id p_id, p.documento p_documento FROM usuario u LEFT JOIN prestador p ON p.id_usuario = u.id WHERE email=?;";
+    $sql = "SELECT u.id u_id, u.nome u_nome, u.sobrenome u_sobrenome, u.email u_email, u.senha u_senha, u.tipo u_tipo, u.telefone u_telefone, p.id p_id, p.documento p_documento FROM usuario u LEFT JOIN prestador p ON p.id_usuario = u.id WHERE email=?;";
 
     $stmt = parent::$conexao->prepare($sql);
     $stmt->bindValue(1, $model->email);
@@ -29,6 +29,7 @@ final class LoginDAO extends DAO {
         $login->email = $data->u_email;
         $login->senha = $data->u_senha;
         $login->tipo = $data->u_tipo;
+        $login->telefone = $data->u_telefone;
 
         $login->prestador = new Prestador();
         $login->prestador->id = $data->p_id;

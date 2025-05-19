@@ -4,18 +4,19 @@ namespace AutoCare\DAO;
 
 use AutoCare\Model\Usuario;
 
-final class UsuarioDAO extends DAO {
+final class UsuarioDAO extends DAO
+{
   public function __construct()
   {
     parent::__construct();
   }
 
-  public function save(Usuario $model) : Usuario
+  public function save(Usuario $model): Usuario
   {
     return ($model->id == null) ? $this->insert($model) : $this->update($model);
   }
 
-  private function insert(Usuario $model) : Usuario
+  private function insert(Usuario $model): Usuario
   {
     $sql = "INSERT INTO usuario (nome, sobrenome, telefone, email, senha, tipo) VALUES (?, ?, ?, ?, ?, ?);";
 
@@ -33,7 +34,7 @@ final class UsuarioDAO extends DAO {
     return $model;
   }
 
-  private function update(Usuario $model) : Usuario
+  private function update(Usuario $model): Usuario
   {
     $sql = "UPDATE usuario SET nome=?, sobrenome=?, telefone=? WHERE id=?;";
 
@@ -47,7 +48,17 @@ final class UsuarioDAO extends DAO {
     return $model;
   }
 
-  public function selectById(int $id) : ?Usuario
+  public function alterarSenha(int $id_usuario, string $senha): bool
+  {
+    $sql = "UPDATE usuario SET senha=? WHERE id=?;";
+
+    $stmt = parent::$conexao->prepare($sql);
+    $stmt->bindValue(1, password_hash($senha, PASSWORD_DEFAULT));
+    $stmt->bindValue(2, $id_usuario);
+    return $stmt->execute();
+  }
+
+  public function selectById(int $id): ?Usuario
   {
     $sql = "SELECT * FROM usuario WHERE id=?;";
 
@@ -60,7 +71,7 @@ final class UsuarioDAO extends DAO {
     return is_object($model) ? $model : null;
   }
 
-  public function selectByEmail(string $email) : ?Usuario
+  public function selectByEmail(string $email): ?Usuario
   {
     $sql = "SELECT * FROM usuario WHERE email=?;";
 

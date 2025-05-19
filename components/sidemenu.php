@@ -51,7 +51,7 @@ function isActiveRoute($rotaItem)
 }
 ?>
 
-<div class="flex flex-col flex-1 max-w-12 items-center gap-4">
+<div class="hidden sm:flex flex-col flex-1 max-w-12 items-center gap-4">
   <a href="/<?= BASE_DIR_NAME ?>/home" class="flex flex-row h-10 w-12 items-center justify-center gap-1 hover:text-primary transition">
     <i class="fa-solid fa-car-side text-3xl"></i>
   </a>

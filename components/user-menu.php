@@ -4,7 +4,7 @@ $usuario = $_SESSION["usuario"];
 $entradas_menu = array([
   "texto" => "Meu Perfil",
   "icone" => "fa-address-card",
-  "rota" => "perfil"
+  "rota" => "meu-perfil"
 ]);
 
 if ($usuario->tipo == "usuario") {

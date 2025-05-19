@@ -52,7 +52,7 @@ if (isset($data["form"])) {
 
         <div class="form-control flex-col">
           <label for="email">E-mail <span class="text-red-500">*</span></label>
-          <input type="email" name="email" id="email" data-validate="email" placeholder="seuemail@exemplo.com" value="<?= $email ?>" maxlength="45>
+          <input type="email" name="email" id="email" data-validate="email" placeholder="seuemail@exemplo.com" value="<?= $email ?>" maxlength="45">
           <span class="helper-text danger hidden">Digite um e-mail válido.</span>
         </div>
 
