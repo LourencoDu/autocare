@@ -61,6 +61,7 @@ document
 
 function onSubmitForm(event) {
   event.preventDefault();
+          
 
   let valido = true;
 
@@ -90,6 +91,7 @@ function onSubmitForm(event) {
       if (response.status === "error") {
         showFormModalError(response.mensagem);
       } else {
+        showSnackbar("Senha alterada com sucesso!", "success");
         closeFormModal();
       }
     });

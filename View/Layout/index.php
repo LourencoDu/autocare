@@ -25,6 +25,11 @@
 </head>
 
 <body class="bg-gray-500/10 flex min-h-screen m-0 text-black">
+    
+    <div id="snackbar" class="hidden fixed bottom-5 right-5 z-50 px-4 py-3 rounded-lg bg-gray-800 text-white shadow-lg transition-opacity duration-300 opacity-0"></div>
+
+    
+
     <?php include VIEWS . "Layout/" . (isset($_SESSION["usuario"]) ? "logged.php" : "not-logged.php"); ?>
 
     <?php
@@ -43,12 +48,11 @@
     }
     ?>
 
-    <script src="/<?= BASE_DIR_NAME ?>/public/js/api.js"></script>
+    <script src="/<?= BASE_DIR_NAME ?>/public/js/api.js"></script>        
     <script src="/<?= BASE_DIR_NAME ?>/public/js/common.js"></script>
     <script src="/<?= BASE_DIR_NAME ?>/public/js/modal/form-modal.js"></script>
     <script src="/<?= BASE_DIR_NAME ?>/public/js/modal/delete-modal.js"></script>
-
-
+    <script src="/<?= BASE_DIR_NAME ?>/public/js/snackbar.js"></script>
 </body>
 
 </html>
