@@ -42,8 +42,8 @@ array_push(
 
 ?>
 
-<div class="grid md:grid-cols-2 gap-8">
-  <div class="flex flex-col w-full pb-4 overflow-x-auto">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+  <div class="flex flex-col pb-4 overflow-x-auto col-span-1">
     <div class="flex flex-col border border-gray-300 rounded-xl">
       <div class="flex flex-row items-center h-14 px-5 border-b border-gray-300">
         <span class="text-lg font-semibold">Informações da Conta</span>
@@ -75,10 +75,14 @@ array_push(
   </div>
 
   <?php
-  if ($tipo === "usuario") {
-    echo "<div></div>";
-  } else {
+  if ($tipo == "prestador" || $tipo == "funcionario") {
     require COMPONENTS . "/MeuPerfil/Localizacao/index.php";
+  }
+  ?>
+
+  <?php
+  if ($tipo == "prestador" || $tipo == "funcionario") {
+    require COMPONENTS . "/MeuPerfil/Especialidades/index.php";
   }
   ?>
 

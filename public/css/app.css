@@ -79,7 +79,7 @@ p {
   @apply font-medium text-black w-full max-w-56 text-base/[2.5rem];
 }
 
-.form-control input, .form-control select {
+.form-control input, .form-control select, .form-control textarea {
   @apply /* Layout e tamanho */
   min-w-0 flex-auto px-3 h-12
 
@@ -98,8 +98,16 @@ p {
   read-only:text-gray-500;
 }
 
+.form-control textarea {
+  @apply py-2 h-20 min-h-10;
+}
+
 .form-control.medium input, .form-control.medium select {
   @apply h-10;
+}
+
+.form-control.medium textarea {
+  @apply h-20 min-h-10;
 }
 
 .form-control .helper-text {
