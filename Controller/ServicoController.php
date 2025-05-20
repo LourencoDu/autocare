@@ -134,8 +134,6 @@ final class ServicoController extends Controller
             $model->id_usuario = $_POST["id_usuario"];
             $model->id_prestador = $_POST["id_prestador"];
             $model->id_veiculo = $_POST["id_veiculo"];
-
-            var_dump($model);
     
             $model->save();
     
