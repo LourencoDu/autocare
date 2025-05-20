@@ -1,7 +1,6 @@
 <?php
 
 use AutoCare\Controller\PrestadorController;
-use AutoCare\Controller\PrestadorEspecialidadeController;
 use AutoCare\Controller\MapController;
 use AutoCare\Controller\MapClickController;
 
@@ -22,9 +21,6 @@ switch ($url) {
     exit;
   case '/prestador/deletar':
     (new PrestadorController())->deletar();
-    exit;
-  case '/especialidade/cadastrar':
-    (new PrestadorEspecialidadeController())->cadastrar();
     exit;
   case '/mapa':
     (new MapController())->index();

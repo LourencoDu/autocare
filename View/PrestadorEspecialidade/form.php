@@ -29,7 +29,7 @@ if (isset($data["form"])) {
 
     <div class="form-control row medium flex-col sm:flex-row">
       <label for="descricao">Descrição <span class="text-red-500">*</span></label>
-      <textarea required type="text" name="descricao" placeholder="ex.: Pintura profissional em carros de luxo" maxlength="200" rows="5" cols="20" value="<?= $descricao ?>"></textarea>
+      <textarea required type="text" name="descricao" placeholder="ex.: Pintura profissional em carros de luxo" maxlength="200" rows="5" cols="20"><?= e($descricao) ?></textarea>
     </div>
 
     <div class="form-control row medium flex-col sm:flex-row">

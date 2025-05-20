@@ -7,9 +7,11 @@ use AutoCare\Model\Especialidade;
 use AutoCare\Model\FabricanteVeiculo;
 use AutoCare\Model\PrestadorEspecialidade;
 
-final class PrestadorEspecialidadeController extends Controller {
-  private function backToIndex(): void {
-    Header("Location: /".BASE_DIR_NAME."/meu-perfil");
+final class PrestadorEspecialidadeController extends Controller
+{
+  private function backToIndex(): void
+  {
+    Header("Location: /" . BASE_DIR_NAME . "/meu-perfil");
   }
 
   public function listar($id_prestador): array
@@ -61,7 +63,7 @@ final class PrestadorEspecialidadeController extends Controller {
         $this->backToIndex();
       } catch (\Throwable $th) {
         $this->data = array_merge($this->data, [
-          "erro" => "Falha ao adicionar registro. Erro: ".$th->getMessage(),
+          "erro" => "Falha ao adicionar registro. Erro: " . $th->getMessage(),
           "exception" => $th->getMessage()
         ]);
       }
@@ -72,7 +74,7 @@ final class PrestadorEspecialidadeController extends Controller {
 
   public function alterar(): void
   {
-    parent::isProtected(["prestador", "funcionario"]);
+    parent::isProtected(["usuario"]);
 
     $this->view = "PrestadorEspecialidade/form.php";
     $this->js = "PrestadorEspecialidade/form.js";
@@ -80,53 +82,53 @@ final class PrestadorEspecialidadeController extends Controller {
     $model = new PrestadorEspecialidade();
     $id = isset($_GET["id"]) ? $_GET["id"] : null;
 
-    if($id != null) {
+    $usuario = $_SESSION["usuario"];
+    $id_prestador = $usuario->prestador->id;
+
+    if ($id != null) {
       $model = $model->getById((int) $id);
 
-      if($model != null) {
-        $modeloModel = ModeloPrestadorEspecialidade::getById($model->id_modelo_veiculo);
-        $id_fabricante_veiculo = $modeloModel->id_fabricante_veiculo;
-
-        $this->titulo = 'Alterar "'.$model->apelido.'"';
+      if ($model != null && $model->id_prestador == $id_prestador) {
+        $especialidade = $model->especialidade;
+        $this->titulo = 'Alterar "' . $especialidade->titulo . '"';
 
         $this->caminho = [
-          new CaminhoItem("Meus Veículos", "veiculo"),
+          new CaminhoItem("Meu Perfil", "meu-perfil")
         ];
 
         $this->data = [
-          "fabricantes" => FabricantePrestadorEspecialidade::getAllRows(),
-          "modelos" => ModeloPrestadorEspecialidade::getRowsByIdFabricante($id_fabricante_veiculo),
+          "fabricantes" => FabricanteVeiculo::getAllRows(),
           "action" => "alterar"
         ];
 
         $this->data["form"] = [
-          "ano" => $model->ano,
-          "apelido" => $model->apelido,
-          "id_modelo_veiculo" => $model->id_modelo_veiculo,
-          "id_fabricante_veiculo" => $id_fabricante_veiculo
+          "titulo" => $especialidade->titulo,
+          "descricao" => $especialidade->descricao,
+          "id_fabricante_veiculo" => $especialidade->id_fabricante_veiculo
         ];
-    
+
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
-          try {           
-            $model->ano = $_POST["ano"];
-            $model->apelido = $_POST["apelido"];
-            $model->id_modelo_veiculo = $_POST["id_modelo_veiculo"];
-    
+          try {
+            $model->especialidade->titulo = $_POST["titulo"];
+            $model->especialidade->descricao = $_POST["descricao"];
+            $model->especialidade->id_fabricante_veiculo = $_POST["id_fabricante_veiculo"] ? (int) $_POST["id_fabricante_veiculo"] : null;
+
+
             $model->save();
-    
+
             $this->backToIndex();
           } catch (\Throwable $th) {
             $this->data = array_merge($this->data, [
-              "erro" => "Falha ao alterar registro. Erro: ".$th->getMessage(),
+              "erro" => "Falha ao alterar registro. Erro: " . $th->getMessage(),
               "exception" => $th->getMessage()
             ]);
           }
         }
-    
+
         $this->render();
-      }  else {
+      } else {
         $this->backToIndex();
-      }    
+      }
     } else {
       $this->backToIndex();
     }
@@ -134,18 +136,18 @@ final class PrestadorEspecialidadeController extends Controller {
 
   public function deletar(): void
   {
-    parent::isProtected(["prestador", "funcionario"]);
+    parent::isProtected(["usuario"]);
 
-    $id = isset($_POST["id"]) ? $_POST["id"] : null;
+    $id_especialidade = isset($_POST["id_especialidade"]) ? $_POST["id_especialidade"] : null;
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
       $response = null;
-      try {           
-        PrestadorEspecialidade::delete((int) $id);
+      try {
+        PrestadorEspecialidade::deleteByIdEspecialidade((int) $id_especialidade);
 
-        $response = JsonResponse::sucesso("Veículo deletado com sucesso!");
+        $response = JsonResponse::sucesso("Especialidade deletada com sucesso!");
       } catch (\Throwable $th) {
-        $response = JsonResponse::erro("Falha ao deletar veículo!");
+        $response = JsonResponse::erro("Falha ao deletar especialidade!");
       }
 
       $response->enviar();

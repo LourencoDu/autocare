@@ -20,7 +20,7 @@ final class PrestadorEspecialidade extends Model {
     return (new PrestadorEspecialidadeDAO())->save($this);
   }
 
-  public static function delete(int $id_prestador_especialidade, int $id_especialidade) : bool {
-    return (new PrestadorEspecialidadeDAO())->delete($id_prestador_especialidade, $id_especialidade);
+  public static function deleteByIdEspecialidade(int $id_especialidade) : bool {
+    return (new PrestadorEspecialidadeDAO())->deleteByIdEspecialidade($id_especialidade);
   }
 }

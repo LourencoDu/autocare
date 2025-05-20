@@ -5,11 +5,11 @@ João - Listar prestadores de serviço por localização (melhoria da sprint 01)
 
 Veiga - Manter troca de mensagens entre prestador de serviço e cliente (chat)
 Veiga - Permitir alerta de recebimento de mensagem (cliente e prestador) - central de notificação
+Veiga - Manter cadastro de comentários do serviço (cliente)
 
 Eduardo - Manter cadastro de especialidade (prestador)
 Eduardo - Manter atendimento do serviço
 Eduardo - Manter cadastro de avaliação do serviço (cliente)
-Eduardo - Manter cadastro de comentários do serviço (cliente)
 
 Fernando - Permitir busca avançada de prestadores (filtros (buscar por lava car, buscar por BMW)- mapa)
 Fernando - criar listagem de serviços em andamento por prestador logado, existindo a possibilidade de trocar o status do serviço

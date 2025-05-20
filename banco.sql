@@ -226,23 +226,6 @@ DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `autocare`.`especialidade`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `autocare`.`especialidade` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `titulo` VARCHAR(40) NOT NULL,
-  `descricao` TEXT(200) NOT NULL,
-  `id_fabricante_veiculo` INT NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_fabricante_veiculo_idx` (`id_fabricante_veiculo` ASC) VISIBLE,
-  CONSTRAINT `fk_fabricante_veiculo`
-    FOREIGN KEY (`id_fabricante_veiculo`)
-    REFERENCES `autocare`.`fabricante_veiculo` (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
 -- Table `autocare`.`funcionario`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `autocare`.`funcionario` (
@@ -262,6 +245,22 @@ CREATE TABLE IF NOT EXISTS `autocare`.`funcionario` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
+-- -----------------------------------------------------
+-- Table `autocare`.`especialidade`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `autocare`.`especialidade` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `titulo` VARCHAR(40) NOT NULL,
+  `descricao` TEXT(200) NOT NULL,
+  `id_fabricante_veiculo` INT NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_fabricante_veiculo_idx` (`id_fabricante_veiculo` ASC) VISIBLE,
+  CONSTRAINT `fk_fabricante_veiculo`
+    FOREIGN KEY (`id_fabricante_veiculo`)
+    REFERENCES `autocare`.`fabricante_veiculo` (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+
 
 -- -----------------------------------------------------
 -- Table `autocare`.`prestador_especialidade`
@@ -275,10 +274,12 @@ CREATE TABLE IF NOT EXISTS `autocare`.`prestador_especialidade` (
   INDEX `fk_especialidade_idx` (`id_especialidade` ASC) VISIBLE,
   CONSTRAINT `fk_especialidade`
     FOREIGN KEY (`id_especialidade`)
-    REFERENCES `autocare`.`especialidade` (`id`),
+    REFERENCES `autocare`.`especialidade` (`id`)
+    ON DELETE CASCADE,
   CONSTRAINT `fk_prestador`
     FOREIGN KEY (`id_prestador`)
-    REFERENCES `autocare`.`prestador` (`id`))
+    REFERENCES `autocare`.`prestador` (`id`)
+    ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 

@@ -35,7 +35,7 @@ final class PrestadorEspecialidadeDAO extends DAO
   {
     $sql = "SELECT
     pe.id pe_id, pe.id_prestador pe_id_prestador, pe.id_especialidade pe_id_especialidade,
-    e.id e_id, e.titulo e_titulo, e.descricao e_descricao, e.id_fabricante e_id_fabricante
+    e.id e_id, e.titulo e_titulo, e.descricao e_descricao, e.id_fabricante_veiculo e_id_fabricante_veiculo
     FROM prestador_especialidade pe
     JOIN especialidade e ON e.id = pe.id_especialidade
     WHERE pe.id=?;";
@@ -44,9 +44,9 @@ final class PrestadorEspecialidadeDAO extends DAO
     $stmt->bindValue(1, $id);
     $stmt->execute();
 
-    $data = $stmt->fetchObject();
+    $data = $stmt->fetch(DAO::FETCH_ASSOC);
 
-    if (is_object($data)) {
+    if (is_array($data)) {
       return $this->parseRow($data);
     }
 
@@ -159,22 +159,14 @@ final class PrestadorEspecialidadeDAO extends DAO
     return $model;
   }
 
-  public function delete(int $id_prestador_especialidade, int $id_especialidade): bool
+  public function deleteByIdEspecialidade(int $id_especialidade): bool
   {
     try {
-      parent::$conexao->beginTransaction();
-
-      $sql = "DELETE FROM prestador_especialidade WHERE id=?;";
+      $sql = "DELETE FROM especialidade WHERE id=?;";
       $stmt = parent::$conexao->prepare($sql);
-      $stmt->bindValue(1, $id_prestador_especialidade);
-      $stmt->execute();
+      $stmt->bindValue(1, $id_especialidade);
 
-      $sql_especialidade = "DELETE FROM especialidade WHERE id=?;";
-      $stmt_especialidade = parent::$conexao->prepare($sql_especialidade);
-      $stmt_especialidade->bindValue(1, $id_especialidade);
-      $stmt_especialidade->execute();
-
-      return parent::$conexao->commit();
+      return $stmt->execute();
     } catch (Exception $e) {
       parent::$conexao->rollBack();
       throw $e; // Repassa a exceção para tratamento externo

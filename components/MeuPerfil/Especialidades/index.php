@@ -24,12 +24,24 @@ $quantidade = count($prestador_especialidades);
       <?php
       if ($quantidade > 0) :
       ?>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <?php foreach ($prestador_especialidades as $prestador_especialidade) : ?>
-          <?php $especialidade = $prestador_especialidade->especialidade; ?>
-            <div class="flex flex-col border border-gray-300 rounded-xl px-3.5 py-3.5 gap-2">
+            <?php $especialidade = $prestador_especialidade->especialidade; ?>
+            <div class="relative flex flex-col border border-gray-300 rounded-xl px-3.5 py-3.5 gap-2">
               <span class="font-semibold"><?= e($especialidade->titulo) ?></span>
               <p class="text-sm text-gray-700 break-words"><?= nl2br(e($especialidade->descricao)) ?></p>
+
+              <?php if ($tipo == "prestador" || $tipo == "funcionario") : ?>
+                <div class="absolute top-2 right-2 flex gap-2">
+                  <a href="/<?= BASE_DIR_NAME ?>/especialidade/alterar?id=<?= $prestador_especialidade->id ?>" class="flex flex-row items-center justify-center w-8 h-8 rounded-md text-gray-600 hover:text-primary hover:bg-primary/10 transition cursor-pointer">
+                    <i class="fa-solid fa-pen mt-[2px] transition"></i>
+                  </a>
+
+                  <a onclick="handleEspecialidadeDeleteClick(<?= $prestador_especialidade->especialidade->id ?>, '<?= $especialidade->titulo ?>')" class="flex flex-row items-center justify-center w-8 h-8 rounded-md text-gray-600 hover:text-red-500 hover:bg-red-500/10 transition cursor-pointer">
+                    <i class="fa-solid fa-trash mt-[2px] transition"></i>
+                  </a>
+                </div>
+              <?php endif; ?>
             </div>
           <?php endforeach; ?>
         </div>
@@ -47,3 +59,7 @@ $quantidade = count($prestador_especialidades);
     </div>
   </div>
 </div>
+
+<script>
+  <?= require COMPONENTS."MeuPerfil/Especialidades/script.js"; ?>
+</script>
