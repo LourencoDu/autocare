@@ -7,7 +7,7 @@
   <div class="flex flex-1 flex-col border border-gray-300 rounded-xl justify-between">
     <div class="flex flex-row items-center h-14 px-5 border-b border-gray-300">
       <span class="text-lg font-semibold"><?=
-        $tipo == "prestador" ? "Seu local de atendimento" : "Localização da empresa em que trabalha"
+        $tipo == "prestador" ? "Localização da sua Empresa" : "Localização da Empresa em que Você Trabalha"
       ?></span>
     </div>
     <div class="flex flex-1 items-center justify-center overflow-x-auto p-5">

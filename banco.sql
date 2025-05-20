@@ -230,18 +230,14 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `autocare`.`especialidade` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `nome_especialidade` VARCHAR(45) NOT NULL,
+  `titulo` VARCHAR(45) NOT NULL,
+  `descricao` VARCHAR(255) NOT NULL,
   `id_fabricante_veiculo` INT NULL DEFAULT NULL,
-  `id_modelo_veiculo` INT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_fabricante_veiculo_idx` (`id_fabricante_veiculo` ASC) VISIBLE,
-  INDEX `fk_modelo_veiculo_idx` (`id_modelo_veiculo` ASC) VISIBLE,
   CONSTRAINT `fk_fabricante_veiculo`
     FOREIGN KEY (`id_fabricante_veiculo`)
-    REFERENCES `autocare`.`fabricante_veiculo` (`id`),
-  CONSTRAINT `fk_modelo_veiculo_especialidade`
-    FOREIGN KEY (`id_modelo_veiculo`)
-    REFERENCES `autocare`.`modelo_veiculo` (`id`))
+    REFERENCES `autocare`.`fabricante_veiculo` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
