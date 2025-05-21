@@ -280,7 +280,7 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- -----------------------------------------------------
 -- Table `autocare`.`chat_mesagem_usuario`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `autocare`.`chat_mesagem_usuario` (
+CREATE TABLE IF NOT EXISTS `autocare`.`chat_mensagem_usuario` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_chat` INT NOT NULL,
   `texto` TEXT(750) NOT NULL,
@@ -306,7 +306,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `autocare`.`chat_mesagem_funcionario`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `autocare`.`chat_mesagem_funcionario` (
+CREATE TABLE IF NOT EXISTS `autocare`.`chat_mensagem_funcionario` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_chat` INT NOT NULL,
   `texto` TEXT(750) NOT NULL,
