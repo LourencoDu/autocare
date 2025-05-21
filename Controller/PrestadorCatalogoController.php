@@ -5,9 +5,9 @@ namespace AutoCare\Controller;
 use AutoCare\Helper\JsonResponse;
 use AutoCare\Model\Especialidade;
 use AutoCare\Model\FabricanteVeiculo;
-use AutoCare\Model\PrestadorEspecialidade;
+use AutoCare\Model\PrestadorCatalogo;
 
-final class PrestadorEspecialidadeController extends Controller
+final class PrestadorCatalogoController extends Controller
 {
   private function backToIndex(): void
   {
@@ -18,7 +18,7 @@ final class PrestadorEspecialidadeController extends Controller
   {
     parent::isProtected();
 
-    $model = new PrestadorEspecialidade();
+    $model = new PrestadorCatalogo();
 
     return $model->getAllRowsByIdPrestador($id_prestador);
   }
@@ -27,35 +27,36 @@ final class PrestadorEspecialidadeController extends Controller
   {
     parent::isProtected(["usuario"]);
 
-    $this->view = "PrestadorEspecialidade/form.php";
-    $this->js = "PrestadorEspecialidade/form.js";
-    $this->titulo = "Nova Especialidade";
+    $this->view = "PrestadorCatalogo/form.php";
+    $this->js = "PrestadorCatalogo/form.js";
+    $this->titulo = "Novo Serviço";
 
 
     $this->caminho = [
-      new CaminhoItem("Meu Perfil", "meu-perfil")
+      new CaminhoItem("Meu Perfil", "meu-perfil"),
+      new CaminhoItem("Catálogo de Serviço", "meu-perfil")
     ];
 
     $this->data = [
-      "fabricantes" => FabricanteVeiculo::getAllRows()
+      "especialidades" => Especialidade::getAllRows()
     ];
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
+      $usuario = $_SESSION["usuario"];
+      $id_prestador = $usuario->prestador->id;
+      
       try {
-        $especialidade = new Especialidade();
+        $model = new PrestadorCatalogo();
 
-        $especialidade->titulo = $_POST["titulo"];
-        $especialidade->descricao = $_POST["descricao"];
-        $especialidade->id_fabricante_veiculo = $_POST["id_fabricante_veiculo"] ? (int) $_POST["id_fabricante_veiculo"] : null;
-
-        $model = new PrestadorEspecialidade();
-        $model->especialidade = $especialidade;
-        $model->id_prestador = $_SESSION["usuario"]->prestador->id;
+        $model->titulo = $_POST["titulo"];
+        $model->descricao = $_POST["descricao"];
+        $model->id_especialidade = $_POST["id_especialidade"];
+        $model->id_prestador = $id_prestador;
 
         $this->data["form"] = [
-          "titulo" => $especialidade->titulo,
-          "descricao" => $especialidade->descricao,
-          "id_fabricante_veiculo" => $especialidade->id_fabricante_veiculo
+          "titulo" => $model->titulo,
+          "descricao" => $model->descricao,
+          "id_especialidade" => $model->id_especialidade
         ];
 
         $model->save();
@@ -76,10 +77,10 @@ final class PrestadorEspecialidadeController extends Controller
   {
     parent::isProtected(["usuario"]);
 
-    $this->view = "PrestadorEspecialidade/form.php";
-    $this->js = "PrestadorEspecialidade/form.js";
+    $this->view = "PrestadorCatalogo/form.php";
+    $this->js = "PrestadorCatalogo/form.js";
 
-    $model = new PrestadorEspecialidade();
+    $model = new PrestadorCatalogo();
     $id = isset($_GET["id"]) ? $_GET["id"] : null;
 
     $usuario = $_SESSION["usuario"];
@@ -89,29 +90,29 @@ final class PrestadorEspecialidadeController extends Controller
       $model = $model->getById((int) $id);
 
       if ($model != null && $model->id_prestador == $id_prestador) {
-        $especialidade = $model->especialidade;
-        $this->titulo = 'Alterar "' . $especialidade->titulo . '"';
+        $this->titulo = 'Alterar "' . $model->titulo . '"';
 
         $this->caminho = [
-          new CaminhoItem("Meu Perfil", "meu-perfil")
+          new CaminhoItem("Meu Perfil", "meu-perfil"),
+          new CaminhoItem("Catálogo de Serviço", "meu-perfil")
         ];
 
         $this->data = [
-          "fabricantes" => FabricanteVeiculo::getAllRows(),
+          "especialidades" => Especialidade::getAllRows(),
           "action" => "alterar"
         ];
 
         $this->data["form"] = [
-          "titulo" => $especialidade->titulo,
-          "descricao" => $especialidade->descricao,
-          "id_fabricante_veiculo" => $especialidade->id_fabricante_veiculo
+          "titulo" => $model->titulo,
+          "descricao" => $model->descricao,
+          "id_especialidade" => $model->id_especialidade
         ];
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
           try {
-            $model->especialidade->titulo = $_POST["titulo"];
-            $model->especialidade->descricao = $_POST["descricao"];
-            $model->especialidade->id_fabricante_veiculo = $_POST["id_fabricante_veiculo"] ? (int) $_POST["id_fabricante_veiculo"] : null;
+            $model->titulo = $_POST["titulo"];
+            $model->descricao = $_POST["descricao"];
+            $model->id_especialidade = $_POST["id_especialidade"];
 
 
             $model->save();
@@ -143,7 +144,7 @@ final class PrestadorEspecialidadeController extends Controller
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
       $response = null;
       try {
-        PrestadorEspecialidade::deleteByIdEspecialidade((int) $id_especialidade);
+        PrestadorCatalogo::deleteByIdEspecialidade((int) $id_especialidade);
 
         $response = JsonResponse::sucesso("Especialidade deletada com sucesso!");
       } catch (\Throwable $th) {

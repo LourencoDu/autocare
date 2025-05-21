@@ -2,7 +2,24 @@
 
 namespace AutoCare\Model;
 
-final class Especialidade extends Model {
-  public $id, $titulo, $descricao;
-  public ?int $id_fabricante_veiculo;
+use AutoCare\DAO\EspecialidadeDAO;
+
+final class Especialidade extends Model
+{
+  public $id, $nome;
+
+  public static function getById(int $id): ?Especialidade
+  {
+    return (new EspecialidadeDAO())->selectById($id);
+  }
+
+  public static function getAllRows(): array
+  {
+    return (new EspecialidadeDAO())->select();
+  }
+
+  public static function delete(int $id): bool
+  {
+    return (new EspecialidadeDAO())->delete($id);
+  }
 }

@@ -1,1 +1,0 @@
-const fabricanteSelect = document.getElementById("select_fabricante_veiculo");

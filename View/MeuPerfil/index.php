@@ -82,7 +82,7 @@ array_push(
 
   <?php
   if ($tipo == "prestador" || $tipo == "funcionario") {
-    require COMPONENTS . "/MeuPerfil/Especialidades/index.php";
+    require COMPONENTS . "/MeuPerfil/Catalogo/index.php";
   }
   ?>
 

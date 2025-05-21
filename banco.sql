@@ -246,40 +246,33 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
 -- -----------------------------------------------------
--- Table `autocare`.`especialidade`
+-- Table `autocare`.`prestador_catalogo`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `autocare`.`especialidade` (
+CREATE TABLE IF NOT EXISTS `autocare`.`prestador_catalogo` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `titulo` VARCHAR(40) NOT NULL,
   `descricao` TEXT(200) NOT NULL,
-  `id_fabricante_veiculo` INT NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_fabricante_veiculo_idx` (`id_fabricante_veiculo` ASC) VISIBLE,
-  CONSTRAINT `fk_fabricante_veiculo`
-    FOREIGN KEY (`id_fabricante_veiculo`)
-    REFERENCES `autocare`.`fabricante_veiculo` (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `autocare`.`prestador_especialidade`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `autocare`.`prestador_especialidade` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `id_prestador` INT NOT NULL,
   `id_especialidade` INT NOT NULL,
+  `id_prestador` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_prestador_idx` (`id_prestador` ASC) VISIBLE,
   INDEX `fk_especialidade_idx` (`id_especialidade` ASC) VISIBLE,
   CONSTRAINT `fk_especialidade`
     FOREIGN KEY (`id_especialidade`)
-    REFERENCES `autocare`.`especialidade` (`id`)
-    ON DELETE CASCADE,
+    REFERENCES `autocare`.`especialidade` (`id`),
   CONSTRAINT `fk_prestador`
     FOREIGN KEY (`id_prestador`)
     REFERENCES `autocare`.`prestador` (`id`)
     ON DELETE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+
+-- -----------------------------------------------------
+-- Table `autocare`.`especialidade`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `autocare`.`especialidade` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(40) NOT NULL,
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
@@ -339,7 +332,9 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
+ 
+INSERT INTO autocare.usuario (nome, sobrenome, telefone, email, senha, tipo) VALUES
+("Gran", "Adminson", "13991538145", "admin@autocare.com", "$2y$10$SBKLFn8ywQWl/iP7ul5JluvxAr510N/kfquqJhpvQ61h9XjNvZ4Z2", "administrador");
 
 INSERT INTO autocare.fabricante_veiculo (id, nome) VALUES
 (1, 'Chevrolet'),
@@ -533,3 +528,21 @@ INSERT INTO autocare.modelo_veiculo (id, nome, id_fabricante_veiculo) VALUES
 (90, 'Rocket 3 R', 29),
 (88, 'Street Twin', 29),
 (89, 'Tiger 900', 29);
+
+INSERT INTO autocare.especialidade (nome) VALUES
+('Mecânica Geral'),
+('Troca de Óleo'),
+('Alinhamento e Balanceamento'),
+('Revisão Preventiva'),
+('Freios e Suspensão'),
+('Injeção Eletrônica'),
+('Ar-condicionado'),
+('Elétrica Automotiva'),
+('Funilaria e Pintura'),
+('Inspeção Veicular'),
+('Higienização Interna'),
+('Instalação de Acessórios'),
+('Diagnóstico Eletrônico'),
+('Polimento e Estética'),
+('Troca de Pneus'),
+('Outra');
