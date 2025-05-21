@@ -4,13 +4,14 @@ namespace AutoCare\DAO;
 
 use AutoCare\Model\Chat;
 
-final class ChatDAO extends DAO {
+final class ChatDAO extends DAO
+{
   public function __construct()
   {
     parent::__construct();
   }
 
-  public function selectById(int $id) : ? Chat
+  public function selectById(int $id): ?Chat
   {
     $sql = "SELECT * FROM chat WHERE id=?;";
 
@@ -32,13 +33,17 @@ final class ChatDAO extends DAO {
     $stmt->execute();
 
     $model = $stmt->fetchObject("AutoCare\Model\Chat");
-    
+
     return $model->id;
   }
 
   public function selectByIdPrestador(int $idPrestador): array
   {
-    $sql = "SELECT * FROM chat WHERE id_prestador = ?;";
+    $sql = "SELECT c.id, c.id_usuario, c.id_prestador, u.nome 
+            FROM autocare.chat as c
+            left join autocare.usuario as u
+            on c.id_usuario = u.id
+            where id_prestador = ?;";
 
     $stmt = parent::$conexao->prepare($sql);
     $stmt->bindValue(1, $idPrestador);
@@ -49,7 +54,13 @@ final class ChatDAO extends DAO {
 
   public function selectByIdUsuario(int $idUsuario): array
   {
-    $sql = "SELECT * FROM chat WHERE id_usuario = ?;";
+    $sql = "SELECT c.id, c.id_usuario, c.id_prestador, u.nome 
+              FROM autocare.chat as c
+              left join autocare.prestador as p
+              on c.id_prestador = p.id
+              left join autocare.usuario as u
+              on p.id_usuario = u.id
+              where c.id_usuario = ?;";
 
     $stmt = parent::$conexao->prepare($sql);
     $stmt->bindValue(1, $idUsuario);
@@ -79,5 +90,28 @@ final class ChatDAO extends DAO {
     $stmt->execute();
 
     return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+  }
+
+  public function incluirMensagem($chatID, $mensagem, $id_funcionario = null): void
+  {
+    if ($_SESSION['usuario']->tipo == 'usuario') {
+      $sql = "INSERT INTO chat_mensagem_usuario (id_chat, texto, data, visualizado, id_usuario) VALUES (?, ?, ?, ?, ?);";
+    } else {
+      $sql = "INSERT INTO chat_mensagem_funcionario (id_chat, texto, data, visualizado, id_funcionario) VALUES (?, ?, ?, ?, ?);";
+    }
+
+    $dataHoraAtual = date('Y-m-d H:i:s');
+
+    $stmt = parent::$conexao->prepare($sql);
+    $stmt->bindValue(1, $chatID);
+    $stmt->bindValue(2, $mensagem);
+    $stmt->bindValue(3, $dataHoraAtual);
+    $stmt->bindValue(4, 0);
+
+    $_SESSION['usuario']->tipo == 'usuario' ? $stmt->bindValue(5, $_SESSION['usuario']->id) : $stmt->bindValue(5, $id_funcionario);
+
+    $stmt->execute();
+
+    return;
   }
 }

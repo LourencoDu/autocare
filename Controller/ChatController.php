@@ -3,6 +3,7 @@
 namespace AutoCare\Controller;
 
 use AutoCare\Model\Chat;
+use AutoCare\Helper\JsonResponse;
 
 final class ChatController extends Controller
 {
@@ -53,11 +54,6 @@ final class ChatController extends Controller
     return $model->getRowsByIdPrestador($_SESSION['usuario']->id);
   }
 
-  private function backToIndex(): void
-  {
-    Header("Location: /" . BASE_DIR_NAME . "/servico");
-  }
-
   public function getMensagensByIdChat(): void
   {
     parent::isProtected();
@@ -87,5 +83,33 @@ final class ChatController extends Controller
     ];
 
     $this->index();
+  }
+
+  public function atualizarMensagensChat(): void
+  {
+    parent::isProtected();
+
+    $chatId = $_GET['id'] ?? null;
+
+    $model = new Chat();
+    $mensagens = $model->getMensagensByIdChat($chatId);
+
+    $response = JsonResponse::sucesso("Mensagens carregadas com sucesso", $mensagens);
+    $response->enviar();
+  }
+
+  public function incluirMensagem(): void
+  {
+    parent::isProtected();
+
+    $chat_id = intval($_POST['chatId']);
+    $mensagem = $_POST['texto'];
+
+    
+    $model = new Chat();
+    $model->incluirMensagem($chat_id, $mensagem);
+
+    $response = JsonResponse::sucesso("Mensagens Cadastrada");
+    $response->enviar();
   }
 }

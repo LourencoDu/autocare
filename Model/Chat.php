@@ -6,7 +6,7 @@ use AutoCare\DAO\ChatDAO;
 
 final class Chat extends Model
 {
-  public $id, $id_usuario, $id_prestador, $autor;
+  public $id, $id_usuario, $id_prestador, $autor, $nome;
 
   public static function getById(int $id): ?Chat
   {
@@ -32,5 +32,16 @@ final class Chat extends Model
   public static function getMensagensByIdChat($chatId): array
   {
     return (new ChatDAO())->getMensagensByIdChat($chatId);
+  }
+
+  public static function incluirMensagem($chatId, $mensagem): void
+  { 
+    if ($_SESSION['usuario']->tipo == 'usuario') {
+      (new ChatDAO())->incluirMensagem($chatId, $mensagem);
+    } else {
+      $idPrestador = Chat::getPrestadorByIdUsuario($_SESSION['usuario']->id);
+      (new ChatDAO())->incluirMensagem($chatId, $mensagem, $idPrestador);
+    }
+    return;
   }
 }

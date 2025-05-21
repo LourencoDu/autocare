@@ -15,4 +15,12 @@ switch ($url) {
     case '/chat/conversa':
         (new ChatController())->getMensagensByIdChat();
         exit;
+
+    case '/chat/atualizar':
+        (new ChatController())->atualizarMensagensChat();
+        exit;
+
+    case '/api/chat/mensagem':
+        (new ChatController())->incluirMensagem();
+        exit;
 }
