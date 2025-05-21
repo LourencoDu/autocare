@@ -15,3 +15,10 @@ function get(url) {
   })
   .then(response => response.json())
 }
+
+function getText(url) {
+  return fetch(`/autocare/api${url}`, {
+    method: 'GET'
+  })
+  .then(response => response.text())
+}

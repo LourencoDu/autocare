@@ -9,7 +9,7 @@ final class EspecialidadeController extends Controller
 {
   public function index(): void
   {
-    parent::isProtected(["prestador", "funcionario", "usuario"]);
+    parent::isProtected(null, ["administrador"]);
 
     $this->view = "Especialidade/index.php";
     $this->titulo = "Especialidades";
@@ -28,7 +28,7 @@ final class EspecialidadeController extends Controller
 
   public function listar(): void
   {
-    parent::isProtected(["prestador", "funcionario", "usuario"]);
+    parent::isProtected(null, ["administrador"]);
 
     $model = new Especialidade();
 
@@ -40,9 +40,26 @@ final class EspecialidadeController extends Controller
     $this->index();
   }
 
+  public function listarTabela(): void
+  {
+    parent::isProtected(null, ["administrador"]);
+
+    $model = new Especialidade();
+    $especialidades = $model->getAllRows();
+
+    $this->data["especialidades"] = $especialidades;
+
+    $config = [
+      "data" => $this->data
+    ];
+
+    extract($config);
+    require_once VIEWS . "/Especialidade/index.php";
+  }
+
   public function cadastrar(): void
   {
-    parent::isProtected(["prestador", "funcionario", "usuario"]);
+    parent::isProtected(null, ["administrador"]);
 
     $nome = isset($_POST["nome"]) ? $_POST["nome"] : null;
 
@@ -65,7 +82,7 @@ final class EspecialidadeController extends Controller
 
   public function alterar(): void
   {
-    parent::isProtected(["prestador", "funcionario", "usuario"]);
+    parent::isProtected(null, ["administrador"]);
 
     $id = isset($_POST["id"]) ? $_POST["id"] : null;
     $nome = isset($_POST["nome"]) ? $_POST["nome"] : null;
@@ -94,7 +111,7 @@ final class EspecialidadeController extends Controller
 
   public function deletar(): void
   {
-    parent::isProtected(["prestador", "funcionario", "usuario"]);
+    parent::isProtected(null, ["administrador"]);
 
     $id = isset($_POST["id"]) ? $_POST["id"] : null;
 

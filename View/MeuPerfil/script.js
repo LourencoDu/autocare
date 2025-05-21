@@ -5,19 +5,6 @@ const validators = {
   required: (val) => !!val.trim(),
 };
 
-function setError(input, showErro) {
-  const erroMsg = input.parentElement.querySelector(".helper-text");
-  if (showErro) {
-    input.classList.remove("border-gray-300");
-    input.classList.add("border-red-500", "focus:ring-red-200");
-    erroMsg.classList.remove("hidden");
-  } else {
-    input.classList.remove("border-red-500", "focus:ring-red-200");
-    input.classList.add("border-green-500", "focus:ring-green-200");
-    erroMsg.classList.add("hidden");
-  }
-}
-
 document
   .getElementById("button-alterar-senha")
   .addEventListener("click", () => {
@@ -61,7 +48,6 @@ document
 
 function onSubmitForm(event) {
   event.preventDefault();
-          
 
   let valido = true;
 
@@ -73,13 +59,13 @@ function onSubmitForm(event) {
   });
 
   if (valido) {
-      const form = event.target;
-      const dados = new FormData(form);
+    const form = event.target;
+    const dados = new FormData(form);
 
-      const senhaAtual = dados.get('senha-atual');
-      const senhaNova = dados.get('senha-nova');
+    const senhaAtual = dados.get("senha-atual");
+    const senhaNova = dados.get("senha-nova");
 
-        setFormModalIsLoading(true);
+    setFormModalIsLoading(true);
     post(
       "/usuario/alterar-senha",
       new URLSearchParams({

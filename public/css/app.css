@@ -146,6 +146,10 @@ p {
   @apply border-gray-300 bg-transparent hover:bg-gray-200;
 }
 
+.button.ghost.danger {
+  @apply hover:border-red-500/60 hover:text-red-500 hover:bg-red-50;
+}
+
 .button.medium {
   @apply h-10 px-3;
 }

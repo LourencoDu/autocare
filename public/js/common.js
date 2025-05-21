@@ -19,3 +19,16 @@ function removerMascara(valor) {
 function removerAcentos(texto) {
   return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
+
+function setError(input, showErro) {
+  const erroMsg = input.parentElement.querySelector(".helper-text");
+  if (showErro) {
+    input.classList.remove("border-gray-300");
+    input.classList.add("border-red-500", "focus:ring-red-200");
+    erroMsg.classList.remove("hidden");
+  } else {
+    input.classList.remove("border-red-500", "focus:ring-red-200");
+    input.classList.add("border-green-500", "focus:ring-green-200");
+    erroMsg.classList.add("hidden");
+  }
+}

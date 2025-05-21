@@ -51,12 +51,14 @@ $prestador = $data["prestador"];
   <div class="flex items-center justify-between gap-6 border-b border-gray-300 pb-4">
     <div></div>
     <div class="flex items-center gap-2">
-      <?php if($_SESSION["usuario"]->tipo == "usuario"): ?>
+      <?php if ($_SESSION["usuario"]->tipo == "usuario"): ?>
         <a href="/<?= BASE_DIR_NAME ?>/chat" class="button medium flex items-center gap-2">
-        <i class="fa-solid fa-comments"></i>
-        Enviar mensagem
-      </a>
+          <i class="fa-solid fa-comments"></i>
+          Enviar mensagem
+        </a>
       <?php endif; ?>
     </div>
   </div>
+
+  <?php require COMPONENTS . "/MeuPerfil/Catalogo/index.php"; ?>
 </div>

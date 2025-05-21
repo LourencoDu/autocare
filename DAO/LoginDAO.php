@@ -40,9 +40,12 @@ final class LoginDAO extends DAO {
         $login->tipo = $data->u_tipo;
         $login->telefone = $data->u_telefone;
 
-        $login->prestador = new Prestador();
-        $login->prestador->id = $data->p_id;
-        $login->prestador->documento = $data->p_documento;
+        $login->prestador = null;
+        if($data->p_id) {
+          $login->prestador = new Prestador();
+          $login->prestador->id = $data->p_id;
+          $login->prestador->documento = $data->p_documento;
+        }
 
         return $login;
       }
