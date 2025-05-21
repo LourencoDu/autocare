@@ -18,6 +18,11 @@ final class Especialidade extends Model
     return (new EspecialidadeDAO())->select();
   }
 
+  public function save(): Especialidade
+  {
+    return (new EspecialidadeDAO())->save($this);
+  }
+
   public static function delete(int $id): bool
   {
     return (new EspecialidadeDAO())->delete($id);

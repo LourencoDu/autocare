@@ -10,12 +10,12 @@ $menuItens = [
   ['rota' => 'servico', 'icone' => 'fa-gear', 'label' => "Serviços"],
   ['rota' => 'mapa', 'icone' => 'fa-map-location-dot', 'label' => "Mapa"],
   ['rota' => 'chat', 'icone' => 'fa-comments', 'label' => "Conversas"],
-  ['rota' => 'especialidade', 'icone' => 'fa-flag', 'label' => "Especialidades"],
+  ['rota' => 'admin/especialidade', 'icone' => 'fa-flag', 'label' => "Especialidades"],
 ];
 
 // Permissões por tipo de usuário (rotas permitidas)
 $permissoesPorTipo = [
-  'administrador'   => ['home', 'prestador', 'usuario', 'servico', 'mapa', 'especialidade'],
+  'administrador'   => ['home', 'prestador', 'usuario', 'servico', 'mapa', 'admin/especialidade'],
   'prestador'       => ['home', 'prestador', 'funcionario', 'servico', 'mapa', 'chat'],
   'funcionario'     => ['home', 'prestador', 'servico', 'mapa', 'chat'],
   'usuario'         => ['home', 'veiculo', 'prestador', 'mapa', 'chat'],
