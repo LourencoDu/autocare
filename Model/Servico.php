@@ -4,22 +4,40 @@ namespace AutoCare\Model;
 
 use AutoCare\DAO\ServicoDAO;
 
-final class Servico extends Model {
-  public $id, $descricao, $data, $id_usuario, $id_prestador, $id_veiculo;
+final class Servico extends Model
+{
+  public $id, $id_usuario, $id_prestador, $id_veiculo, $id_especialidade;
+  
+  public string $descricao;
+  public string $data_inicio;
+  public string $data_fim;
 
-  public static function getById(int $id) : ?Servico {
+  public Veiculo $veiculo;
+  public Usuario $usuario;
+  public Especialidade $especialidade;
+
+  public static function getById(int $id): ?Servico
+  {
     return (new ServicoDAO())->selectById($id);
   }
 
-  public function getAllRows() : array {
+  public function getAllRows(): array
+  {
     return (new ServicoDAO())->select();
   }
 
-  public function save() : Servico {
+  public function getAllRowsByIdPrestador($id_prestador): array
+  {
+    return (new ServicoDAO())->selectByIdPrestador($id_prestador);
+  }
+
+  public function save(): Servico
+  {
     return (new ServicoDAO())->save($this);
   }
 
-  public static function delete(int $id) : bool {
+  public static function delete(int $id): bool
+  {
     return (new ServicoDAO())->delete($id);
   }
 }

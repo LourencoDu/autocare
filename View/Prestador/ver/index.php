@@ -18,7 +18,7 @@ $prestador = $data["prestador"];
         <span class="font-semibold">5.0</span>
       </div>
     </div>
-    <div class="flex gap-6">
+    <div class="flex flex-wrap flex-col items-center sm:items-start sm:flex-row gap-6">
       <!-- Localização -->
       <div class="relative group flex items-center gap-2 text-gray-600">
         <i class="fa-solid fa-location-dot"></i>

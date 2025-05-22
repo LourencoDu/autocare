@@ -28,24 +28,31 @@ $quantidade = count($prestadores);
       $nome_sem_acentos = Util::removerAcentos($prestador->usuario->nome);
       $telefone = $prestador->usuario->telefone;
       $documento = $prestador->documento;
+      $nota = "5.0";
       ?>
 
       <div data-search="<?= strtolower($nome_sem_acentos . " " . $telefone . " " . $documento . " ") ?>" class="search-item flex flex-row flex-wrap justify-between p-2.5 pe-5 border border-gray-300 rounded-xl gap-4">
-        <div class="flex flex-row items-center gap-4">
+        <div class="flex flex-col sm:flex-row w-full sm:w-auto items-center gap-4">
           <div class="flex flex-row items-center justify-center bg-gray-200/50 border border-gray-300 h-18 w-26 rounded-xl">
             <i class="fa-solid fa-building text-gray-600 text-2xl"></i>
           </div>
 
-          <div class="flex flex-col gap-2">
-            <a href="/<?= BASE_DIR_NAME ?>/prestador?id=<?= $prestador->id ?>" class="font-medium leading-5.5 hover:text-primary transition cursor-pointer w-fit"><?= $prestador->usuario->nome ?></a>
-
-            <div class="flex flex-row items-center flex-wrap gap-4">
-              <div class="flex items-center gap-1 px-1 min-h-5 rounded-full bg-yellow-400 text-white text-xs">
+          <div class="flex flex-col items-center sm:items-start gap-2">
+            <div class="flex flex-row items-center gap-2">
+              <a href="/<?= BASE_DIR_NAME ?>/prestador?id=<?= $prestador->id ?>" class="font-medium leading-5.5 hover:text-primary transition cursor-pointer w-fit"><?= $prestador->usuario->nome ?></a>
+              <div class="flex sm:hidden items-center gap-1 px-1 min-h-5 rounded-full bg-yellow-400 text-white text-xs">
                 <i class="fa-solid fa-star"></i>
-                <span>5.0</span>
+                <span class="font-medium">5.0</span>
+              </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center flex-wrap gap-4">
+              <div class="hidden sm:flex items-center gap-1 px-1 min-h-5 rounded-full bg-yellow-400 text-white text-xs">
+                <i class="fa-solid fa-star"></i>
+                <span class="font-medium">5.0</span>
               </div>
 
-              <div class="flex items-center gap-2 lg:gap-4">
+              <div class="flex flex-col sm:flex-row items-center gap-2 lg:gap-4">
                 <span class="text-sm">
                   Telefone:
                   <span class="font-medium"><?= Util::formatarTelefone($telefone) ?></span>
@@ -60,7 +67,7 @@ $quantidade = count($prestadores);
           </div>
         </div>
 
-        <div class="flex items-center gap-4">
+        <div class="flex flex-col sm:flex-row w-full sm:w-auto items-center gap-4">
           <span class="font-medium">0,3 km</span>
 
           <a href="/<?= BASE_DIR_NAME ?>/prestador?id=<?= $prestador->id ?>" class="button small ghost flex items-center gap-1">

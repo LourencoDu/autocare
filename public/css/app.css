@@ -136,13 +136,17 @@ p {
 }
 
 .button {
-  @apply text-white;
+  @apply text-white font-medium;
   @apply border border-primary hover:border-primary-hover rounded-md h-12 bg-primary hover:bg-primary-hover transition duration-300 cursor-pointer px-2;
   @apply disabled:border-gray-400 disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed;
 }
 
+.button.danger {
+  @apply border-red-500 hover:border-red-500/60 bg-red-500 hover:bg-red-500/60;
+}
+
 .button.ghost {
-  @apply text-gray-600 font-medium;
+  @apply text-gray-600;
   @apply border-gray-300 bg-transparent hover:bg-gray-200;
 }
 

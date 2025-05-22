@@ -2,6 +2,7 @@
 
 namespace AutoCare\Controller;
 
+use AutoCare\Helper\JsonResponse;
 use AutoCare\Model\Servico;
 
 final class ServicoController extends Controller
@@ -10,9 +11,17 @@ final class ServicoController extends Controller
   {
     parent::isProtected();
 
-    $this->view = "Crud/listar.php";
+    $this->view = "Servico/index.php";
     $this->titulo = "Serviços";
+
+    $this->caminho = [];
+
     $this->render();
+  }
+
+  private function backToIndex(): void
+  {
+    parent::redirect("servico");
   }
 
   public function listar(): void
@@ -21,137 +30,124 @@ final class ServicoController extends Controller
 
     $model = new Servico();
 
-    $lista = $model->getAllRows();
+    $usuario = $_SESSION["usuario"];
+    $prestador = $usuario->prestador;
 
-    $baseDirName = BASE_DIR_NAME;
+    $servicos = $model->getAllRowsByIdPrestador($prestador->id);
+    $this->data["servicos"] = $servicos;
 
-    $this->data = [
-      "lista" => $lista,
-      "addLink" => "/$baseDirName/servico/cadastrar",
-      "editLink" => "/$baseDirName/servico/alterar",
-      "deleteLink" => "/$baseDirName/servico/deletar",
-    ];
+    $this->js = "Servico/script.js";
 
     $this->index();
   }
 
-  private function backToIndex(): void {
-    Header("Location: /".BASE_DIR_NAME."/servico");
+  public function listarTabela(): void
+  {
+    parent::isProtected();
+
+    $model = new Servico();
+
+    $usuario = $_SESSION["usuario"];
+    $prestador = $usuario->prestador;
+
+    $servicos = $model->getAllRowsByIdPrestador($prestador->id);
+
+    $this->data["servicos"] = $servicos;
+
+    $config = [
+      "data" => $this->data
+    ];
+
+    extract($config);
+    require_once VIEWS . "/Servico/index.php";
   }
 
   public function cadastrar(): void
   {
     parent::isProtected();
 
-    $this->view = "Crud/form.php";
-    $this->titulo = "Novo Serviço";
-
-    $this->caminho = [
-      new CaminhoItem("Serviços", "servico")
-    ];
-
-    $this->data = [
-      "fields" => [
-        "descricao" => ["name" => "descricao", "label" => "descricao", "type" => "text", "required" => true],
-        "data" => ["name" => "data", "label" => "data", "type" => "date", "required" => true],
-        "id_usuario" => ["name" => "id_usuario", "label" => "id_usuario", "type" => "number", "required" => true],
-        "id_prestador" => ["name" => "id_prestador", "label" => "id_prestador", "type" => "number", "required" => true],
-        "id_veiculo" => ["name" => "id_veiculo", "label" => "id_veiculo", "type" => "number", "required" => true]
-      ]];
+    $descricao = isset($_POST["descricao"]) ? $_POST["descricao"] : null;
+    $data_inicio = isset($_POST["data_inicio"]) ? $_POST["data_inicio"] : null;
+    $data_fim = isset($_POST["data_fim"]) ? $_POST["data_fim"] : null;
+    $id_usuario = isset($_POST["id_usuario"]) ? $_POST["id_usuario"] : null;
+    $id_veiculo = isset($_POST["id_veiculo"]) ? $_POST["id_veiculo"] : null;
+    $id_especialidade = isset($_POST["id_especialidade"]) ? $_POST["id_especialidade"] : null;
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
+      if($descricao && $data_inicio && $id_usuario && $id_veiculo && $id_especialidade) {
+      $usuario = $_SESSION["usuario"];
+      $prestador = $usuario->prestador;
+      
+      $id_prestador = $prestador->id;
+
+      $response = null;
       try {
         $model = new Servico();
 
-        $model->descricao = $_POST["descricao"];
-        $model->data = $_POST["data"];
-        $model->id_usuario = $_POST["id_usuario"];
-        $model->id_prestador = $_POST["id_prestador"];
-        $model->id_veiculo = $_POST["id_veiculo"];
-
-        $this->data = [
-          "fields" => [
-            "descricao" => ["name" => "descricao", "label" => "descricao", "type" => "text", "required" => true],
-            "data" => ["name" => "data", "label" => "data", "type" => "date", "required" => true],
-            "id_usuario" => ["name" => "id_usuario", "label" => "id_usuario", "type" => "number", "required" => true],
-            "id_prestador" => ["name" => "id_prestador", "label" => "id_prestador", "type" => "number", "required" => true],
-            "id_veiculo" => ["name" => "id_veiculo", "label" => "id_veiculo", "type" => "number", "required" => true]
-          ]];
+        $model->descricao = $descricao;
+        $model->data_inicio = $data_inicio;
+        $model->data_fim = $data_fim;
+        $model->id_usuario = $id_usuario;
+        $model->id_veiculo = $id_veiculo;
+        $model->id_especialidade = $id_especialidade;
+        $model->id_prestador = $id_prestador;
 
         $model->save();
 
-        $this->backToIndex();
+        $response = JsonResponse::sucesso("Serviço cadastrada com sucesso!");
       } catch (\Throwable $th) {
-        $this->data = array_merge($this->data, [
-          "erro" => "Falha ao adicionar registro. Erro: ".$th->getMessage(),
-          "exception" => $th->getMessage()
-        ]);
+        $response = JsonResponse::erro("Falha ao cadastrar serviço!");
       }
-    }
+      } else {
+        $response = JsonResponse::erro("Preencha todos os campos!");
+      }
 
-    $this->render();
+
+
+      $response->enviar();
+    }
   }
 
   public function alterar(): void
   {
     parent::isProtected();
 
-    $this->view = "Crud/form.php";
-    $this->titulo = "Alterar Serviço";
+    $id = isset($_POST["id"]) ? $_POST["id"] : null;
+    $descricao = isset($_POST["descricao"]) ? $_POST["descricao"] : null;
+    $data_inicio = isset($_POST["data_inicio"]) ? $_POST["data_inicio"] : null;
+    $data_fim = isset($_POST["data_fim"]) ? $_POST["data_fim"] : null;
+    $id_usuario = isset($_POST["id_usuario"]) ? $_POST["id_usuario"] : null;
+    $id_veiculo = isset($_POST["id_veiculo"]) ? $_POST["id_veiculo"] : null;
+    $id_especialidade = isset($_POST["id_especialidade"]) ? $_POST["id_especialidade"] : null;
 
-    $this->caminho = [
-      new CaminhoItem("Serviços", "servico")
-    ];
+    if ($id && $data_inicio && $id_usuario && $id_veiculo && $id_especialidade) {
+      if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        $response = null;
+        try {
+          $model = new Servico();
 
-    $this->data = [
-      "fields" => [
-        "descricao" => ["name" => "descricao", "label" => "descricao", "type" => "text", "required" => true],
-        "data" => ["name" => "data", "label" => "data", "type" => "date", "required" => true],
-        "id_usuario" => ["name" => "id_usuario", "label" => "id_usuario", "type" => "number", "required" => true],
-        "id_prestador" => ["name" => "id_prestador", "label" => "id_prestador", "type" => "number", "required" => true],
-        "id_veiculo" => ["name" => "id_veiculo", "label" => "id_veiculo", "type" => "number", "required" => true]
-      ]];
+          $model->getById((int) $id);
+          if($model) {
+            $model->descricao = $descricao;
+            $model->data_inicio = $data_inicio;
+            $model->data_fim = $data_fim;
+            $model->id_usuario = $id_usuario;
+            $model->id_veiculo = $id_veiculo;
+            $model->id_especialidade = $id_especialidade;
 
-    $model = new Servico();
-    $id = isset($_GET["id"]) ? $_GET["id"] : null;
-
-    if($id != null) {
-      $model = $model->getById((int) $id);
-
-      if($model != null) {
-        $this->data["form"] = [
-          "descricao" => $model->descricao,
-          "data" => $model->data,
-          "id_usuario" => $model->id_usuario,
-          "id_prestador" => $model->id_prestador,
-          "id_veiculo" => $model->id_veiculo
-        ];
-    
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
-          try {           
-            $model->descricao = $_POST["descricao"];
-            $model->data = $_POST["data"];
-            $model->id_usuario = $_POST["id_usuario"];
-            $model->id_prestador = $_POST["id_prestador"];
-            $model->id_veiculo = $_POST["id_veiculo"];
-    
             $model->save();
-    
-            $this->backToIndex();
-          } catch (\Throwable $th) {
-            $this->data = array_merge($this->data, [
-              "erro" => "Falha ao alterar registro. Erro: ".$th->getMessage(),
-              "exception" => $th->getMessage()
-            ]);
-          }
+            $response = JsonResponse::sucesso("Serviço cadastrada com sucesso!");
+          } else {
+            $response = JsonResponse::erro("Serviço não encontrado!");
+          }          
+        } catch (\Throwable $th) {
+          $response = JsonResponse::erro("Falha ao cadastrar serviço!", [ "exception" => $th ]);
         }
-    
-        $this->render();
-      }  else {
-        $this->backToIndex();
-      }    
-    } else {
-      $this->backToIndex();
+      } else {
+        $response = JsonResponse::erro("Preencha todos os campos!");
+      }
+
+      $response->enviar();
     }
   }
 
@@ -159,47 +155,19 @@ final class ServicoController extends Controller
   {
     parent::isProtected();
 
-    $this->view = "Crud/deletar.php";
-    $this->titulo = "Deletar Serviço";
+    $id = isset($_POST["id"]) ? $_POST["id"] : null;
 
-    $this->caminho = [
-      new CaminhoItem("Serviços", "servico")
-    ];
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+      $response = null;
+      try {
+        Servico::delete((int) $id);
 
-    $model = new Servico();
-    $id = isset($_GET["id"]) ? $_GET["id"] : null;
+        $response = JsonResponse::sucesso("Serviço deletada com sucesso!");
+      } catch (\Throwable $th) {
+        $response = JsonResponse::erro("Falha ao deletar serviço!");
+      }
 
-    if($id != null) {
-      $model = $model->getById((int) $id);
-
-      if($model != null) {
-        $this->data["infos"] = [
-          "id" => $model->id,
-          "descricao" => $model->descricao,
-          "data" => $model->data,
-          "id_usuario" => $model->id_usuario,
-          "id_prestador" => $model->id_prestador,
-          "id_veiculo" => $model->id_veiculo
-        ];
-    
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
-          try {           
-            Servico::delete((int) $id);
-            $this->backToIndex();
-          } catch (\Throwable $th) {
-            $this->data = array_merge($this->data, [
-              "erro" => "Falha ao alterar registro. Erro: ".$th->getMessage(),
-              "exception" => $th->getMessage()
-            ]);
-          }
-        }
-    
-        $this->render();
-      }  else {
-        $this->backToIndex();
-      }    
-    } else {
-      $this->backToIndex();
+      $response->enviar();
     }
   }
 }

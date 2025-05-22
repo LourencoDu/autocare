@@ -3,7 +3,7 @@
 
   <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
     <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-      <form id="form-modal-form" novalidate="true" class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+      <form id="form-modal-form" novalidate="true" class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-lg">
         <div class="relative bg-white px-4 sm:px-6 h-14 flex items-center border-b border-gray-300 justify-between">
           <h3 class="text-base font-semibold text-gray-900" id="form-modal-title">Formulário</h3>
           <button id="form-modal-close-button" onclick="closeFormModal()" type="button" class="hidden flex items-center justify-center p-2 text-lg/10 text-gray-400 hover:text-gray-700 cursor-pointer transition">
@@ -24,11 +24,11 @@
 
         </div>
 
-        <div class="bg-white px-4 sm:px-6 h-14 sm:flex sm:flex-row-reverse items-center border-t border-gray-300">
-          <button id="form-modal-confirm-button" type="submit" class="cursor-pointer inline-flex w-full justify-center items-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-primary-hover sm:ml-3 sm:w-auto disabled:cursor-default disabled:opacity-40 disabled:hover:bg-red-600">
+        <div class="bg-white px-4 py-4 sm:py-3 sm:px-6 flex flex-col sm:flex-row-reverse gap-3 items-center border-t border-gray-300">
+          <button id="form-modal-confirm-button" type="submit" class="button min-h-8 sm:max-h-10 w-full">
             <span id="form-modal-confirm-button-text">Confirmar</span>
           </button>
-          <button id="form-modal-cancel-button" onclick="closeFormModal()" type="button" class="cursor-pointer mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto disabled:cursor-default disabled:opacity-40 disabled:hover:bg-white">Cancelar</button>
+          <button id="form-modal-cancel-button" onclick="closeFormModal()" type="button" class="button ghost min-h-8 sm:max-h-10 w-full">Cancelar</button>
         </div>
       </form>
     </div>

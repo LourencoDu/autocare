@@ -53,6 +53,7 @@
     <script src="/<?= BASE_DIR_NAME ?>/public/js/modal/form-modal.js"></script>
     <script src="/<?= BASE_DIR_NAME ?>/public/js/modal/delete-modal.js"></script>
     <script src="/<?= BASE_DIR_NAME ?>/public/js/snackbar.js"></script>
+    <script src="/<?= BASE_DIR_NAME ?>/public/js/sidemenu.js"></script>
 </body>
 
 </html>
