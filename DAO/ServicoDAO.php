@@ -2,6 +2,7 @@
 
 namespace AutoCare\DAO;
 
+use AutoCare\Model\Prestador;
 use AutoCare\Model\Servico;
 
 final class ServicoDAO extends DAO {
@@ -12,6 +13,31 @@ final class ServicoDAO extends DAO {
 
   private function parseRow($data) : Servico {
     $model = new Servico();
+
+    $model->id = $data["s_id"];
+    $model->descricao = $data["s_descricao"];
+    $model->data_inicio = $data["s_data_inicio"];
+    $model->data_fim = $data["s_data_fim"];
+
+    $model->id_usuario = $data["s_id_usuario"];
+    $model->id_prestador = $data["s_id_prestador"];
+    $model->id_veiculo = $data["s_id_veiculo"];
+    $model->id_especialidade = $data["s_id_especialidade"];
+
+    //Usuario
+    $model_usuario = UsuarioDAO::parseRow($data, "u_");
+    $model->usuario = $model_usuario;
+
+    //Prestador
+    $model_prestador = new Prestador();
+    $model_prestador->id = $data["p_id"];
+    $model_prestador->documento = $data["p_documento"];
+    $model_prestador->usuario = UsuarioDAO::parseRow($data, "pu_");
+    $model->prestador = $model_prestador;
+
+    //Veiculo
+
+    //Especialidade
 
     return $model;
   }

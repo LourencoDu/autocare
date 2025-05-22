@@ -2,6 +2,8 @@
 
 namespace AutoCare\Controller;
 
+use AutoCare\Helper\JsonResponse;
+
 class CaminhoItem
 {
   public string $texto, $rota;
@@ -36,10 +38,15 @@ abstract class Controller
     require_once VIEWS . '/Layout/index.php';
   }
 
-  final protected static function isProtected(?array $tiposBloqueados = null, ?array $tiposPermitidos = null)
+  final protected static function isProtected(?array $tiposBloqueados = null, ?array $tiposPermitidos = null, ?bool $json = false)
   {
     if (!isset($_SESSION["usuario"])) {
-      header("Location: login");
+      if ($json == true) {
+        $response = JsonResponse::erro("Para acessar esse recurso é necessário estar logado.", [], 401);
+        $response->enviar();
+      } else {
+        header("Location: login");
+      }
       exit;
     }
 
@@ -50,7 +57,12 @@ abstract class Controller
     if ($tiposPermitidos !== null) {
       $tiposPermitidos = array_map('strtolower', $tiposPermitidos);
       if (!in_array($tipoUsuario, $tiposPermitidos)) {
-        header("Location: /" . BASE_DIR_NAME . "/home");
+        if ($json == true) {
+          $response = JsonResponse::erro("Você não tem permissão para acessar esse recurso.", [], 403);
+          $response->enviar();
+        } else {
+          header("Location: /" . BASE_DIR_NAME . "/home");
+        }
         exit;
       }
       return;
@@ -60,10 +72,19 @@ abstract class Controller
     if ($tiposBloqueados !== null) {
       $tiposBloqueados = array_map('strtolower', $tiposBloqueados);
       if (in_array($tipoUsuario, $tiposBloqueados)) {
-        header("Location: /" . BASE_DIR_NAME . "/home");
+        if ($json == true) {
+          $response = JsonResponse::erro("Você não tem permissão para acessar esse recurso.", [], 403);
+          $response->enviar();
+        } else {
+          header("Location: /" . BASE_DIR_NAME . "/home");
+        }
         exit;
       }
     }
+  }
+
+  final protected static function isProtectedApi(?array $tiposBloqueados = null, ?array $tiposPermitidos = null) {
+    Controller::isProtected($tiposBloqueados, $tiposPermitidos, true);
   }
 
 

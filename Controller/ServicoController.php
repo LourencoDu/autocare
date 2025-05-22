@@ -31,9 +31,16 @@ final class ServicoController extends Controller
     $model = new Servico();
 
     $usuario = $_SESSION["usuario"];
-    $prestador = $usuario->prestador;
+    $tipo = $usuario->tipo;
+    $servicos = array();
 
-    $servicos = $model->getAllRowsByIdPrestador($prestador->id);
+    if ($tipo == "prestador" || $tipo == "funcionario") {
+      $prestador = $usuario->prestador;
+      $servicos = $model->getAllRowsByIdPrestador($prestador->id);
+    } else {
+      $servicos = $model->getAllRows();
+    }
+
     $this->data["servicos"] = $servicos;
 
     $this->js = "Servico/script.js";
@@ -74,30 +81,30 @@ final class ServicoController extends Controller
     $id_especialidade = isset($_POST["id_especialidade"]) ? $_POST["id_especialidade"] : null;
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
-      if($descricao && $data_inicio && $id_usuario && $id_veiculo && $id_especialidade) {
-      $usuario = $_SESSION["usuario"];
-      $prestador = $usuario->prestador;
-      
-      $id_prestador = $prestador->id;
+      if ($descricao && $data_inicio && $id_usuario && $id_veiculo && $id_especialidade) {
+        $usuario = $_SESSION["usuario"];
+        $prestador = $usuario->prestador;
 
-      $response = null;
-      try {
-        $model = new Servico();
+        $id_prestador = $prestador->id;
 
-        $model->descricao = $descricao;
-        $model->data_inicio = $data_inicio;
-        $model->data_fim = $data_fim;
-        $model->id_usuario = $id_usuario;
-        $model->id_veiculo = $id_veiculo;
-        $model->id_especialidade = $id_especialidade;
-        $model->id_prestador = $id_prestador;
+        $response = null;
+        try {
+          $model = new Servico();
 
-        $model->save();
+          $model->descricao = $descricao;
+          $model->data_inicio = $data_inicio;
+          $model->data_fim = $data_fim;
+          $model->id_usuario = $id_usuario;
+          $model->id_veiculo = $id_veiculo;
+          $model->id_especialidade = $id_especialidade;
+          $model->id_prestador = $id_prestador;
 
-        $response = JsonResponse::sucesso("Serviço cadastrada com sucesso!");
-      } catch (\Throwable $th) {
-        $response = JsonResponse::erro("Falha ao cadastrar serviço!");
-      }
+          $model->save();
+
+          $response = JsonResponse::sucesso("Serviço cadastrada com sucesso!");
+        } catch (\Throwable $th) {
+          $response = JsonResponse::erro("Falha ao cadastrar serviço!", [$th->getMessage()]);
+        }
       } else {
         $response = JsonResponse::erro("Preencha todos os campos!");
       }
@@ -127,7 +134,7 @@ final class ServicoController extends Controller
           $model = new Servico();
 
           $model->getById((int) $id);
-          if($model) {
+          if ($model) {
             $model->descricao = $descricao;
             $model->data_inicio = $data_inicio;
             $model->data_fim = $data_fim;
@@ -139,9 +146,9 @@ final class ServicoController extends Controller
             $response = JsonResponse::sucesso("Serviço cadastrada com sucesso!");
           } else {
             $response = JsonResponse::erro("Serviço não encontrado!");
-          }          
+          }
         } catch (\Throwable $th) {
-          $response = JsonResponse::erro("Falha ao cadastrar serviço!", [ "exception" => $th ]);
+          $response = JsonResponse::erro("Falha ao cadastrar serviço!", [$th->getMessage()]);
         }
       } else {
         $response = JsonResponse::erro("Preencha todos os campos!");
@@ -164,7 +171,7 @@ final class ServicoController extends Controller
 
         $response = JsonResponse::sucesso("Serviço deletada com sucesso!");
       } catch (\Throwable $th) {
-        $response = JsonResponse::erro("Falha ao deletar serviço!");
+        $response = JsonResponse::erro("Falha ao deletar serviço!", [$th->getMessage()]);
       }
 
       $response->enviar();

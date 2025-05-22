@@ -11,6 +11,21 @@ final class UsuarioDAO extends DAO
     parent::__construct();
   }
 
+  public static function parseRow($data, $prefix = ""): Usuario
+  {
+    $model = new Usuario();
+
+    $model->id = $data[$prefix . "id"] ?? null;
+    $model->nome = $data[$prefix . "nome"] ?? null;
+    $model->sobrenome = $data[$prefix . "sobrenome"] ?? null;
+    $model->email = $data[$prefix . "email"] ?? null;
+    $model->telefone = $data[$prefix . "telefone"] ?? null;
+    $model->senha = $data[$prefix . "senha"] ?? null;
+    $model->tipo = $data[$prefix . "tipo"] ?? null;
+
+    return $model;
+  }
+
   public function save(Usuario $model): Usuario
   {
     return ($model->id == null) ? $this->insert($model) : $this->update($model);
@@ -80,6 +95,24 @@ final class UsuarioDAO extends DAO
     $stmt->execute();
 
     return $stmt->fetchObject("AutoCare\Model\Usuario");
+  }
+
+  public function selectByTipo(string $tipo): array
+  {
+    $sql = "SELECT id, nome, sobrenome, email, telefone, tipo FROM usuario WHERE tipo=?;";
+
+    $stmt = parent::$conexao->prepare($sql);
+    $stmt->bindValue(1, $tipo);
+    $stmt->execute();
+
+    $resultados = $stmt->fetchAll(DAO::FETCH_ASSOC);
+    $linhas = [];
+
+    foreach ($resultados as $linha) {
+      $linhas[] = UsuarioDAO::parseRow($linha);
+    }
+
+    return $linhas;
   }
 
   public function select(): array

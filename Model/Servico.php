@@ -12,8 +12,9 @@ final class Servico extends Model
   public string $data_inicio;
   public string $data_fim;
 
-  public Veiculo $veiculo;
   public Usuario $usuario;
+  public Prestador $prestador;
+  public Veiculo $veiculo;
   public Especialidade $especialidade;
 
   public static function getById(int $id): ?Servico

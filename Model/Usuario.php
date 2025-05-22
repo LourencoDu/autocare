@@ -18,6 +18,11 @@ final class Usuario extends Model
     return (new UsuarioDAO())->selectByEmail($email);
   }
 
+  public static function getAllRowsByTipo(string $tipo): array
+  {
+    return (new UsuarioDAO())->selectByTipo($tipo);
+  }
+
   public function getAllRows(): array
   {
     return (new UsuarioDAO())->select();

@@ -232,4 +232,26 @@ final class UsuarioController extends Controller
       $this->backToIndex();
     }
   }
+
+  public function listarByTipo(): void
+  {
+    parent::isProtectedApi();
+
+    $response = null;
+    $tipo = $_GET["tipo"] ?? "usuario";
+
+    if($tipo == "administrador") {
+      parent::isProtectedApi(null, ["administrador"]);
+    }
+
+    try {
+      $lista = Usuario::getAllRowsByTipo($tipo);
+
+      $response = JsonResponse::sucesso("Registros carregados com sucesso.", $lista);
+    } catch (\Throwable $th) {
+      $response = JsonResponse::erro("Falha ao carregar registros.", [ $th->getMessage() ]);
+    }
+
+    $response->enviar();
+  }
 }

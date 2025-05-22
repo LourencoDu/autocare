@@ -47,7 +47,7 @@ $quantidade = count($especialidades);
       </table>
 
       <?php if ($quantidade == 0) : ?>
-        <div class="flex flex-col items-center justify-center pt-20">
+        <div class="flex flex-col items-center justify-center py-20">
           <i class="text-primary text-6xl fa-solid fa-flag mb-4"></i>
           <span class="text-lg font-semibold mb-4 text-center">Nenhuma especialidade cadastrada no sistema</span>
 

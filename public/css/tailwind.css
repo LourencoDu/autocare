@@ -972,6 +972,12 @@
   .w-\[60px\] {
     width: 60px;
   }
+  .w-\[120px\] {
+    width: 120px;
+  }
+  .w-\[180px\] {
+    width: 180px;
+  }
   .w-\[250px\] {
     width: 250px;
   }
@@ -2363,6 +2369,9 @@
   }
   .py-12 {
     padding-block: calc(var(--spacing) * 12);
+  }
+  .py-20 {
+    padding-block: calc(var(--spacing) * 20);
   }
   .py-\[0\.15rem\] {
     padding-block: 0.15rem;
