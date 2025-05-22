@@ -83,9 +83,9 @@ $usuarioLogado = $data["usuarioLogado"] ?? null;
 
     div.className = `max-w-[70%] px-4 py-2 my-1 ${classeAlinhamento}`;
     div.innerHTML = `
-      <p class="whitespace-pre-line">${escapeHTML(mensagem.texto)}</p>
-      <small class="text-xs text-gray-400">${escapeHTML(mensagem.data)}</small>
-    `;
+  <p class="whitespace-pre-line break-words">${escapeHTML(mensagem.texto)}</p>
+  <small class="text-xs text-gray-400">${escapeHTML(mensagem.data)}</small>
+`;
     return div;
   }
 

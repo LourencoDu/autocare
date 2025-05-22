@@ -26,15 +26,15 @@ final class ChatDAO extends DAO
 
   public function getPrestadorByIdUsuario(int $idUsuario): int
   {
-    $sql = "SELECT id FROM prestador WHERE id_usuario = ?;";
+    $sql = "SELECT id_prestador FROM funcionario WHERE id_usuario = ?;";
 
     $stmt = parent::$conexao->prepare($sql);
     $stmt->bindValue(1, $idUsuario);
     $stmt->execute();
 
-    $model = $stmt->fetchObject("AutoCare\Model\Chat");
+    $id = $stmt->fetchColumn();
 
-    return $model->id;
+    return (int) $id;
   }
 
   public function selectByIdPrestador(int $idPrestador): array

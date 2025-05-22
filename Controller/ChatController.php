@@ -49,7 +49,7 @@ final class ChatController extends Controller
   }
 
   public static function getChatsPorPrestador(): array
-  {
+  { 
     $model = new Chat();
     return $model->getRowsByIdPrestador($_SESSION['usuario']->id);
   }
@@ -105,7 +105,6 @@ final class ChatController extends Controller
     $chat_id = intval($_POST['chatId']);
     $mensagem = $_POST['texto'];
 
-    
     $model = new Chat();
     $model->incluirMensagem($chat_id, $mensagem);
 

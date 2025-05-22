@@ -14,7 +14,7 @@ final class Chat extends Model
   }
 
   public static function getPrestadorByIdUsuario(int $idUsuario): int
-  {
+  { 
     return (new ChatDAO())->getPrestadorByIdUsuario($idUsuario);
   }
 
