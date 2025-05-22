@@ -72,13 +72,13 @@ final class ChatDAO extends DAO
   public function getMensagensByIdChat(int $idChat): array
   {
     $sql = "SELECT texto, data, visualizado,'funcionario' AS autor
-              FROM chat_mesagem_funcionario
+              FROM chat_mensagem_funcionario
               WHERE id_chat = ?
 
               UNION ALL
 
             SELECT texto, data, visualizado, 'usuario' AS autor
-              FROM chat_mesagem_usuario
+              FROM chat_mensagem_usuario
               WHERE id_chat = ?
 
             ORDER BY data ASC;";
@@ -95,9 +95,9 @@ final class ChatDAO extends DAO
   public function incluirMensagem($chatID, $mensagem, $id_funcionario = null): void
   {
     if ($_SESSION['usuario']->tipo == 'usuario') {
-      $sql = "INSERT INTO chat_mesagem_usuario (id_chat, texto, data, visualizado, id_usuario) VALUES (?, ?, ?, ?, ?);";
+      $sql = "INSERT INTO chat_mensagem_usuario (id_chat, texto, data, visualizado, id_usuario) VALUES (?, ?, ?, ?, ?);";
     } else {
-      $sql = "INSERT INTO chat_mesagem_funcionario (id_chat, texto, data, visualizado, id_funcionario) VALUES (?, ?, ?, ?, ?);";
+      $sql = "INSERT INTO chat_mensagem_funcionario (id_chat, texto, data, visualizado, id_funcionario) VALUES (?, ?, ?, ?, ?);";
     }
     
     date_default_timezone_set('America/Sao_Paulo');
