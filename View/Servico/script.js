@@ -2,6 +2,7 @@ const form = document.getElementById("form-modal-form");
 
 const validators = {
   nome: (val) => val.trim().length >= 2,
+  required: (val) => !!val.trim()
 };
 
 const campoDescricao = {
@@ -12,36 +13,36 @@ const campoDescricao = {
   maxLength: 200,
   isRequired: true,
   placeholder: "Ex.: Cliente afirmou estar ouvindo um barulho estranho ao pressionar o freio.",
-  helperText: "A descrição deve conter pelo menos 2 caracteres.",
+  helperText: "Informe uma descrição.",
 };
 
 const campoUsuario = {
   name: "id_usuario",
   label: "Cliente",
-  type: "select",
+  type: "select-search",
   validate: "required",
   isRequired: true,
-  helperText: "Campo obrigatório",
+  helperText: "Selecione um cliente.",
   options: [],
 };
 
 const campoVeiculo = {
   name: "id_veiculo",
   label: "Veículo",
-  type: "select",
+  type: "select-search",
   validate: "required",
   isRequired: true,
-  helperText: "Campo obrigatório",
+  helperText: "Selecione um veículo.",
   options: [],
 };
 
 const campoEspecialidade = {
   name: "id_especialidade",
   label: "Especialidade",
-  type: "select",
+  type: "select-search",
   validate: "required",
   isRequired: true,
-  helperText: "Campo obrigatório",
+  helperText: "Selecione uma especialidade.",
   options: [],
 };
 

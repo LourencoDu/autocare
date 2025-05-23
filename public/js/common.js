@@ -12,12 +12,16 @@ function limitarDigitos(input, maxLength) {
   }
 }
 
-function removerMascara(valor) {
-  return valor.replace(/[^a-zA-Z0-9]/g, "");
+function removerMascara(texto) {
+  return texto.replace(/[^a-zA-Z0-9]/g, "");
 }
 
 function removerAcentos(texto) {
   return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+function limparTextoBusca(texto = "") {
+  return removerAcentos(removerMascara(texto)).toLowerCase();
 }
 
 function setError(input, showErro) {
@@ -25,10 +29,10 @@ function setError(input, showErro) {
   if (showErro) {
     input.classList.remove("border-gray-300");
     input.classList.add("border-red-500", "focus:ring-red-200");
-    erroMsg.classList.remove("hidden");
+    erroMsg?.classList.remove("hidden");
   } else {
     input.classList.remove("border-red-500", "focus:ring-red-200");
     input.classList.add("border-green-500", "focus:ring-green-200");
-    erroMsg.classList.add("hidden");
+    erroMsg?.classList.add("hidden");
   }
 }
