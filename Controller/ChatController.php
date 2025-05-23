@@ -124,4 +124,17 @@ final class ChatController extends Controller
     $response = JsonResponse::sucesso("Mensagens visualizadas com sucesso");
     $response->enviar();
   }
+
+  public function criaNovaConversa(): void
+  {
+    parent::isProtected();
+
+    $idPrestador = $_GET['id'] ?? null;
+
+    $model = new Chat();
+    $id = $model->criaNovaConversa($idPrestador);
+
+    $response = JsonResponse::sucesso($id);
+    $response->enviar();
+  }
 }

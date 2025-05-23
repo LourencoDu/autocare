@@ -50,4 +50,17 @@ final class Chat extends Model
     (new ChatDAO())->visualizarMensagensChat($chatId);
     return;
   }
+
+  public static function criaNovaConversa($idPrestador): int
+  { 
+    $idUsuario = $_SESSION['usuario']->id;
+
+    $dao = new ChatDAO();
+
+    $id = $dao->getChatbyIDs($idUsuario, $idPrestador);
+
+    if ($id) return $id;
+
+    return ($dao->criaNovaConversa($idUsuario, $idPrestador));
+  }
 }

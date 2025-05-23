@@ -52,7 +52,7 @@ $prestador = $data["prestador"];
     <div></div>
     <div class="flex items-center gap-2">
       <?php if ($_SESSION["usuario"]->tipo == "usuario"): ?>
-        <a href="/<?= BASE_DIR_NAME ?>/chat" class="button medium flex items-center gap-2">
+        <a id="botaoMensagem" href="#" class="button medium flex items-center gap-2">
           <i class="fa-solid fa-comments"></i>
           Enviar mensagem
         </a>
@@ -62,3 +62,31 @@ $prestador = $data["prestador"];
 
   <?php require COMPONENTS . "/MeuPerfil/Catalogo/index.php"; ?>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const botaoMensagem = document.getElementById('botaoMensagem');
+    if (botaoMensagem) {
+      botaoMensagem.addEventListener('click', function(e) {
+        e.preventDefault();
+        const params = new URLSearchParams(window.location.search);
+        const id_prestador = params.get('id');
+
+        if (id_prestador) {
+          fetch("<?= BASE_URL ?>chat/criaNovaConversa?id=" + id_prestador)
+            .then(response => response.json())
+            .then(data => {
+              chatId = data.mensagem
+              window.location.href = '/<?= BASE_DIR_NAME ?>/chat/conversa?id=' + chatId;
+            })
+            .catch(error => {
+              console.error('Erro no novo chat:', error);
+            });
+
+        } else {
+          alert('Prestador não encontrado');
+        }
+      });
+    }
+  });
+</script>

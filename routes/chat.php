@@ -26,4 +26,8 @@ switch ($url) {
     case '/chat/visualizarMensagens':
         (new ChatController())->visualizarMensagensChat();
         exit;
+
+    case '/chat/criaNovaConversa':
+        (new ChatController())->criaNovaConversa();
+        exit;
 }

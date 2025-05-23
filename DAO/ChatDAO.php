@@ -135,4 +135,32 @@ final class ChatDAO extends DAO
 
     return;
   }
+
+  public function criaNovaConversa(int $idUsuario ,int $idPrestador): int
+  {
+    $sql = "insert into chat (id_usuario, id_prestador)
+            values (?, ?);";
+
+    $stmt = parent::$conexao->prepare($sql);
+    $stmt->bindValue(1, $idUsuario);
+    $stmt->bindValue(2, $idPrestador);
+
+    $stmt->execute();
+
+    return (int)parent::$conexao->lastInsertId();
+  }
+
+  public function getChatbyIDs(int $idUsuario ,int $idPrestador): int
+  {
+    $sql = "SELECT id FROM chat WHERE id_usuario = ? and id_prestador = ?;";
+
+    $stmt = parent::$conexao->prepare($sql);
+    $stmt->bindValue(1, $idUsuario);
+    $stmt->bindValue(2, $idPrestador);
+    $stmt->execute();
+
+    $id = $stmt->fetchColumn();
+
+    return (int) $id;
+  }
 }
