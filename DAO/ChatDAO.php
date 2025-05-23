@@ -99,7 +99,7 @@ final class ChatDAO extends DAO
     } else {
       $sql = "INSERT INTO chat_mensagem_funcionario (id_chat, texto, data, visualizado, id_funcionario) VALUES (?, ?, ?, ?, ?);";
     }
-    
+
     date_default_timezone_set('America/Sao_Paulo');
     $dataHoraAtual = date('Y-m-d H:i:s');
 
@@ -110,6 +110,26 @@ final class ChatDAO extends DAO
     $stmt->bindValue(4, 0);
 
     $_SESSION['usuario']->tipo == 'usuario' ? $stmt->bindValue(5, $_SESSION['usuario']->id) : $stmt->bindValue(5, $id_funcionario);
+
+    $stmt->execute();
+
+    return;
+  }
+
+  public function visualizarMensagensChat(int $idChat): void
+  {
+    if ($_SESSION['usuario']->tipo == 'usuario') {
+      $sql = "update chat_mensagem_funcionario
+              set visualizado = 1
+              where id_chat = ?;";
+    } else {
+      $sql = "update chat_mensagem_usuario
+              set visualizado = 1
+              where id_chat = ?;";
+    }
+
+    $stmt = parent::$conexao->prepare($sql);
+    $stmt->bindValue(1, $idChat);
 
     $stmt->execute();
 

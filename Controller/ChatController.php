@@ -111,4 +111,17 @@ final class ChatController extends Controller
     $response = JsonResponse::sucesso("Mensagens Cadastrada");
     $response->enviar();
   }
+
+  public function visualizarMensagensChat(): void
+  {
+    parent::isProtected();
+
+    $chatId = $_GET['id'] ?? null;
+
+    $model = new Chat();
+    $model->visualizarMensagensChat($chatId);
+
+    $response = JsonResponse::sucesso("Mensagens visualizadas com sucesso");
+    $response->enviar();
+  }
 }

@@ -44,4 +44,10 @@ final class Chat extends Model
     }
     return;
   }
+
+  public static function visualizarMensagensChat($chatId): void
+  {
+    (new ChatDAO())->visualizarMensagensChat($chatId);
+    return;
+  }
 }

@@ -22,4 +22,8 @@ switch ($url) {
     case '/api/chat/mensagem':
         (new ChatController())->incluirMensagem();
         exit;
+
+    case '/chat/visualizarMensagens':
+        (new ChatController())->visualizarMensagensChat();
+        exit;
 }

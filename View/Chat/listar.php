@@ -95,6 +95,7 @@ $usuarioLogado = $data["usuarioLogado"] ?? null;
       mensagensContainer.appendChild(criarMensagemHTML(msg));
     });
     mensagensContainer.scrollTop = mensagensContainer.scrollHeight;
+    marcarVisualizado();
   }
 
   renderizarMensagens(mensagensIniciais);
@@ -114,6 +115,13 @@ $usuarioLogado = $data["usuarioLogado"] ?? null;
           ultimaQtdMensagens += novas.length;
         }
       })
+      .catch(console.error);
+      marcarVisualizado();
+  }
+
+  function marcarVisualizado() {
+    fetch("<?= BASE_URL ?>chat/visualizarMensagens?id=" + chatId)
+      .then(response => response.json())
       .catch(console.error);
   }
 
