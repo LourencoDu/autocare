@@ -6,9 +6,8 @@ $usuarioLogado = $data["usuarioLogado"] ?? null;
 
 <div class="flex flex-col h-[80vh] border border-gray-300 rounded shadow-md overflow-hidden bg-white">
   <div class="flex flex-1 overflow-hidden">
-    <!-- Lista de chats -->
     <div class="w-1/3 border-r border-gray-200 bg-gray-50 overflow-y-auto">
-      <div class="h-full">
+      <div class="h-full" id="lista-de-chats">
         <?php
         $chatSelecionado = $_GET['id'] ?? null;
 
@@ -19,9 +18,16 @@ $usuarioLogado = $data["usuarioLogado"] ?? null;
               ? 'bg-blue-100 border-l-4 border-blue-500 font-semibold text-blue-900'
               : 'hover:bg-gray-100';
 
-            echo '<a href="#" data-id="' . $chat->id . '" class="chat-item block px-4 py-3 border-b border-gray-200 transition duration-200 ' . $classeAtiva . '">';
+            echo '<a href="#" data-id="' . $chat->id . '" class="chat-item flex justify-between items-center px-4 py-3 border-b border-gray-200 transition duration-200 ' . $classeAtiva . '">';
+            echo '<div>';
             echo '<div class="text-sm font-medium">' . htmlspecialchars($chat->nome ?? 'Sem nome') . '</div>';
             echo '<div class="text-xs text-gray-500">ID: ' . $chat->id . '</div>';
+            echo '</div>';
+            if (!empty($chat->visualizado) && $chat->visualizado == 0) {
+              echo '<div class="absolute top-2 right-2 w-2.5 h-2.5 bg-green-500 rounded-full"></div>';
+            }
+
+
             echo '</a>';
           }
         } else {
@@ -31,13 +37,10 @@ $usuarioLogado = $data["usuarioLogado"] ?? null;
       </div>
     </div>
 
-    <!-- Área de mensagens -->
     <div class="w-2/3 flex flex-col">
       <div class="flex-1 flex flex-col p-4 overflow-y-auto" id="mensagensContainer">
-        <!-- Mensagens serão renderizadas por JavaScript -->
       </div>
 
-      <!-- Área de digitação -->
       <?php if ($chatSelecionado) : ?>
         <form id="formMensagem" method="post" action="<?= BASE_URL ?>chat/mensagem" class="p-4 border-t border-gray-200 flex items-end gap-2">
           <input type="hidden" id="chat_id" name="chat_id" value="<?= htmlspecialchars($chatSelecionado) ?>">
@@ -116,7 +119,69 @@ $usuarioLogado = $data["usuarioLogado"] ?? null;
         }
       })
       .catch(console.error);
-      marcarVisualizado();
+    marcarVisualizado();
+  }
+
+  function atualizarListaChats() {
+    fetch('<?= BASE_URL ?>chat/listarConversas')
+      .then(response => {
+        if (!response.ok) throw new Error('Erro na requisição');
+        return response.json();
+      })
+      .then(data => {
+        if (data.status === 'success') {
+          const lista = document.getElementById('lista-de-chats');
+          lista.innerHTML = '';
+
+          if (data.dados.length === 0) {
+            lista.innerHTML = '<div class="p-4 text-gray-600 text-sm">Nenhum chat encontrado...</div>';
+            return;
+          }
+
+          const chatSelecionado = <?= (int) ($_GET['id'] ?? 0) ?>;
+
+          data.dados.forEach(chat => {
+            const isSelecionado = (chatSelecionado === chat.id);
+            const classeAtiva = isSelecionado ?
+              'bg-blue-100 border-l-4 border-blue-500 font-semibold text-blue-900' :
+              'hover:bg-gray-100';
+
+            const item = document.createElement('a');
+            item.href = '<?= BASE_URL ?>chat/conversa?id=' + chat.id;
+            item.dataset.id = chat.id;
+            item.className = `chat-item block px-4 py-3 border-b border-gray-200 transition duration-200 ${classeAtiva}`;
+            item.innerHTML = `
+    <div class="text-sm font-medium">${chat.nome ? escapeHtml(chat.nome) : 'Sem nome'}</div>
+    <div class="text-xs text-gray-500">ID: ${chat.id}</div>
+`;
+            lista.appendChild(item);
+
+            if (chat.visualizado === 0) {
+              const badge = document.createElement('div');
+              badge.className = 'w-2.5 h-2.5 bg-green-500 rounded-full';
+              item.appendChild(badge);
+            }
+          });
+        } else {
+          console.error('Erro na resposta:', data.erros);
+        }
+      })
+      .catch(error => {
+        console.error('Erro no fetch:', error);
+      });
+  }
+
+  function escapeHtml(text) {
+    const map = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, function(m) {
+      return map[m];
+    });
   }
 
   function marcarVisualizado() {
@@ -125,11 +190,12 @@ $usuarioLogado = $data["usuarioLogado"] ?? null;
       .catch(console.error);
   }
 
+  setInterval(atualizarListaChats, 1000);
+
   if (chatId) {
     setInterval(buscarNovasMensagens, 1000);
   }
 
-  // Navegação entre chats
   document.addEventListener("DOMContentLoaded", function() {
     const chatItems = document.querySelectorAll(".chat-item");
 
@@ -144,17 +210,15 @@ $usuarioLogado = $data["usuarioLogado"] ?? null;
     const textarea = document.getElementById("mensagem");
     const form = document.getElementById("formMensagem");
 
-    // 🔥 Enviar com Enter
     if (textarea) {
       textarea.addEventListener("keydown", function(e) {
         if (e.key === "Enter" && !e.shiftKey) {
           e.preventDefault();
-          form.requestSubmit(); // 🔥 dispara o submit do formulário
+          form.requestSubmit();
         }
       });
     }
 
-    // 🔥 Evento de submit do formulário
     if (form) {
       form.addEventListener("submit", function(e) {
         e.preventDefault();
@@ -176,11 +240,10 @@ $usuarioLogado = $data["usuarioLogado"] ?? null;
         ).then(response => {
           console.log(response);
           buscarNovasMensagens();
+          atualizarListaChats();
         }).catch(err => {
           console.error('Erro ao enviar mensagem:', err);
         });
-
-        console.log('chegou aqui');
         mensagemInput.value = '';
       });
     }

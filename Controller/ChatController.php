@@ -98,6 +98,20 @@ final class ChatController extends Controller
     $response->enviar();
   }
 
+  public function listarConversas(): void
+  {
+    parent::isProtected();
+
+    if ($_SESSION['usuario']->tipo == 'usuario') {
+      $lista = ChatController::getChatsPorUsuario();
+    } else {
+      $lista = ChatController::getChatsPorPrestador();
+    }
+
+    $response = JsonResponse::sucesso("Chats carregados com sucesso", $lista);
+    $response->enviar();
+  }
+
   public function incluirMensagem(): void
   {
     parent::isProtected();

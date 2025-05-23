@@ -23,6 +23,10 @@ switch ($url) {
         (new ChatController())->incluirMensagem();
         exit;
 
+    case '/chat/listarConversas':
+        (new ChatController())->listarConversas();
+        exit;
+
     case '/chat/visualizarMensagens':
         (new ChatController())->visualizarMensagensChat();
         exit;
