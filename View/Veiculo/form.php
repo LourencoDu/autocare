@@ -66,9 +66,9 @@
       </div>
     </div>
 
-    <div class="flex flex-row items-center justify-end pt-2.5 gap-2">
-      <a href="." class="flex flex-row items-center button ghost medium"><?= $action == "adicionar" ? "Voltar" : "Cancelar alterações" ?></a>
-      <button class="button medium"><?= $action == "adicionar" ? "Adicionar Veículo" : "Salvar Alterações" ?></button>
+    <div class="flex flex-row flex-wrap items-center justify-end pt-2.5 gap-2">
+      <a href="." class="flex flex-row items-center justify-center button ghost medium w-full sm:w-auto"><?= $action == "adicionar" ? "Voltar" : "Cancelar alterações" ?></a>
+      <button class="button medium w-full sm:w-auto"><?= $action == "adicionar" ? "Adicionar Veículo" : "Salvar Alterações" ?></button>
     </div>
   </form>
 </div>

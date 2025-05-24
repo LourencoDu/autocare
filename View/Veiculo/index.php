@@ -9,12 +9,12 @@ $quantidade = count($veiculos);
 <?php if ($quantidade > 0): ?>
   <div class="flex flex-row justify-between items-center gap-2">
     <span class="text font-semibold"><?php
-                                        if ($quantidade == 0) {
-                                          echo "Nenhum veículo cadastrado";
-                                        } else {
-                                          echo "Você tem <span class='text-primary'>".$quantidade. "</span> " . ($quantidade > 1 ? "veículos cadastrados" : "veículo cadastrado");
-                                        }
-                                        ?></span>
+                                      if ($quantidade == 0) {
+                                        echo "Nenhum veículo cadastrado";
+                                      } else {
+                                        echo "Você tem <span class='text-primary'>" . $quantidade . "</span> " . ($quantidade > 1 ? "veículos cadastrados" : "veículo cadastrado");
+                                      }
+                                      ?></span>
 
     <div class="flex flex-row items-center justify-between gap-2">
       <a href="/<?= BASE_DIR_NAME ?>/veiculo/cadastrar" class="button small flex flex-row items-center">
@@ -53,6 +53,15 @@ $quantidade = count($veiculos);
               <span class="text-sm font-semibold"><?= $veiculo->ano ?></span>
               <span class="text-xs text-gray-700">Ano</span>
             </div>
+
+            <div class="relative flex flex-col border border-dashed border-gray-300 rounded-xl px-2.5 py-2 min-w-24 max-w-auto gap-1">
+              <span class="text-sm font-semibold"><?= $veiculo->quantidade_servicos ?></span>
+              <span class="text-xs text-gray-700">Serviços</span>
+
+              <button class="absolute top-1 right-1 flex items-center justify-center w-6 h-6 rounded-md text-gray-600 hover:text-primary hover:bg-primary/10 transition cursor-pointer">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </div>
           </div>
 
           <div class="absolute lg:static left-2 top-2 flex flex-row items-center">
@@ -60,13 +69,13 @@ $quantidade = count($veiculos);
           </div>
 
           <div class="absolute lg:static right-2 top-2 flex flex-row items-center gap-2">
-          <a href="/<?= BASE_DIR_NAME ?>/veiculo/alterar?id=<?= $veiculo->id ?>" class="flex flex-row items-center justify-center w-8 h-8 rounded-md text-gray-600 hover:text-primary hover:bg-primary/10 transition cursor-pointer">
-            <i class="fa-solid fa-pen mt-[2px] transition"></i>
-          </a>
+            <a href="/<?= BASE_DIR_NAME ?>/veiculo/alterar?id=<?= $veiculo->id ?>" class="flex flex-row items-center justify-center w-8 h-8 rounded-md text-gray-600 hover:text-primary hover:bg-primary/10 transition cursor-pointer">
+              <i class="fa-solid fa-pen mt-[2px] transition"></i>
+            </a>
 
-          <a onclick="handleDeleteClick(<?= $veiculo->id ?>, '<?= $veiculo->apelido ?>')" class="flex flex-row items-center justify-center w-8 h-8 rounded-md text-gray-600 hover:text-red-500 hover:bg-red-500/10 transition cursor-pointer">
-            <i class="fa-solid fa-trash mt-[2px] transition"></i>
-          </a>
+            <a onclick="handleDeleteClick(<?= $veiculo->id ?>, '<?= $veiculo->apelido ?>')" class="flex flex-row items-center justify-center w-8 h-8 rounded-md text-gray-600 hover:text-red-500 hover:bg-red-500/10 transition cursor-pointer">
+              <i class="fa-solid fa-trash mt-[2px] transition"></i>
+            </a>
           </div>
         </div>
       </div>

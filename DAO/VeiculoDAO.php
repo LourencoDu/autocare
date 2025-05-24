@@ -72,7 +72,15 @@ final class VeiculoDAO extends DAO {
 
   public function selectByUser(int $id_usuario): array
   {
-    $sql = "SELECT v.id id, v.apelido apelido, v.ano ano, mv.nome as modelo, fv.nome as fabricante FROM veiculo as v JOIN modelo_veiculo as mv ON mv.id = v.id_modelo_veiculo JOIN fabricante_veiculo as fv ON fv.id = mv.id_fabricante_veiculo WHERE id_usuario = ?;";
+    $sql = "SELECT
+    v.id id, v.apelido apelido, v.ano ano,
+    mv.nome as modelo,
+    fv.nome as fabricante,
+    (SELECT count(s.id) FROM servico s WHERE s.id_veiculo = v.id) as quantidade_servicos
+    FROM veiculo as v
+    JOIN modelo_veiculo as mv ON mv.id = v.id_modelo_veiculo
+    JOIN fabricante_veiculo as fv ON fv.id = mv.id_fabricante_veiculo
+    WHERE id_usuario = ?;";
 
     $stmt = parent::$conexao->prepare($sql);
     $stmt->bindValue(1, $id_usuario);
@@ -89,6 +97,8 @@ final class VeiculoDAO extends DAO {
       $model->ano = $row["ano"];
       $model->modelo = $row["modelo"];
       $model->fabricante = $row["fabricante"];
+
+      $model->quantidade_servicos = $row["quantidade_servicos"] ?? 0;
 
       array_push($lista, $model);
     }
