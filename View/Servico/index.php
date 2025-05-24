@@ -73,7 +73,7 @@ $quantidade = count($servicos);
               <td class="px-5 py-2 whitespace-nowrap text-sm border-r border-gray-300"><?= e($data_fim_label) ?></td>
               <td class="px-5 py-2 whitespace-nowrap text-sm border-r border-gray-300"><?= "-" ?></td>
               <td class="px-2 sm:px-5 py-2 whitespace-nowrap text-sm text-center border-r border-gray-300">
-                <button class="button small ghost" onclick="handleActionClick(<?= $servico->id ?>, <?= $cliente->id ?>, <?= $veiculo->id ?>, <?= $especialidade->id ?>, '<?= $servico->data_inicio ?>', '<?= $servico->data_fim ?>', '<?= $servico->descricao ?>')"><i class="fa-solid fa-pen"></i> <span class="hidden sm:inline">Alterar</span></button>
+                <button class="button small ghost" onclick="handleActionClick(<?= $servico->id ?>, <?= $cliente->id ?>, <?= $veiculo->id ?>, <?= $especialidade->id ?>, '<?= $servico->data_inicio ?>', '<?= $servico->data_fim ?>', <?= e(json_encode($servico->descricao)) ?>)"><i class="fa-solid fa-pen"></i> <span class="hidden sm:inline">Alterar</span></button>
               </td>
               <td class="px-2 sm:px-5 py-2 whitespace-nowrap text-sm text-center">
                 <button class="button small ghost danger" onclick="handleDeleteClick(<?= $servico->id ?>, '<?= e($servico->descricao) ?>')"><i class="fa-solid fa-trash"></i> <span class="hidden sm:inline">Deletar</span></button>

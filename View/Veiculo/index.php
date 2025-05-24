@@ -1,4 +1,7 @@
 <?php
+
+use AutoCare\Controller\ServicoController;
+
 $veiculos = $data["veiculos"] ?? [];
 $quantidade = count($veiculos);
 ?>
@@ -53,7 +56,7 @@ $quantidade = count($veiculos);
           </div>
 
           <div class="absolute lg:static left-2 top-2 flex flex-row items-center h-6 px-2 border border-gray-300 rounded-md bg-gray-200">
-            <span class="text-xs text-gray-600 font-medium">Sem serviço</span>
+            <?= ServicoController::getServicoBadgeByIdVeiculo($veiculo->id) ?>
           </div>
 
           <div class="absolute lg:static right-2 top-2 flex flex-row items-center gap-2">

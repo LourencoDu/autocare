@@ -9,13 +9,15 @@ use AutoCare\Model\Prestador;
 use AutoCare\Model\Servico;
 use AutoCare\Model\Veiculo;
 
-final class ServicoDAO extends DAO {
+final class ServicoDAO extends DAO
+{
   public function __construct()
   {
     parent::__construct();
   }
 
-  private function parseRow($data) : Servico {
+  private function parseRow($data): Servico
+  {
     $model = new Servico();
 
     $model->id = $data["s_id"];
@@ -29,7 +31,7 @@ final class ServicoDAO extends DAO {
     $model->id_especialidade = $data["s_id_especialidade"];
 
     //Usuario
-    $model_usuario = UsuarioDAO::parseRow($data, "u_");
+    $model_usuario = isset($data["u_id"]) ? UsuarioDAO::parseRow($data, "u_") : null;
     $model->usuario = $model_usuario;
 
     //Prestador
@@ -46,18 +48,20 @@ final class ServicoDAO extends DAO {
     $model_veiculo->ano = $data["v_ano"];
     $model_veiculo->id_modelo_veiculo = $data["v_id_modelo_veiculo"];
 
-    $model_modelo_veiculo = new ModeloVeiculo();
-    $model_modelo_veiculo->id = $data["mv_id"];
-    $model_modelo_veiculo->nome = $data["mv_nome"];
-    $model_modelo_veiculo->id_fabricante_veiculo = $data["mv_id_fabricante_veiculo"];
+    if(isset($data["mv_id"])) {
+      $model_modelo_veiculo = new ModeloVeiculo();
+      $model_modelo_veiculo->id = $data["mv_id"];
+      $model_modelo_veiculo->nome = $data["mv_nome"];
+      $model_modelo_veiculo->id_fabricante_veiculo = $data["mv_id_fabricante_veiculo"];
 
-    $model_fabricante_veiculo = new FabricanteVeiculo();
-    $model_fabricante_veiculo->id = $data["fv_id"];
-    $model_fabricante_veiculo->nome = $data["fv_nome"];
+      $model_fabricante_veiculo = new FabricanteVeiculo();
+      $model_fabricante_veiculo->id = $data["fv_id"];
+      $model_fabricante_veiculo->nome = $data["fv_nome"];
 
-    $model_veiculo->modelo = $model_modelo_veiculo;
-    $model_veiculo->fabricante = $model_fabricante_veiculo;
-    $model->veiculo = $model_veiculo;
+      $model_veiculo->modelo = $model_modelo_veiculo;
+      $model_veiculo->fabricante = $model_fabricante_veiculo;
+      $model->veiculo = $model_veiculo;
+    }
 
     //Especialidade
     $model_especialidade = new Especialidade();
@@ -68,7 +72,7 @@ final class ServicoDAO extends DAO {
     return $model;
   }
 
-    public function selectById(int $id) : ?Servico
+  public function selectById(int $id): ?Servico
   {
     $sql = "SELECT 
     s.id s_id, s.descricao s_descricao, s.data_inicio s_data_inicio, s.data_fim s_data_fim,
@@ -173,12 +177,72 @@ final class ServicoDAO extends DAO {
     return $linhas;
   }
 
-  public function save(Servico $model) : Servico
+  public function selectByIdVeiculo($id_veiculo): array
+  {
+    $sql = "SELECT 
+    s.id s_id, s.descricao s_descricao, s.data_inicio s_data_inicio, s.data_fim s_data_fim,
+    s.id_prestador s_id_prestador, s.id_usuario s_id_usuario, s.id_veiculo s_id_veiculo, s.id_especialidade s_id_especialidade,
+    p.id p_id, p.documento p_documento,
+    pu.id pu_id, pu.nome pu_nome,
+    v.id v_id, v.apelido v_apelido, v.ano v_ano, v.id_modelo_veiculo v_id_modelo_veiculo,
+    e.id e_id, e.nome e_nome
+    FROM servico s
+    JOIN prestador p ON p.id = s.id_prestador
+    JOIN usuario pu ON p.id_usuario = pu.id
+    JOIN especialidade e ON e.id = s.id_especialidade
+    WHERE v.id_veiculo = ?
+    ORDER BY s.data_inicio DESC;";
+
+    $stmt = parent::$conexao->prepare($sql);
+    $stmt->bindValue(1, $id_veiculo);
+    $stmt->execute();
+
+    $resultados = $stmt->fetchAll(DAO::FETCH_ASSOC);
+    $linhas = [];
+
+    foreach ($resultados as $linha) {
+      $linhas[] = $this->parseRow($linha);
+    }
+
+    return $linhas;
+  }
+
+    public function selectByIdVeiculoOnDataFimIsNull($id_veiculo): array
+  {
+    $sql = "SELECT 
+    s.id s_id, s.descricao s_descricao, s.data_inicio s_data_inicio, s.data_fim s_data_fim,
+    s.id_prestador s_id_prestador, s.id_usuario s_id_usuario, s.id_veiculo s_id_veiculo, s.id_especialidade s_id_especialidade,
+    p.id p_id, p.documento p_documento,
+    pu.id pu_id, pu.nome pu_nome,
+    v.id v_id, v.apelido v_apelido, v.ano v_ano, v.id_modelo_veiculo v_id_modelo_veiculo,
+    e.id e_id, e.nome e_nome
+    FROM servico s
+    JOIN prestador p ON p.id = s.id_prestador
+    JOIN usuario pu ON p.id_usuario = pu.id
+    JOIN especialidade e ON e.id = s.id_especialidade
+    WHERE v.id_veiculo = ? AND s.data_fim IS NULL
+    ORDER BY s.data_inicio DESC;";
+
+    $stmt = parent::$conexao->prepare($sql);
+    $stmt->bindValue(1, $id_veiculo);
+    $stmt->execute();
+
+    $resultados = $stmt->fetchAll(DAO::FETCH_ASSOC);
+    $linhas = [];
+
+    foreach ($resultados as $linha) {
+      $linhas[] = $this->parseRow($linha);
+    }
+
+    return $linhas;
+  }
+
+  public function save(Servico $model): Servico
   {
     return ($model->id == null) ? $this->insert($model) : $this->update($model);
   }
 
-  private function insert(Servico $model) : Servico
+  private function insert(Servico $model): Servico
   {
     $sql = "INSERT INTO servico
     (descricao, data_inicio, data_fim, id_usuario, id_prestador, id_veiculo, id_especialidade)
@@ -199,7 +263,7 @@ final class ServicoDAO extends DAO {
     return $model;
   }
 
-  private function update(Servico $model) : Servico
+  private function update(Servico $model): Servico
   {
     $sql = "UPDATE servico SET descricao=?, `data_inicio`=?, `data_fim`=?, id_usuario=?,  id_veiculo=?, id_especialidade=? WHERE id=?;";
 

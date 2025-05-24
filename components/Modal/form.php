@@ -4,7 +4,7 @@
   <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
     <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
       <form id="form-modal-form" novalidate="true" class="relative transform rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-lg">
-        <div class="relative bg-white px-4 sm:px-6 h-14 flex items-center border-b border-gray-300 justify-between">
+        <div class="relative bg-white px-4 sm:px-6 h-14 flex items-center border-b border-gray-300 justify-between rounded-t-lg">
           <h3 class="text-base font-semibold text-gray-900" id="form-modal-title">Formulário</h3>
           <button id="form-modal-close-button" onclick="closeFormModal()" type="button" class="hidden flex items-center justify-center p-2 text-lg/10 text-gray-400 hover:text-gray-700 cursor-pointer transition">
             <i class="fa-solid fa-close"></i>
@@ -24,7 +24,7 @@
 
         </div>
 
-        <div class="bg-white px-4 py-4 sm:py-3 sm:px-6 flex flex-col sm:flex-row-reverse gap-3 items-center border-t border-gray-300">
+        <div class="bg-white px-4 py-4 sm:py-3 sm:px-6 flex flex-col sm:flex-row-reverse gap-3 items-center border-t border-gray-300 rounded-b-lg">
           <button id="form-modal-confirm-button" type="submit" class="button min-h-8 sm:max-h-10 w-full">
             <span id="form-modal-confirm-button-text">Confirmar</span>
           </button>

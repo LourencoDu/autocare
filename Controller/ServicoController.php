@@ -69,6 +69,28 @@ final class ServicoController extends Controller
     require_once VIEWS . "/Servico/index.php";
   }
 
+  public static function getServicoBadgeByIdVeiculo(int $id_veiculo): void
+  {
+    parent::isProtected();
+
+    $model = new Servico();
+    $servicos = $model->getAllRowsByIdVeiculoOnDataFimIsNull($id_veiculo);
+
+    $quantidadeAgendado = 0;
+    $emServico = false;
+    $data_hoje = date('m/d/Y h:i:s a', time());
+
+    foreach ($servicos as $servico) {
+      $isAgendamento = false;
+
+      if($isAgendamento) {
+        $quantidadeAgendado += 1;
+      }
+    }
+
+    echo "<span class='text-xs text-gray-600 font-medium'>Sem serviço</span>";
+  }
+
   public function cadastrar(): void
   {
     parent::isProtected();
