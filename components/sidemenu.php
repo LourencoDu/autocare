@@ -51,7 +51,7 @@ function isActiveRoute($rotaItem)
   return strpos($rotaAtual, $rotaItem) !== false ? "true" : "false";
 }
 ?>
-<div id="sidemenu">
+<div id="sidemenu" class="z-10">
   <div id="sidemenu-backdrop" class="fixed z-39 hidden bg-black/30 top-0 left-0 w-full h-full backdrop-blur-xs"></div>
   <div id="sidemenu-content" class="fixed flex hidden sm:static top-0 left-0 z-40 h-full w-20 sm:max-w-12 px-2 py-4 sm:p-0 bg-gray-100 sm:flex flex-col sm:flex-1 items-center gap-4 transform transition-transform duration-150 ease-in-out -translate-x-full sm:translate-x-0 sm:transition-none">
     <a href="/<?= BASE_DIR_NAME ?>/home" class="hidden sm:flex flex-row h-10 w-12 items-center justify-center gap-1 hover:text-primary transition">
