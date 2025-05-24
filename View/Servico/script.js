@@ -234,7 +234,7 @@ function onSubmitForm(event, action, id = null) {
       id_veiculo: dados.get("id_veiculo"),
       id_especialidade: dados.get("id_especialidade"),
       data_inicio: dados.get("data_inicio"),
-      ...(!!data_fim.trim() ? { data_fim } : {}),
+      ...(!!data_fim?.trim() ? { data_fim } : {}),
       descricao: dados.get("descricao"),
     };
 

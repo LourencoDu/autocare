@@ -104,7 +104,7 @@ final class ServicoController extends Controller
 
           $model->save();
 
-          $response = JsonResponse::sucesso("Serviço cadastrada com sucesso!", [$data_fim, $_POST["data_fim"]]);
+          $response = JsonResponse::sucesso("Serviço cadastrada com sucesso!");
         } catch (\Throwable $th) {
           $response = JsonResponse::erro("Falha ao cadastrar serviço!", [$th->getMessage()]);
         }
