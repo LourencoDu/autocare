@@ -4,6 +4,7 @@ namespace AutoCare\Controller;
 
 use AutoCare\Helper\JsonResponse;
 use AutoCare\Model\Servico;
+use DateTime;
 
 final class ServicoController extends Controller
 {
@@ -76,19 +77,36 @@ final class ServicoController extends Controller
     $model = new Servico();
     $servicos = $model->getAllRowsByIdVeiculoOnDataFimIsNull($id_veiculo);
 
-    $quantidadeAgendado = 0;
+    $quantidadeAgendamentos = 0;
     $emServico = false;
-    $data_hoje = date('m/d/Y h:i:s a', time());
+    $data_hoje = new DateTime(); // agora
+    
+    $classes = "flex items-center h-6 px-2 border rounded-md text-xs font-medium";
 
     foreach ($servicos as $servico) {
       $isAgendamento = false;
 
+      $data_inicio = new DateTime($servico->data_inicio);
+
+      if($data_inicio > $data_hoje) {
+        $isAgendamento = true;
+      } else {
+        $emServico = true;
+      }      
+
       if($isAgendamento) {
-        $quantidadeAgendado += 1;
+        $quantidadeAgendamentos += 1;
       }
     }
 
-    echo "<span class='text-xs text-gray-600 font-medium'>Sem serviço</span>";
+    if($emServico) {
+      echo "<span class='".$classes." bg-green-200 border-green-300 text-green-700'>Em serviço</span>";
+    } else if($quantidadeAgendamentos > 0) {
+      $label = $quantidadeAgendamentos." ".($quantidadeAgendamentos == 1 ? "serviço agendado" : "serviços agendados");
+      echo "<span class='".$classes." bg-yellow-200 border-yellow-300 text-yellow-700'>".$label."</span>";
+    } else {
+      echo "<span class='".$classes." bg-gray-200 border-gray-300 text-gray-700'>Sem serviço</span>";
+    }    
   }
 
   public function cadastrar(): void

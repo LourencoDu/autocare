@@ -55,7 +55,7 @@ $quantidade = count($veiculos);
             </div>
           </div>
 
-          <div class="absolute lg:static left-2 top-2 flex flex-row items-center h-6 px-2 border border-gray-300 rounded-md bg-gray-200">
+          <div class="absolute lg:static left-2 top-2 flex flex-row items-center">
             <?= ServicoController::getServicoBadgeByIdVeiculo($veiculo->id) ?>
           </div>
 

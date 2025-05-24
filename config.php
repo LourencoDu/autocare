@@ -28,7 +28,7 @@ define("COMPONENTS", BASE_DIR."/autocare/components/");
 $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/';
 define("BASE_URL", $baseUrl);
 
-date_default_timezone_set('America/SaoPaulo');
+date_default_timezone_set('America/Sao_Paulo');
 
 $_ENV["db"]["host"] = "localhost:3306";
 $_ENV["db"]["user"] = $_ENV['DB_USER'] ?? "root";

@@ -140,9 +140,9 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `autocare`.`servico` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `descricao` VARCHAR(45) NOT NULL,
-  `data_inicio` DATE NOT NULL,
-  `data_fim` DATE NULL,
+  `descricao` VARCHAR(200) NOT NULL,
+  `data_inicio` DATETIME NOT NULL,
+  `data_fim` DATETIME NULL,
   `id_usuario` INT NOT NULL,
   `id_prestador` INT NOT NULL,
   `id_veiculo` INT NOT NULL,

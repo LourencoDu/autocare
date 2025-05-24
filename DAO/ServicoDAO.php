@@ -189,8 +189,9 @@ final class ServicoDAO extends DAO
     FROM servico s
     JOIN prestador p ON p.id = s.id_prestador
     JOIN usuario pu ON p.id_usuario = pu.id
+    JOIN veiculo v ON v.id = s.id_veiculo
     JOIN especialidade e ON e.id = s.id_especialidade
-    WHERE v.id_veiculo = ?
+    WHERE s.id_veiculo = ?
     ORDER BY s.data_inicio DESC;";
 
     $stmt = parent::$conexao->prepare($sql);
@@ -219,8 +220,9 @@ final class ServicoDAO extends DAO
     FROM servico s
     JOIN prestador p ON p.id = s.id_prestador
     JOIN usuario pu ON p.id_usuario = pu.id
+    JOIN veiculo v ON v.id = s.id_veiculo
     JOIN especialidade e ON e.id = s.id_especialidade
-    WHERE v.id_veiculo = ? AND s.data_fim IS NULL
+    WHERE s.id_veiculo = ? AND s.data_fim IS NULL
     ORDER BY s.data_inicio DESC;";
 
     $stmt = parent::$conexao->prepare($sql);
