@@ -18,4 +18,7 @@ switch ($url) {
   case '/api/admin/especialidade/deletar':
     (new EspecialidadeController())->deletar();
     exit;
+  case '/api/especialidade/listar':
+    (new EspecialidadeController())->listarJson();
+    exit;
 }

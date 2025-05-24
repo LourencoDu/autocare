@@ -41,8 +41,9 @@ function openFormModal({
   if (showCloseButton) {
     closeButtonEl.classList.toggle("hidden", false);
   }
-  renderCampos(campos);
   formModal.classList.toggle("hidden", false);
+
+  renderCampos(campos);
 }
 
 function closeFormModal() {
@@ -50,17 +51,7 @@ function closeFormModal() {
 }
 
 function showFormModalError(texto) {
-  const errorEl = document.getElementById("form-modal-error");
-  const errorTextEl = document.getElementById("form-modal-error-text");
-  errorTextEl.textContent = texto;
-
-  errorEl.classList.toggle("hidden", false);
-}
-
-function hideFormModalError() {
-  const errorEl = document.getElementById("form-modal-error");
-
-  errorEl.classList.toggle("hidden", true);
+  showSnackbar(texto, "erro", 5000);
 }
 
 function setFormModalIsLoading(isLoading = false) {
@@ -78,11 +69,19 @@ function setFormModalIsLoading(isLoading = false) {
 function createLabelEl(campo) {
   const label = campo.label;
   const isRequired = !!campo.isRequired;
+  const type = campo.type;
 
   const labelEl = document.createElement("label");
   labelEl.className = "";
   labelEl.textContent = label;
-  labelEl.for = name;
+
+  if (type === "select-search") {
+    labelEl.setAttribute("for", `${campo.name}${"-search-input"}`);
+  } else if (type === "datetime") {
+    labelEl.setAttribute("for", `${campo.name}${"-date"}`);
+  } else {
+    labelEl.setAttribute("for", `${campo.name}`);
+  }
 
   if (isRequired) {
     const isRequiredEl = document.createElement("span");
@@ -120,8 +119,6 @@ function createInputEl(campo) {
     inputEl.placeholder = placeholder;
   }
 
-  inputEl.onkeyup = hideFormModalError;
-
   return inputEl;
 }
 
@@ -157,8 +154,6 @@ function createTextareaEl(campo) {
     textareaEl.placeholder = placeholder;
   }
 
-  textareaEl.onkeyup = hideFormModalError;
-
   return textareaEl;
 }
 
@@ -184,7 +179,6 @@ function createSelectEl(campo) {
 
   selectEl.onchange = (event) => {
     !!campo.onChange && campo.onChange(event);
-    hideFormModalError(event);
   };
 
   const defaultOptionEl = document.createElement("option");
@@ -226,7 +220,10 @@ function createSelectSearchableEl(campo) {
     isRequired,
     validate,
     placeholder = "Selecione",
+    disabled,
   } = campo;
+
+  let lastSetValue = value;
 
   const searchInputEl = document.createElement("input");
   Object.assign(searchInputEl, {
@@ -234,12 +231,13 @@ function createSelectSearchableEl(campo) {
     name: `${name}-search-input`,
     placeholder,
     autocomplete: "off",
-    className: "col-start-1 row-start-1",
+    className: "col-start-1 row-start-1 disabled:opacity-40",
+    disabled,
   });
 
   const optionsUlEl = document.createElement("ul");
   optionsUlEl.className =
-    "absolute top-14 bg-white border border-gray-300 w-full rounded shadow hidden z-10";
+    "absolute top-14 bg-white border border-gray-300 w-full rounded shadow hidden z-10 overflow-y-auto max-h-[160px]";
 
   const valueInputEl = document.createElement("input");
   Object.assign(valueInputEl, {
@@ -248,23 +246,32 @@ function createSelectSearchableEl(campo) {
     id: name,
     value,
   });
+
   if (!!validate) {
     valueInputEl.setAttribute("data-validate", validate);
   }
 
   const arrowEl = document.createElement("i");
-  arrowEl.className =
-    "fa-solid fa-chevron-down text-gray-400 text-sm pointer-events-none relative right-4 col-start-1 row-start-1 h-3 w-4 self-center justify-self-end forced-colors:hidden";
+  arrowEl.className = `fa-solid fa-chevron-down text-gray-400 text-sm pointer-events-none relative right-4 col-start-1 row-start-1 h-3 w-4 self-center justify-self-end forced-colors:hidden ${
+    disabled ? "opacity-40" : ""
+  }`;
 
   const content = document.createElement("div");
-  content.className = "grid w-full";
+  content.className = "select-content grid w-full";
   [searchInputEl, optionsUlEl, arrowEl].forEach((el) =>
     content.appendChild(el)
   );
 
   const containerEl = document.createElement("div");
-  containerEl.className = "relative flex flex-col w-full";
+  containerEl.className = "relative flex flex-col w-full disabled:opacity-40";
   containerEl.appendChild(content);
+
+  const setValueInput = (valor) => {
+    if (lastSetValue === valor) return; // 🔁 impede chamadas duplicadas
+    lastSetValue = valor;
+    valueInputEl.value = valor;
+    !!campo.onChange && campo.onChange({ target: { value: valor } });
+  };
 
   // 🔍 Função para encontrar uma opção exata (sem acento/símbolos)
   const encontrarOpcaoPorTexto = (texto) => {
@@ -275,9 +282,14 @@ function createSelectSearchableEl(campo) {
   // ✅ Seleciona uma opção (preenche input e hidden)
   const selecionarOpcao = (option) => {
     searchInputEl.value = option.label;
-    valueInputEl.value = option.value;
+    setValueInput(option.value);
     optionsUlEl.classList.add("hidden");
   };
+
+  if (value) {
+    const option = options.find((o) => o.value == value);
+    selecionarOpcao(option);
+  }
 
   const atualizarListaOpcoes = (filtro = "") => {
     const textoBusca = limparTextoBusca(filtro);
@@ -328,7 +340,7 @@ function createSelectSearchableEl(campo) {
         selecionarOpcao(opcao);
       } else {
         searchInputEl.value = "";
-        valueInputEl.value = "";
+        setValueInput("");
       }
       optionsUlEl.classList.add("hidden");
     }
@@ -341,13 +353,78 @@ function createSelectSearchableEl(campo) {
       const opcao = encontrarOpcaoPorTexto(searchInputEl.value);
       if (!opcao) {
         searchInputEl.value = "";
-        valueInputEl.value = "";
+        setValueInput("");
       }
     }
   });
 
   const fragment = document.createDocumentFragment();
-  [containerEl, valueInputEl].forEach(el => fragment.appendChild(el));
+  [containerEl, valueInputEl].forEach((el) => fragment.appendChild(el));
+
+  return fragment;
+}
+
+function createDatetimeInputEl(campo) {
+  const validate = campo.validate;
+
+  const value = campo.value || "";
+  let dateValue = "";
+  let timeValue = "";
+
+  if(value) {
+    dateValue = value.substring(0, 10);
+    timeValue = value.substring(11, 16);
+  }
+
+  const container = document.createElement("div");
+  container.className = "flex items-center justify-between gap-4";
+
+  const campoDate = { ...campo };
+  campoDate.id = `${campo.name}-date`;
+  campoDate.name = `${campo.name}-date`;
+  campoDate.placeholder = "";
+  campoDate.type = "date";
+  campoDate.value = dateValue;
+  campoDate.validate = "";
+  const dateInputEl = createInputEl(campoDate);
+
+  const campoTime = { ...campo };
+  campoTime.id = `${campo.name}-time`;
+  campoTime.name = `${campo.name}-time`;
+  campoTime.placeholder = "";
+  campoTime.type = "time";
+  campoTime.value = timeValue;
+  campoTime.validate = "";
+  const timeInputEl = createInputEl(campoTime);
+
+  const datetimeInputEl = document.createElement("input");
+  datetimeInputEl.hidden = true;
+  datetimeInputEl.id = campo.name;
+  datetimeInputEl.name = campo.name;
+  datetimeInputEl.value = value;
+
+  if (!!validate) {
+    datetimeInputEl.setAttribute("data-validate", validate);
+  }
+
+  dateInputEl.onchange = (event) => {
+    const dateValue = event.target.value;
+
+    datetimeInputEl.value = `${dateValue} ${timeInputEl.value}`;
+  };
+
+  timeInputEl.onchange = (event) => {
+    const timeValue = event.target.value;
+
+    datetimeInputEl.value = `${dateInputEl.value} ${timeValue}`;
+  };
+
+  container.appendChild(dateInputEl);
+  container.appendChild(timeInputEl);
+
+  const fragment = document.createDocumentFragment();
+  fragment.appendChild(container);
+  fragment.appendChild(datetimeInputEl);
 
   return fragment;
 }
@@ -362,33 +439,61 @@ function createHelperTextEl(campo) {
   return helperTextEl;
 }
 
+function reCreateCampo(campo) {
+  const controlId = `form-control-${campo.name}`;
+
+  document.getElementById(controlId)?.replaceWith(createCampoEl(campo));
+}
+
+function createCampoEl(campo, index = 0) {
+  const controlId = `form-control-${campo.name || "campo-" + index}`;
+  let controlEl = document.getElementById(controlId);
+
+  if (!controlEl) {
+    controlEl = document.createElement("div");
+    controlEl.id = controlId;
+  } else {
+    controlEl.innerHTML = "";
+  }
+
+  controlEl.className = "form-control flex-col";
+
+  const labelEl = createLabelEl(campo);
+  let inputEl = null;
+
+  if (campo.type === "select-search") {
+    inputEl = createSelectSearchableEl(campo);
+  } else if (campo.type === "select") {
+    inputEl = createSelectEl(campo);
+  } else if (campo.type === "textarea") {
+    inputEl = createTextareaEl(campo);
+  } else if (campo.type === "datetime") {
+    inputEl = createDatetimeInputEl(campo);
+  } else {
+    inputEl = createInputEl(campo);
+  }
+
+  const helperTextEl = createHelperTextEl(campo);
+
+  controlEl.appendChild(labelEl);
+  controlEl.appendChild(inputEl);
+  controlEl.appendChild(helperTextEl);
+
+  return controlEl;
+}
+
 function renderCampos(campos) {
   const camposEl = document.getElementById("form-modal-campos");
   camposEl.innerHTML = "";
 
-  campos.forEach((campo) => {
-    const controlEl = document.createElement("div");
-    controlEl.className = "form-control flex-col";
-
-    const labelEl = createLabelEl(campo);
-    let inputEl = null;
-
-    if (campo.type === "select-search") {
-      inputEl = createSelectSearchableEl(campo);
-    } else if (campo.type === "select") {
-      inputEl = createSelectEl(campo);
-    } else if (campo.type === "textarea") {
-      inputEl = createTextareaEl(campo);
+  campos.forEach((campo, index) => {
+    let campoEl = null;
+    if (campo instanceof HTMLElement) {
+      campoEl = campo;
     } else {
-      inputEl = createInputEl(campo);
+      campoEl = createCampoEl(campo, index);
     }
 
-    const helperTextEl = createHelperTextEl(campo);
-
-    controlEl.appendChild(labelEl);
-    controlEl.appendChild(inputEl);
-    controlEl.appendChild(helperTextEl);
-
-    camposEl.appendChild(controlEl);
+    camposEl.appendChild(campoEl);
   });
 }

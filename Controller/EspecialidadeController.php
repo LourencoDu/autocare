@@ -40,6 +40,23 @@ final class EspecialidadeController extends Controller
     $this->index();
   }
 
+  public function listarJson(): void
+  {
+    parent::isProtectedApi();
+
+    $model = new Especialidade();
+    
+    try {
+      $lista = $model->getAllRows();
+
+      $response = JsonResponse::sucesso("Registros carregados com sucesso.", $lista);
+    } catch (\Throwable $th) {
+      $response = JsonResponse::erro("Falha ao carregar registros.", [$th->getMessage()]);
+    }
+
+    $response->enviar();
+  }
+
   public function listarTabela(): void
   {
     parent::isProtected(null, ["administrador"]);

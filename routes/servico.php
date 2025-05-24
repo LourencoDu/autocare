@@ -6,13 +6,16 @@ switch ($url) {
   case '/servico':
     (new ServicoController())->listar();
     exit;
-  case '/servico/cadastrar':
+  case '/api/servico/listar':
+    (new ServicoController())->listarTabela();
+    exit;
+  case '/api/servico/cadastrar':
     (new ServicoController())->cadastrar();
     exit;
-  case '/servico/alterar':
+  case '/api/servico/alterar':
     (new ServicoController())->alterar();
     exit;
-  case '/servico/deletar':
+  case '/api/servico/deletar':
     (new ServicoController())->deletar();
     exit;
 }

@@ -12,6 +12,9 @@ switch ($url) {
   case '/veiculo/alterar':
     (new VeiculoController())->alterar();
     exit;
+  case '/api/veiculo/listar':
+    (new VeiculoController())->listarJson();
+    exit;
   case '/api/veiculo/deletar':
     (new VeiculoController())->deletar();
     exit;

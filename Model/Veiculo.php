@@ -11,6 +11,10 @@ final class Veiculo extends Model {
     return (new VeiculoDAO())->selectById($id);
   }
 
+  public function getAllByIdUsuario(int $id_usuario) : array {
+    return (new VeiculoDAO())->selectByUser($id_usuario);
+  }
+
   public function getAllByLoggedUser() : array {
     $id_usuario = $_SESSION["usuario"]->id;
     return (new VeiculoDAO())->selectByUser($id_usuario);

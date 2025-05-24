@@ -6,6 +6,7 @@ use AutoCare\DAO\ModeloVeiculoDAO;
 
 final class ModeloVeiculo extends Model {
   public $id, $nome, $id_fabricante_veiculo;
+  public ?FabricanteVeiculo $fabricante;
   
   public static function getById(int $id) : ?ModeloVeiculo {
     return (new ModeloVeiculoDAO())->selectById($id);

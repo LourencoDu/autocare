@@ -1,22 +1,24 @@
 const form = document.getElementById("form-modal-form");
 
 const validators = {
-  nome: (val) => val.trim().length >= 2,
-  required: (val) => !!val.trim()
+  required: (val) => !!val.trim(),
+  datetime: (val) => val.trim().length >= 16,
+  "datetime-nullable": (val) => !val.trim() || val.trim().length >= 16
 };
 
-const campoDescricao = {
+const _campoDescricao = {
   name: "descricao",
   label: "Descrição",
   type: "textarea",
-  validate: "nome",
+  validate: "required",
   maxLength: 200,
   isRequired: true,
-  placeholder: "Ex.: Cliente afirmou estar ouvindo um barulho estranho ao pressionar o freio.",
+  placeholder:
+    "Ex.: Cliente afirmou estar ouvindo um barulho estranho ao pressionar o freio.",
   helperText: "Informe uma descrição.",
 };
 
-const campoUsuario = {
+const _campoUsuario = {
   name: "id_usuario",
   label: "Cliente",
   type: "select-search",
@@ -26,17 +28,36 @@ const campoUsuario = {
   options: [],
 };
 
-const campoVeiculo = {
+const _campoVeiculo = {
   name: "id_veiculo",
   label: "Veículo",
   type: "select-search",
   validate: "required",
   isRequired: true,
   helperText: "Selecione um veículo.",
+  disabled: true,
   options: [],
 };
 
-const campoEspecialidade = {
+const _campoDataInicio = {
+  name: "data_inicio",
+  label: "Quando o serviço foi ou será iniciado?",
+  type: "datetime",
+  validate: "datetime",
+  isRequired: true,
+  helperText: "Selecione a data e a hora do serviço.",
+};
+
+const _campoDataFim = {
+  name: "data_fim",
+  label: "Quando o serviço foi finalizado?",
+  type: "datetime",
+  validate: "datetime-nullable",
+  isRequired: false,
+  helperText: "Data inválida.",
+};
+
+const _campoEspecialidade = {
   name: "id_especialidade",
   label: "Especialidade",
   type: "select-search",
@@ -64,28 +85,117 @@ async function getUsuarios() {
   return options;
 }
 
-async function handleActionClick(id, nome = "") {
+async function getUsuarioVeiculos(id_usuario) {
+  if (!id_usuario) return [];
+
+  const response = await get(`/veiculo/listar?id_usuario=${id_usuario}`);
+  const options = [];
+
+  if (response.status === "success") {
+    response.dados.forEach((dado) => {
+      options.push({
+        value: dado.id,
+        label: dado.apelido,
+      });
+    });
+  } else {
+    showSnackbar("Falha ao carregar veículos do usuário.", "erro", 5000);
+  }
+
+  return options;
+}
+
+async function getEspecialidades() {
+  const response = await get("/especialidade/listar");
+  const options = [];
+
+  if (response.status === "success") {
+    response.dados.forEach((dado) => {
+      options.push({
+        value: dado.id,
+        label: dado.nome,
+      });
+    });
+  } else {
+    showSnackbar("Falha ao carregar especialidades.", "erro", 5000);
+  }
+
+  return options;
+}
+
+async function handleActionClick(id, id_usuario = "", id_veiculo = "", id_especialidade = "", data_inicio = "", data_fim = "", descricao = "") {
   const action = !!id ? "alterar" : "cadastrar";
   const isAlterar = action === "alterar";
 
+  const campoUsuario = { ..._campoUsuario };
+  const campoVeiculo = { ..._campoVeiculo };
+  const campoEspecialidade = { ..._campoEspecialidade };
+  const campoDataInicio = { ..._campoDataInicio };
+  const campoDataFim = { ..._campoDataFim };
+  const campoDescricao = { ..._campoDescricao };
+
   if (isAlterar) {
-    campoUsuario.value = nome;
+    campoUsuario.value = id_usuario;
+
+    campoVeiculo.value = id_veiculo;
+    campoVeiculo.disabled = false;
+
+    campoEspecialidade.value = id_especialidade;
+
+    campoDataInicio.value = data_inicio;
+    campoDataFim.value = data_fim;
+
+    campoDescricao.value = descricao;
   }
 
   setFormModalIsLoading(true);
 
-  const usuarioOptions = await getUsuarios();
-  campoUsuario.options = usuarioOptions;
+  const getUsuariosPromise = getUsuarios();
+  const getEspecialidadesPromise = getEspecialidades();
+
+  let [usuarioOptions, especialidadeOptions, veiculosOptions] = await Promise.all([
+    getUsuariosPromise,
+    getEspecialidadesPromise,
+    ...(isAlterar ? [ getUsuarioVeiculos(id_usuario) ] : [])
+  ]);
+
+  campoUsuario.options = usuarioOptions || [];
+  campoEspecialidade.options = especialidadeOptions || [];
+  campoVeiculo.options = veiculosOptions || [];
+
+  campoUsuario.onChange = async (event) => {
+    const id_usuario_selecionado = event.target.value || "";
+    let options = [];
+
+    if (id_usuario_selecionado) {
+      veiculosOptions = await getUsuarioVeiculos(id_usuario_selecionado);
+      options = veiculosOptions || [];
+      campoVeiculo.disabled = false;
+    } else {
+      options = [];
+      campoVeiculo.disabled = true;
+    }
+
+    campoVeiculo.options = options;
+    reCreateCampo(campoVeiculo);
+  };
 
   setFormModalIsLoading(false);
 
-  if (usuarioOptions.length > 0) {
+  if (usuarioOptions.length > 0 && especialidadeOptions.length > 0) {
     openFormModal({
-      title: isAlterar ? `Alterar "${nome}"` : "Novo Serviço",
+      title: isAlterar ? `Alterar Serviço "#${id}"` : "Novo Serviço",
       onConfirm: (event) => onSubmitForm(event, action, id),
       showCloseButton: true,
-      confirmButtonText: isAlterar ? "Salvar Alterações" : undefined,
-      campos: [campoUsuario, campoVeiculo, campoEspecialidade, campoDescricao],
+      confirmButtonText: isAlterar ? "Salvar Alterações" : "Confirmar",
+      campos: [
+        campoUsuario,
+        campoVeiculo,
+        campoEspecialidade,
+        campoDataInicio,
+        ...(isAlterar ? [campoDataFim] : []),
+        campoDescricao,
+      ],
     });
 
     form.querySelectorAll("[data-validate]").forEach((input) => {
@@ -109,6 +219,7 @@ function onSubmitForm(event, action, id = null) {
     const tipo = input.dataset.validate;
     const ok = validators[tipo](input.value);
     setError(input, !ok);
+    console.log(input.name, ok);
     if (!ok) valido = false;
   });
 
@@ -116,14 +227,23 @@ function onSubmitForm(event, action, id = null) {
     const form = event.target;
     const dados = new FormData(form);
 
-    const nome = dados.get("nome");
+    const data_fim = dados.get("data_fim");
+
+    const body = {
+      id_usuario: dados.get("id_usuario"),
+      id_veiculo: dados.get("id_veiculo"),
+      id_especialidade: dados.get("id_especialidade"),
+      data_inicio: dados.get("data_inicio"),
+      ...(!!data_fim.trim() ? { data_fim } : {}),
+      descricao: dados.get("descricao"),
+    };
 
     setFormModalIsLoading(true);
     post(
       `/servico/${action}`,
       new URLSearchParams({
         ...(action === "alterar" ? { id } : {}),
-        nome: nome,
+        ...body,
       })
     ).then((response) => {
       setFormModalIsLoading(false);
@@ -145,9 +265,9 @@ function onSubmitForm(event, action, id = null) {
 
 function handleDeleteClick(id, label) {
   openDeleteModal({
-    title: `Deletar servico "${label}"?`,
+    title: `Deletar servico "#${id}"?`,
     confirmButtonText: "Sim, deletar servico",
-    text: `Tem certeza de que deseja deletar o servico "${label}"?\nTodos os dados associados serão removidos permanentemente. Esta ação não poderá ser desfeita.`,
+    text: `Tem certeza de que deseja deletar o servico "#${id}"?\nTodos os dados associados serão removidos permanentemente. Esta ação não poderá ser desfeita.`,
     onConfirm: () => handleDeleteConfirm(id),
   });
 }

@@ -10,7 +10,7 @@ final class Servico extends Model
   
   public string $descricao;
   public string $data_inicio;
-  public string $data_fim;
+  public ?string $data_fim;
 
   public Usuario $usuario;
   public Prestador $prestador;

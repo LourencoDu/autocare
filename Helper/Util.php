@@ -60,7 +60,7 @@ class Util
     return $cnpj;
   }
 
-    /**
+  /**
    * Remove acentos de uma string.
    * Ex: João Café → Joao Cafe
    */
@@ -68,4 +68,48 @@ class Util
   {
     return transliterator_transliterate('Any-Latin; Latin-ASCII;', $texto);
   }
+
+/**
+ * Formata uma string de data/hora no formato "Y-m-d H:i:s" para "d/m/Y H:i (rótulo relativo)".
+ *
+ * @param string $dataHora Data e hora no formato Y-m-d H:i:s
+ * @return string Data formatada com rótulo relativo
+ */
+public static function formatarDataHora(string $dataHora, string $formato = "d/m/Y H:i", bool $showDiff = false): string
+{
+  try {
+    $data = new \DateTime($dataHora);
+    $agora = new \DateTime();
+
+    $formatada = $data->format($formato);
+
+    if($showDiff == false) {
+      return $formatada;
+    }
+
+    $diff = $agora->diff($data);
+
+    $label = '';
+    $prefixo = $diff->invert ? 'há' : 'daqui a';
+
+    if ($diff->days === 0) {
+      if ($diff->h > 0) {
+        $label = " ({$prefixo} {$diff->h} hora" . ($diff->h > 1 ? 's' : '') . ")";
+      } elseif ($diff->i > 0) {
+        $label = " ({$prefixo} {$diff->i} minuto" . ($diff->i > 1 ? 's' : '') . ")";
+      } else {
+        $label = ' (agora)';
+      }
+    } elseif ($diff->days === 1) {
+      $label = $diff->invert ? ' (ontem)' : ' (amanhã)';
+    } else {
+      $label = " ({$prefixo} {$diff->days} dia" . ($diff->days > 1 ? 's' : '') . ")";
+    }
+
+    return $formatada . $label;
+  } catch (\Exception $e) {
+    return $dataHora;
+  }
+}
+
 }

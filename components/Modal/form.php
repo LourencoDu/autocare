@@ -3,7 +3,7 @@
 
   <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
     <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-      <form id="form-modal-form" novalidate="true" class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-lg">
+      <form id="form-modal-form" novalidate="true" class="relative transform rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-lg">
         <div class="relative bg-white px-4 sm:px-6 h-14 flex items-center border-b border-gray-300 justify-between">
           <h3 class="text-base font-semibold text-gray-900" id="form-modal-title">Formulário</h3>
           <button id="form-modal-close-button" onclick="closeFormModal()" type="button" class="hidden flex items-center justify-center p-2 text-lg/10 text-gray-400 hover:text-gray-700 cursor-pointer transition">

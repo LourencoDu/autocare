@@ -2,8 +2,12 @@
 
 namespace AutoCare\DAO;
 
+use AutoCare\Model\Especialidade;
+use AutoCare\Model\FabricanteVeiculo;
+use AutoCare\Model\ModeloVeiculo;
 use AutoCare\Model\Prestador;
 use AutoCare\Model\Servico;
+use AutoCare\Model\Veiculo;
 
 final class ServicoDAO extends DAO {
   public function __construct()
@@ -36,8 +40,30 @@ final class ServicoDAO extends DAO {
     $model->prestador = $model_prestador;
 
     //Veiculo
+    $model_veiculo = new Veiculo();
+    $model_veiculo->id = $data["v_id"];
+    $model_veiculo->apelido = $data["v_apelido"];
+    $model_veiculo->ano = $data["v_ano"];
+    $model_veiculo->id_modelo_veiculo = $data["v_id_modelo_veiculo"];
+
+    $model_modelo_veiculo = new ModeloVeiculo();
+    $model_modelo_veiculo->id = $data["mv_id"];
+    $model_modelo_veiculo->nome = $data["mv_nome"];
+    $model_modelo_veiculo->id_fabricante_veiculo = $data["mv_id_fabricante_veiculo"];
+
+    $model_fabricante_veiculo = new FabricanteVeiculo();
+    $model_fabricante_veiculo->id = $data["fv_id"];
+    $model_fabricante_veiculo->nome = $data["fv_nome"];
+
+    $model_veiculo->modelo = $model_modelo_veiculo;
+    $model_veiculo->fabricante = $model_fabricante_veiculo;
+    $model->veiculo = $model_veiculo;
 
     //Especialidade
+    $model_especialidade = new Especialidade();
+    $model_especialidade->id = $data["e_id"];
+    $model_especialidade->nome = $data["e_nome"];
+    $model->especialidade = $model_especialidade;
 
     return $model;
   }
@@ -47,11 +73,11 @@ final class ServicoDAO extends DAO {
     $sql = "SELECT 
     s.id s_id, s.descricao s_descricao, s.data_inicio s_data_inicio, s.data_fim s_data_fim,
     s.id_prestador s_id_prestador, s.id_usuario s_id_usuario, s.id_veiculo s_id_veiculo, s.id_especialidade s_id_especialidade,
-    p.id p_id_prestador, p.documento p_documento,
+    p.id p_id, p.documento p_documento,
     pu.id pu_id, pu.nome pu_nome,
     u.id u_id, u.nome u_nome, u.sobrenome u_sobrenome, u.email u_email, u.telefone u_telefone,
     v.id v_id, v.apelido v_apelido, v.ano v_ano, v.id_modelo_veiculo v_id_modelo_veiculo,
-    mv.id mv_id, mv.nome mv_nome, mv.id_fabricante_veiculo,
+    mv.id mv_id, mv.nome mv_nome, mv.id_fabricante_veiculo mv_id_fabricante_veiculo,
     fv.id fv_id, fv.nome fv_nome,
     e.id e_id, e.nome e_nome
     FROM servico s
@@ -82,11 +108,11 @@ final class ServicoDAO extends DAO {
     $sql = "SELECT 
     s.id s_id, s.descricao s_descricao, s.data_inicio s_data_inicio, s.data_fim s_data_fim,
     s.id_prestador s_id_prestador, s.id_usuario s_id_usuario, s.id_veiculo s_id_veiculo, s.id_especialidade s_id_especialidade,
-    p.id p_id_prestador, p.documento p_documento,
+    p.id p_id, p.documento p_documento,
     pu.id pu_id, pu.nome pu_nome,
     u.id u_id, u.nome u_nome, u.sobrenome u_sobrenome, u.email u_email, u.telefone u_telefone,
     v.id v_id, v.apelido v_apelido, v.ano v_ano, v.id_modelo_veiculo v_id_modelo_veiculo,
-    mv.id mv_id, mv.nome mv_nome, mv.id_fabricante_veiculo,
+    mv.id mv_id, mv.nome mv_nome, mv.id_fabricante_veiculo mv_id_fabricante_veiculo,
     fv.id fv_id, fv.nome fv_nome,
     e.id e_id, e.nome e_nome
     FROM servico s
@@ -116,11 +142,11 @@ final class ServicoDAO extends DAO {
     $sql = "SELECT 
     s.id s_id, s.descricao s_descricao, s.data_inicio s_data_inicio, s.data_fim s_data_fim,
     s.id_prestador s_id_prestador, s.id_usuario s_id_usuario, s.id_veiculo s_id_veiculo, s.id_especialidade s_id_especialidade,
-    p.id p_id_prestador, p.documento p_documento,
+    p.id p_id, p.documento p_documento,
     pu.id pu_id, pu.nome pu_nome,
     u.id u_id, u.nome u_nome, u.sobrenome u_sobrenome, u.email u_email, u.telefone u_telefone,
     v.id v_id, v.apelido v_apelido, v.ano v_ano, v.id_modelo_veiculo v_id_modelo_veiculo,
-    mv.id mv_id, mv.nome mv_nome, mv.id_fabricante_veiculo,
+    mv.id mv_id, mv.nome mv_nome, mv.id_fabricante_veiculo mv_id_fabricante_veiculo,
     fv.id fv_id, fv.nome fv_nome,
     e.id e_id, e.nome e_nome
     FROM servico s

@@ -75,7 +75,10 @@ final class ServicoController extends Controller
 
     $descricao = isset($_POST["descricao"]) ? $_POST["descricao"] : null;
     $data_inicio = isset($_POST["data_inicio"]) ? $_POST["data_inicio"] : null;
+
     $data_fim = isset($_POST["data_fim"]) ? $_POST["data_fim"] : null;
+    if($data_fim == "null") $data_fim = null;
+
     $id_usuario = isset($_POST["id_usuario"]) ? $_POST["id_usuario"] : null;
     $id_veiculo = isset($_POST["id_veiculo"]) ? $_POST["id_veiculo"] : null;
     $id_especialidade = isset($_POST["id_especialidade"]) ? $_POST["id_especialidade"] : null;
@@ -101,7 +104,7 @@ final class ServicoController extends Controller
 
           $model->save();
 
-          $response = JsonResponse::sucesso("Serviço cadastrada com sucesso!");
+          $response = JsonResponse::sucesso("Serviço cadastrada com sucesso!", [$data_fim, $_POST["data_fim"]]);
         } catch (\Throwable $th) {
           $response = JsonResponse::erro("Falha ao cadastrar serviço!", [$th->getMessage()]);
         }
@@ -133,8 +136,8 @@ final class ServicoController extends Controller
         try {
           $model = new Servico();
 
-          $model->getById((int) $id);
-          if ($model) {
+          $model = $model->getById((int) $id);
+          if ($model->id) {
             $model->descricao = $descricao;
             $model->data_inicio = $data_inicio;
             $model->data_fim = $data_fim;
@@ -143,12 +146,12 @@ final class ServicoController extends Controller
             $model->id_especialidade = $id_especialidade;
 
             $model->save();
-            $response = JsonResponse::sucesso("Serviço cadastrada com sucesso!");
+            $response = JsonResponse::sucesso("Serviço alterado com sucesso!");
           } else {
-            $response = JsonResponse::erro("Serviço não encontrado!");
+            $response = JsonResponse::erro("Serviço não encontrado!", [$model, $id]);
           }
         } catch (\Throwable $th) {
-          $response = JsonResponse::erro("Falha ao cadastrar serviço!", [$th->getMessage()]);
+          $response = JsonResponse::erro("Falha ao alterar serviço!", [$th->getMessage()]);
         }
       } else {
         $response = JsonResponse::erro("Preencha todos os campos!");

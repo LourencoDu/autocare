@@ -7,7 +7,8 @@ use AutoCare\Model\FabricanteVeiculo;
 use AutoCare\Model\ModeloVeiculo;
 use AutoCare\Model\Veiculo;
 
-final class VeiculoController extends Controller {
+final class VeiculoController extends Controller
+{
   public function index(): void
   {
     parent::isProtected(["prestador", "funcionario"]);
@@ -17,7 +18,8 @@ final class VeiculoController extends Controller {
     $this->render();
   }
 
-  private function backToIndex(): void {
+  private function backToIndex(): void
+  {
     parent::redirect("veiculo");
   }
 
@@ -33,6 +35,29 @@ final class VeiculoController extends Controller {
     $this->js = "Veiculo/script.js";
 
     $this->index();
+  }
+
+  public function listarJson(): void
+  {
+    parent::isProtectedApi();
+
+    $model = new Veiculo();
+
+    $id_usuario = $_GET["id_usuario"] ?? null;
+
+    if ($id_usuario) {
+      try {
+        $lista = $model->getAllByIdUsuario($id_usuario);
+
+        $response = JsonResponse::sucesso("Registros carregados com sucesso.", $lista);
+      } catch (\Throwable $th) {
+        $response = JsonResponse::erro("Falha ao carregar registros.", [$th->getMessage()]);
+      }
+    } else {
+      $response = JsonResponse::erro("O parâmetro 'id_usuario' é obrigatório.", []);
+    }
+
+    $response->enviar();
   }
 
   public function cadastrar(): void
@@ -71,7 +96,7 @@ final class VeiculoController extends Controller {
         $this->backToIndex();
       } catch (\Throwable $th) {
         $this->data = array_merge($this->data, [
-          "erro" => "Falha ao adicionar registro. Erro: ".$th->getMessage(),
+          "erro" => "Falha ao adicionar registro. Erro: " . $th->getMessage(),
           "exception" => $th->getMessage()
         ]);
       }
@@ -90,14 +115,14 @@ final class VeiculoController extends Controller {
     $model = new Veiculo();
     $id = isset($_GET["id"]) ? $_GET["id"] : null;
 
-    if($id != null) {
+    if ($id != null) {
       $model = $model->getById((int) $id);
 
-      if($model != null) {
+      if ($model != null) {
         $modeloModel = ModeloVeiculo::getById($model->id_modelo_veiculo);
         $id_fabricante_veiculo = $modeloModel->id_fabricante_veiculo;
 
-        $this->titulo = 'Alterar "'.$model->apelido.'"';
+        $this->titulo = 'Alterar "' . $model->apelido . '"';
 
         $this->caminho = [
           new CaminhoItem("Meus Veículos", "veiculo"),
@@ -115,28 +140,28 @@ final class VeiculoController extends Controller {
           "id_modelo_veiculo" => $model->id_modelo_veiculo,
           "id_fabricante_veiculo" => $id_fabricante_veiculo
         ];
-    
+
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
-          try {           
+          try {
             $model->ano = $_POST["ano"];
             $model->apelido = $_POST["apelido"];
             $model->id_modelo_veiculo = $_POST["id_modelo_veiculo"];
-    
+
             $model->save();
-    
+
             $this->backToIndex();
           } catch (\Throwable $th) {
             $this->data = array_merge($this->data, [
-              "erro" => "Falha ao alterar registro. Erro: ".$th->getMessage(),
+              "erro" => "Falha ao alterar registro. Erro: " . $th->getMessage(),
               "exception" => $th->getMessage()
             ]);
           }
         }
-    
+
         $this->render();
-      }  else {
+      } else {
         $this->backToIndex();
-      }    
+      }
     } else {
       $this->backToIndex();
     }
@@ -150,7 +175,7 @@ final class VeiculoController extends Controller {
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
       $response = null;
-      try {           
+      try {
         Veiculo::delete((int) $id);
 
         $response = JsonResponse::sucesso("Veículo deletado com sucesso!");
