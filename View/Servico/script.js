@@ -75,7 +75,8 @@ async function getUsuarios() {
     response.dados.forEach((dado) => {
       options.push({
         value: dado.id,
-        label: dado.nome,
+        label: dado.nome + " " + dado.sobrenome,
+        query: `${dado.nome} ${dado.sobrenome} ${dado.email} ${dado.telefone}`
       });
     });
   } else {
@@ -95,7 +96,7 @@ async function getUsuarioVeiculos(id_usuario) {
     response.dados.forEach((dado) => {
       options.push({
         value: dado.id,
-        label: dado.apelido,
+        label: `${dado.fabricante} ${dado.modelo} (${dado.ano})`,
       });
     });
   } else {

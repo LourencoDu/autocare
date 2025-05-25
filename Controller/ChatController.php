@@ -9,7 +9,7 @@ final class ChatController extends Controller
 {
   public function index(): void
   {
-    parent::isProtected();
+    parent::isProtected(["prestador", "administrador"]);
 
     $this->view = "Chat/listar.php";
     $this->titulo = "Conversas";
@@ -18,7 +18,7 @@ final class ChatController extends Controller
 
   public function listarPorUsuario(): void
   {
-    parent::isProtected();
+    parent::isProtected(["prestador", "administrador"]);
 
     $listaDeChats = ChatController::getChatsPorUsuario();
 
@@ -37,7 +37,7 @@ final class ChatController extends Controller
 
   public function listarPorPrestador(): void
   {
-    parent::isProtected();
+    parent::isProtected(["prestador", "administrador"]);
 
     $listaDeChats = ChatController::getChatsPorPrestador();
 
@@ -56,7 +56,7 @@ final class ChatController extends Controller
 
   public function getMensagensByIdChat(): void
   {
-    parent::isProtected();
+    parent::isProtected(["prestador", "administrador"]);
 
     $chatId = $_GET['id'] ?? null;
 
@@ -87,7 +87,7 @@ final class ChatController extends Controller
 
   public function atualizarMensagensChat(): void
   {
-    parent::isProtected();
+    parent::isProtected(["prestador", "administrador"]);
 
     $chatId = $_GET['id'] ?? null;
 
@@ -100,7 +100,7 @@ final class ChatController extends Controller
 
   public function listarConversas(): void
   {
-    parent::isProtected();
+    parent::isProtected(["prestador", "administrador"]);
 
     if ($_SESSION['usuario']->tipo == 'usuario') {
       $lista = ChatController::getChatsPorUsuario();
@@ -114,7 +114,7 @@ final class ChatController extends Controller
 
   public function incluirMensagem(): void
   {
-    parent::isProtected();
+    parent::isProtected(["prestador", "administrador"]);
 
     $chat_id = intval($_POST['chatId']);
     $mensagem = $_POST['texto'];
@@ -128,7 +128,7 @@ final class ChatController extends Controller
 
   public function visualizarMensagensChat(): void
   {
-    parent::isProtected();
+    parent::isProtected(["prestador", "administrador"]);
 
     $chatId = $_GET['id'] ?? null;
 
@@ -141,7 +141,7 @@ final class ChatController extends Controller
 
   public function criaNovaConversa(): void
   {
-    parent::isProtected();
+    parent::isProtected(["prestador", "administrador"]);
 
     $idPrestador = $_GET['id'] ?? null;
 

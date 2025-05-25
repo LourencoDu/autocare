@@ -49,6 +49,13 @@ final class VeiculoController extends Controller
       try {
         $lista = $model->getAllByIdUsuario($id_usuario);
 
+        foreach ($lista as $index => $linha) {
+          $linha->apelido = null;
+          $linha->quantidade_servicos = null;
+
+          $lista[$index] = $linha;
+        }
+
         $response = JsonResponse::sucesso("Registros carregados com sucesso.", $lista);
       } catch (\Throwable $th) {
         $response = JsonResponse::erro("Falha ao carregar registros.", [$th->getMessage()]);

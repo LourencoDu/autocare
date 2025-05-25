@@ -47,7 +47,7 @@ $quantidade = count($servicos);
           <?php foreach ($servicos as $index => $servico) : ?>
             <?php
               $cliente = $servico->usuario;
-              $cliente_label = $cliente->nome." ".$cliente->sobrenome." ( ".$cliente->email." )";
+              $cliente_label = $cliente->nome." ".$cliente->sobrenome." ( tel.: ".Util::formatarTelefone($cliente->telefone)." )";
 
               $veiculo = $servico->veiculo;
               $veiculo_label = $veiculo->fabricante->nome." ".$veiculo->modelo->nome." ( ".$veiculo->ano." )";

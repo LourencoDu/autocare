@@ -13,8 +13,8 @@
     <div class="flex flex-row grow flex-1 gap-2 sm:gap-4 overflow-y-auto">
       <?php include COMPONENTS . "sidemenu.php"; ?>
 
-      <div class="flex flex-col grow border border-gray-700/20 rounded-xl px-[0.15rem] py-[0.15rem] bg-gray-50 overflow-auto">
-        <div class="flex flex-col grow p-5 sm:p-5 px-5 sm:px-24 overflow-y-auto">
+      <div class="flex flex-col items-center grow border border-gray-700/20 rounded-xl px-[0.15rem] py-[0.15rem] bg-gray-50 overflow-auto">
+        <div class="flex flex-col grow p-5 sm:p-5 px-5 sm:px-24 overflow-y-auto w-full max-w-[1600px]">
           <div class="flex flex-row pb-5">
             <div class="flex flex-row items-center gap-4 h-10">
               <span class="font-medium text-lg">

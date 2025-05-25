@@ -281,8 +281,8 @@ function createSelectSearchableEl(campo) {
 
   // ✅ Seleciona uma opção (preenche input e hidden)
   const selecionarOpcao = (option) => {
-    searchInputEl.value = option.label;
-    setValueInput(option.value);
+    searchInputEl.value = option?.label || "";
+    setValueInput(option?.value || "");
     optionsUlEl.classList.add("hidden");
   };
 

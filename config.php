@@ -21,6 +21,7 @@ loadEnv(__DIR__ . '/.env');
 
 define("BASE_DIR", dirname(__FILE__, 2));
 define("BASE_DIR_NAME", basename(__DIR__));
+define("PUBLIC_DIR", BASE_DIR_NAME."/public");
 
 define("VIEWS", BASE_DIR."/AutoCare/View/");
 define("COMPONENTS", BASE_DIR."/autocare/components/");
