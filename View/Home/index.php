@@ -11,14 +11,20 @@
   ?>
 
   <?php 
+    if($tipo == "prestador" || $tipo == "funcionario") {
+      require COMPONENTS."Home/CompletarPerfil/index.php";
+    }
+  ?>
+
+  <?php 
     if($tipo == "usuario") {
       require COMPONENTS."Home/Veiculos/index.php";
     }
   ?>
 
   <?php 
-    if($tipo == "prestador" || $tipo == "funcionario") {
-      require COMPONENTS."Home/CompletarPerfil/index.php";
+    if($tipo == "usuario") {
+      require COMPONENTS."Home/EncontrarPrestadores/index.php";
     }
   ?>
 </div>
