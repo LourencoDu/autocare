@@ -1,5 +1,8 @@
 let selectedLat = null;
 let selectedLon = null;
+let selectedName = null;
+
+
 
 const map = new ol.Map({
     target: 'map',
@@ -57,7 +60,9 @@ map.on('click', async function(event) {
             },
             body: JSON.stringify({
                 latitude: selectedLat,
-                longitude: selectedLon
+                longitude: selectedLon,
+                nome: selectedName
+
             })
         });
 
