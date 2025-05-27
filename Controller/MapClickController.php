@@ -6,8 +6,12 @@ use AutoCare\Model\Local;
 use Throwable;
 
 
-echo "User ID is: " . ($_SESSION['id_usuario'] ?? 'Not set');
-
+echo "<pre>";
+print_r($_SESSION); 
+echo "</pre>";
+echo "User ID is: " . ($_SESSION['usuario']->id ?? 'Not set');
+echo "User Type is: " . ($_SESSION['usuario']->tipo ?? 'Not set') . "<br>";
+echo "Prestador ID is: " . ($_SESSION['usuario']->prestador->id ?? 'Not set');
 
 final class MapClickController extends Controller
 {
@@ -31,35 +35,40 @@ final class MapClickController extends Controller
             echo json_encode(['success' => false, 'message' => 'Missing data']);
             return;
         }
-        
 
-        
-        $model = new Local();
-        $model->latitude = $input['latitude'];
-        $model->longitude = $input['longitude'];
-        $localSave = $model->save();
+        $local = new Local();
+        $local->latitude = $input['latitude'];
+        $local->longitude = $input['longitude'];
+        $savedLocal = $local->save();
 
-        $prestador = new Prestador();
-        $prestador->id_usuario = $_SESSION['id_usuario'];
-        $prestador->id_localizacao = $localSave;
+        $prestador = $_SESSION['usuario']->prestador ?? null;
 
-        $saved = $prestador->save();
+        if (!$prestador) {
+            echo json_encode(['success' => false, 'message' => 'Prestador not logged in']);
+            return;
+        }
 
+        $prestador->localizacao = $savedLocal; 
+        $prestador->save();
 
+        $_SESSION['usuario']->prestador = $prestador;
 
         echo json_encode([
             'success' => true,
-            'id_Prestador' => $saved->id,
-            'id_Local' => $localSave,
-            'id_usuario' => $_SESSION['id_usuario']
+            'id_prestador' => $prestador->id,
+            'id_localizacao' => $savedLocal->id,
+            'new_lat' => $savedLocal->latitude,
+            'new_lon' => $savedLocal->longitude
         ]);
     } catch (Throwable $e) {
         echo json_encode([
             'success' => false,
-            'message' => 'Exception: ' . $e->getMessage()
+            'message' => 'Exception: ' . $e->getMessage(),
+            'trace' => $e->getTrace() // Remove in production
         ]);
     }
 }
+
 
 
 }

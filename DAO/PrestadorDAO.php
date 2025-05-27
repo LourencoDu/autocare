@@ -19,31 +19,37 @@ final class PrestadorDAO extends DAO
     return ($model->id == null) ? $this->insert($model) : $this->update($model);
   }
 
-  private function insert(Prestador $model): Prestador
-  {
-    $sql = "INSERT INTO prestador (documento, id_usuario) VALUES (?, ?);";
+private function insert(Prestador $model): Prestador
+{
+    $sql = "INSERT INTO prestador (documento, id_usuario, id_localizacao) VALUES (?, ?, ?);";
 
     $stmt = parent::$conexao->prepare($sql);
     $stmt->bindValue(1, $model->documento);
     $stmt->bindValue(2, $model->id_usuario);
+    $stmt->bindValue(3, $model->localizacao?->id); // null-safe in case it's not set
+
     $stmt->execute();
 
     $model->id = parent::$conexao->lastInsertId();
 
     return $model;
-  }
+}
 
-  private function update(Prestador $model)
-  {
-    $sql = "UPDATE prestador SET documento=? WHERE id=?;";
+
+private function update(Prestador $model): Prestador
+{
+    $sql = "UPDATE prestador SET documento=?, id_localizacao=? WHERE id=?;";
 
     $stmt = parent::$conexao->prepare($sql);
     $stmt->bindValue(1, $model->documento);
-    $stmt->bindValue(2, $model->id);
+    $stmt->bindValue(2, $model->localizacao?->id);
+    $stmt->bindValue(3, $model->id);
+
     $stmt->execute();
 
     return $model;
-  }
+}
+
 
   public function selectById(int $id)
   {
