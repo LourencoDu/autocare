@@ -44,7 +44,7 @@ final class MapClickController extends Controller
         $prestador = $_SESSION['usuario']->prestador ?? null;
 
         if (!$prestador) {
-            echo json_encode(['success' => false, 'message' => 'Prestador not logged in']);
+            echo json_encode(['success' => false, 'message' => 'Prestador sem login']);
             return;
         }
 
@@ -64,7 +64,7 @@ final class MapClickController extends Controller
         echo json_encode([
             'success' => false,
             'message' => 'Exception: ' . $e->getMessage(),
-            'trace' => $e->getTrace() // Remove in production
+        
         ]);
     }
 }

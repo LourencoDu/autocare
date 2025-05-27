@@ -3,6 +3,7 @@
 namespace AutoCare\Controller;
 
 use AutoCare\Model\Local;
+use AutoCare\Model\Prestador;
 
 final class MapController extends Controller
 {
@@ -65,18 +66,16 @@ final class MapController extends Controller
   }*/
 public function listar()
 {
-    // Get all prestadores with their locations and user data
-    $prestadores = (new \AutoCare\Model\Prestador())->getAllRows();
+    $prestadores = (new Prestador())->getAllRows();
 
     $results = [];
 
     foreach ($prestadores as $prestador) {
-        // Only include prestadores with valid locations
         if ($prestador->localizacao && !empty($prestador->localizacao->latitude) && !empty($prestador->localizacao->longitude)) {
             $results[] = [
                 'lat' => $prestador->localizacao->latitude,
                 'lon' => $prestador->localizacao->longitude,
-                'nome' => $prestador->usuario->nome // Add the name from usuario
+                'nome' => $prestador->usuario->nome 
             ];
         }
     }
