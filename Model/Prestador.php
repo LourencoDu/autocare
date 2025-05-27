@@ -7,7 +7,7 @@ use AutoCare\DAO\PrestadorDAO;
 final class Prestador extends Model {
   public $id, $documento, $id_usuario, $id_localizacao;
   public Usuario $usuario;
-  public ?Local $localizacao;
+  public ?Local $localizacao = null;
   public ?PrestadorContato $prestador_contato;
 
   public static function getById(int $id) : ?Prestador {
