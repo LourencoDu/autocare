@@ -64,10 +64,14 @@ class Util
    * Remove acentos de uma string.
    * Ex: João Café → Joao Cafe
    */
-  public static function removerAcentos($texto): string
-  {
-    return transliterator_transliterate('Any-Latin; Latin-ASCII;', $texto);
-  }
+public static function removerAcentos($texto) {
+    return preg_replace(
+        '/[^A-Za-z0-9\ ]/',
+        '',
+        iconv('UTF-8', 'ASCII//TRANSLIT', $texto)
+    );
+}
+
 
 /**
  * Formata uma string de data/hora no formato "Y-m-d H:i:s" para "d/m/Y H:i (rótulo relativo)".
