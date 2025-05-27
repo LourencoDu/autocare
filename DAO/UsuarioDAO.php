@@ -133,4 +133,44 @@ final class UsuarioDAO extends DAO
     $stmt->bindValue(1, $id);
     return $stmt->execute();
   }
+
+  public function recuperarSenha(string $email, string $token_hash): bool
+  {
+    $sql = "UPDATE usuario 
+            SET reset_token_hash = ? 
+            WHERE email =?;";
+
+    $stmt = parent::$conexao->prepare($sql);
+    $stmt->bindValue(1, $token_hash);
+    $stmt->bindValue(2, $email);
+    $stmt->execute();
+
+    return $stmt->rowCount() > 0;
+  }
+
+  public function validarToken(string $email, string $token_hash): bool
+  {
+    $sql = "SELECT id FROM usuario 
+            WHERE email = ? AND reset_token_hash = ?";
+
+    $stmt = parent::$conexao->prepare($sql);
+    $stmt->bindValue(1, $email);
+    $stmt->bindValue(2, $token_hash);
+    $stmt->execute();
+
+    return $stmt->rowCount() > 0;
+  }
+
+  public function atualizarSenha(string $email, string $novaSenha): bool
+  {
+    $sql = "UPDATE usuario 
+            SET senha = ?, reset_token_hash = NULL 
+            WHERE email = ?";
+
+    $stmt = parent::$conexao->prepare($sql);
+    $stmt->bindValue(1, password_hash($novaSenha, PASSWORD_DEFAULT));
+    $stmt->bindValue(2, $email);
+
+    return $stmt->execute();
+  }
 }

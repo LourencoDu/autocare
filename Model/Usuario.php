@@ -6,7 +6,7 @@ use AutoCare\DAO\UsuarioDAO;
 
 final class Usuario extends Model
 {
-  public $id, $nome, $sobrenome, $telefone, $email, $senha, $tipo;
+  public $id, $nome, $sobrenome, $telefone, $email, $senha, $tipo, $reset_token_hash, $token_expire;
 
   public static function getById(int $id): ?Usuario
   {
@@ -41,5 +41,20 @@ final class Usuario extends Model
   public static function delete(int $id): bool
   {
     return (new UsuarioDAO())->delete($id);
+  }
+
+  public static function recuperarSenha(string $email, string $token_hash): bool
+  {
+    return (new UsuarioDAO())->recuperarSenha($email, $token_hash);
+  }
+
+  public static function validarToken(string $email, string $token_hash): bool
+  {
+    return (new UsuarioDAO())->validarToken($email, $token_hash);
+  }
+
+  public static function atualizarSenha(string $email, string $novaSenha): bool
+  {
+    return (new UsuarioDAO())->atualizarSenha($email, $novaSenha);
   }
 }

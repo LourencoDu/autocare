@@ -18,6 +18,20 @@ CREATE SCHEMA IF NOT EXISTS `autocare` DEFAULT CHARACTER SET utf8mb3 ;
 USE `autocare` ;
 
 -- -----------------------------------------------------
+-- Table `autocare`.`status_padrao`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `autocare`.`status_padrao` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `status_texto` VARCHAR(45) NULL DEFAULT NULL,
+  `cod_status` INT NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `cod_status_UNIQUE` (`cod_status` ASC) VISIBLE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 5
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
 -- Table `autocare`.`especialidade`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `autocare`.`especialidade` (
@@ -25,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `autocare`.`especialidade` (
   `nome` VARCHAR(40) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 17
+AUTO_INCREMENT = 33
 DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -65,10 +79,12 @@ CREATE TABLE IF NOT EXISTS `autocare`.`usuario` (
   `telefone` VARCHAR(11) NOT NULL,
   `senha` VARCHAR(255) NOT NULL,
   `tipo` ENUM('usuario', 'prestador', 'funcionario', 'moderador', 'administrador') NOT NULL,
+  `reset_token_hash` VARCHAR(64) NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
+  UNIQUE INDEX `reset_token_hash_UNIQUE` (`reset_token_hash` ASC) VISIBLE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 2
+AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -151,18 +167,6 @@ DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `autocare`.`status_padrao`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `autocare`.`status_padrao` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `status_texto` VARCHAR(45) NULL,
-  `cod_status` INT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `cod_status_UNIQUE` (`cod_status` ASC) VISIBLE)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `autocare`.`servico`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `autocare`.`servico` (
@@ -181,6 +185,9 @@ CREATE TABLE IF NOT EXISTS `autocare`.`servico` (
   INDEX `fk_id_veiculo_servico_idx` (`id_veiculo` ASC) VISIBLE,
   INDEX `fk_id_especialidade_servico_idx` (`id_especialidade` ASC) VISIBLE,
   INDEX `fk_cod_status_idx` (`id_status_padrao` ASC) VISIBLE,
+  CONSTRAINT `fk_cod_status`
+    FOREIGN KEY (`id_status_padrao`)
+    REFERENCES `autocare`.`status_padrao` (`cod_status`),
   CONSTRAINT `fk_id_especialidade_servico`
     FOREIGN KEY (`id_especialidade`)
     REFERENCES `autocare`.`especialidade` (`id`),
@@ -192,12 +199,7 @@ CREATE TABLE IF NOT EXISTS `autocare`.`servico` (
     REFERENCES `autocare`.`usuario` (`id`),
   CONSTRAINT `fk_id_veiculo_servico`
     FOREIGN KEY (`id_veiculo`)
-    REFERENCES `autocare`.`veiculo` (`id`),
-  CONSTRAINT `fk_cod_status`
-    FOREIGN KEY (`id_status_padrao`)
-    REFERENCES `autocare`.`status_padrao` (`cod_status`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `autocare`.`veiculo` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 

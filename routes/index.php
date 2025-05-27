@@ -38,6 +38,7 @@ switch ($url) {
     require_once __DIR__ . '/fabricanteVeiculo.php';
     require_once __DIR__ . '/modeloVeiculo.php';
     require_once __DIR__ . '/especialidade.php';
+    require_once __DIR__ . '/recuperarSenha.php';
 
     // Se nenhuma rota for encontrada
     (new HomeController())->index();

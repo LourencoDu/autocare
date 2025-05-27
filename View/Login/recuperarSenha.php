@@ -1,9 +1,7 @@
 <?php
 $email = "";
-$senha = "";
 if (isset($data["form"])) {
   $email = $data["form"]["email"] ?? "";
-  $senha = $data["form"]["senha"] ?? "";
 }
 ?>
 
@@ -17,28 +15,23 @@ if (isset($data["form"])) {
       <span class="text-2xl font-semibold">AutoCare</span>
     </div>
 
-    <h2 class="text-2xl font-semibold">Acesse sua conta</h2>
+    <h2 class="text-2xl font-semibold">Recuperar senha</h2>
+    <p class="text-base text-gray-600">
+      Informe seu e-mail cadastrado e enviaremos as instruções para redefinir sua senha.
+    </p>
 
     <?php include COMPONENTS . "backend-error.php"; ?>
 
-    <form class="w-full flex flex-col gap-2" method="POST" action="login">
+    <form class="w-full flex flex-col gap-2" method="POST" action="recuperarSenha">
       <div class="form-control flex-col">
         <label for="email">E-mail</label>
-        <input type="email" name="email" id="email" placeholder="seuemail@exemplo.com" value="<?= $email ?>">
+        <input type="email" name="email" id="email" placeholder="seuemail@exemplo.com" value="<?= $email ?>" required>
       </div>
 
-      <div  class="form-control flex-col">
-        <label for="senha">Senha</label>
-        <input type="password" name="senha" id="senha" placeholder="" value="<?= $senha ?>">
-      </div>
-
-      <a href="recuperar" class="hoverable">Esqueci minha senha</a>
-
-      <button class="button mt-4 mb-8" type="submit">Entrar</button>
+      <button class="button mt-4 mb-8" type="submit">Enviar instruções</button>
 
       <div class="flex flex-row justify-center items-center px-1.5 pt-8 gap-2 border-t border-t-gray-400">
-        <span class="">Não tem uma conta?</span>
-        <a href="cadastro" class="hoverable font-semibold">Criar uma conta</a>
+        <a href="login" class="hoverable font-semibold">Voltar para login</a>
       </div>
     </form>
   </div>
