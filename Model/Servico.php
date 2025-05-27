@@ -37,6 +37,11 @@ final class Servico extends Model
     return (new ServicoDAO())->selectByIdVeiculo($id_veiculo);
   }
 
+  public function getAllRowsByIdUsuario($id_usuario): array
+  {
+    return (new ServicoDAO())->selectByIdUsuario($id_usuario);
+  }
+
   public function getAllRowsByIdVeiculoOnDataFimIsNull($id_veiculo): array
   {
     return (new ServicoDAO())->selectByIdVeiculoOnDataFimIsNull($id_veiculo);

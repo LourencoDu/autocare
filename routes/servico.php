@@ -1,10 +1,17 @@
 <?php
 
 use AutoCare\Controller\ServicoController;
+use AutoCare\Controller\UsuarioServicoController;
 
 switch ($url) {
   case '/servico':
-    (new ServicoController())->listar();
+    $usuario = $_SESSION["usuario"];
+    $tipo = $usuario->tipo;
+    if($tipo == "usuario") {
+      (new UsuarioServicoController())->listar();
+    } else {
+      (new ServicoController())->listar();
+    }
     exit;
   case '/api/servico/listar':
     (new ServicoController())->listarTabela();

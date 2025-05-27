@@ -18,7 +18,7 @@ $permissoesPorTipo = [
   'administrador'   => ['home', 'prestador', 'usuario', 'servico', 'mapa', 'admin/especialidade'],
   'prestador'       => ['home', 'prestador', 'funcionario', 'servico', 'mapa'],
   'funcionario'     => ['home', 'prestador', 'servico', 'mapa', 'chat'],
-  'usuario'         => ['home', 'veiculo', 'prestador', 'mapa', 'chat'],
+  'usuario'         => ['home', 'veiculo', 'prestador', "servico", 'mapa', 'chat'],
   // adicione mais tipos se necessário
 ];
 

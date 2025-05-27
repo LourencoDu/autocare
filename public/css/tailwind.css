@@ -1011,11 +1011,11 @@
   .max-w-40 {
     max-width: calc(var(--spacing) * 40);
   }
+  .max-w-50 {
+    max-width: calc(var(--spacing) * 50);
+  }
   .max-w-60 {
     max-width: calc(var(--spacing) * 60);
-  }
-  .max-w-80 {
-    max-width: calc(var(--spacing) * 80);
   }
   .max-w-88 {
     max-width: calc(var(--spacing) * 88);
@@ -1029,11 +1029,23 @@
   .max-w-\[70\%\] {
     max-width: 70%;
   }
+  .max-w-\[96px\] {
+    max-width: 96px;
+  }
+  .max-w-\[100px\] {
+    max-width: 100px;
+  }
+  .max-w-\[128px\] {
+    max-width: 128px;
+  }
+  .max-w-\[128pxpx\] {
+    max-width: 128pxpx;
+  }
+  .max-w-\[144px\] {
+    max-width: 144px;
+  }
   .max-w-\[160px\] {
     max-width: 160px;
-  }
-  .max-w-\[200px\] {
-    max-width: 200px;
   }
   .max-w-\[320px\] {
     max-width: 320px;
@@ -1041,29 +1053,11 @@
   .max-w-\[336px\] {
     max-width: 336px;
   }
-  .max-w-\[416px\] {
-    max-width: 416px;
-  }
-  .max-w-\[448px\] {
-    max-width: 448px;
-  }
   .max-w-\[480px\] {
     max-width: 480px;
   }
-  .max-w-\[1080px\] {
-    max-width: 1080px;
-  }
-  .max-w-\[1280px\] {
-    max-width: 1280px;
-  }
-  .max-w-\[1448px\] {
-    max-width: 1448px;
-  }
   .max-w-\[1600px\] {
     max-width: 1600px;
-  }
-  .max-w-\[1920px\] {
-    max-width: 1920px;
   }
   .max-w-none {
     max-width: none;
@@ -1918,6 +1912,9 @@
   .border-green-500 {
     border-color: var(--color-green-500);
   }
+  .border-orange-300 {
+    border-color: var(--color-orange-300);
+  }
   .border-primary {
     border-color: var(--color-primary);
   }
@@ -2001,6 +1998,9 @@
   }
   .bg-green-600 {
     background-color: var(--color-green-600);
+  }
+  .bg-orange-200 {
+    background-color: var(--color-orange-200);
   }
   .bg-primary {
     background-color: var(--color-primary);
@@ -2396,9 +2396,6 @@
   .p-5 {
     padding: calc(var(--spacing) * 5);
   }
-  .p-6 {
-    padding: calc(var(--spacing) * 6);
-  }
   .px-1 {
     padding-inline: calc(var(--spacing) * 1);
   }
@@ -2446,9 +2443,6 @@
   }
   .py-5 {
     padding-block: calc(var(--spacing) * 5);
-  }
-  .py-8 {
-    padding-block: calc(var(--spacing) * 8);
   }
   .py-10 {
     padding-block: calc(var(--spacing) * 10);
@@ -2728,6 +2722,9 @@
   }
   .text-green-700 {
     color: var(--color-green-700);
+  }
+  .text-orange-700 {
+    color: var(--color-orange-700);
   }
   .text-primary {
     color: var(--color-primary);
@@ -3610,6 +3607,11 @@
   .sm\:transition-none {
     @media (width >= 40rem) {
       transition-property: none;
+    }
+  }
+  .md\:grid-cols-3 {
+    @media (width >= 48rem) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
   .lg\:static {

@@ -6,7 +6,9 @@ use AutoCare\DAO\ChatDAO;
 
 final class Chat extends Model
 {
-  public $id, $id_usuario, $id_prestador, $autor, $nome, $visualizado, $ultima_data;
+  public $id, $id_prestador, $autor, $visualizado, $ultima_data;
+  public $id_usuario, $nome;
+  public ?string $sobrenome;
 
   public static function getById(int $id): ?Chat
   {
