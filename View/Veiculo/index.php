@@ -58,9 +58,9 @@ $quantidade = count($veiculos);
               <span class="text-sm font-semibold"><?= $veiculo->quantidade_servicos ?></span>
               <span class="text-xs text-gray-700">Serviços</span>
 
-              <button class="absolute top-1 right-1 flex items-center justify-center w-6 h-6 rounded-md text-gray-600 hover:text-primary hover:bg-primary/10 transition cursor-pointer">
+              <a href="/<?= BASE_DIR_NAME ?>/servico?id_veiculo=<?= $veiculo->id ?>" class="absolute top-1 right-1 flex items-center justify-center w-6 h-6 rounded-md text-gray-600 hover:text-primary hover:bg-primary/10 transition cursor-pointer">
                 <i class="fa-solid fa-eye"></i>
-              </button>
+              </a>
             </div>
           </div>
 

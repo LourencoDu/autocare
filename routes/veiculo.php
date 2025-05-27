@@ -1,6 +1,7 @@
 <?php
 
 use AutoCare\Controller\VeiculoController;
+use AutoCare\Controller\VeiculoServicoController;
 
 switch ($url) {
   case '/veiculo':

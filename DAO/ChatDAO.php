@@ -39,7 +39,7 @@ final class ChatDAO extends DAO
 
   public function selectByIdPrestador(int $idPrestador): array
   {
-    $sql = "SELECT c.id, c.id_usuario, c.id_prestador, u.nome,
+    $sql = "SELECT c.id, c.id_usuario, c.id_prestador, u.nome, u.sobrenome,
     GREATEST(
         COALESCE(cmu.data_envio, '0000-00-00 00:00:00'),
         COALESCE(cmf.data_envio, '0000-00-00 00:00:00')
@@ -70,7 +70,7 @@ final class ChatDAO extends DAO
 
   public function selectByIdUsuario(int $idUsuario): array
   {
-    $sql = "SELECT c.id, c.id_usuario, c.id_prestador, u.nome,
+    $sql = "SELECT c.id, c.id_usuario, c.id_prestador, u.nome, u.sobrenome,
     GREATEST(
         COALESCE(cmu.data_envio, '0000-00-00 00:00:00'),
         COALESCE(cmf.data_envio, '0000-00-00 00:00:00')

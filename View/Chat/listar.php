@@ -14,13 +14,14 @@ $usuarioLogado = $data["usuarioLogado"] ?? null;
         if (count($lista)) {
           foreach ($lista as $chat) {
             $isSelecionado = ($chatSelecionado == $chat->id);
+            $nome_label = e($chat->nome." ".$chat->sobrenome);
             $classeAtiva = $isSelecionado
               ? 'bg-blue-100 border-l-4 border-blue-500 font-semibold text-blue-900'
               : 'hover:bg-gray-100';
 
             echo '<a href="#" data-id="' . $chat->id . '" class="chat-item flex justify-between items-center px-4 py-3 border-b border-gray-200 transition duration-200 ' . $classeAtiva . '">';
             echo '<div>';
-            echo '<div class="text-sm font-medium">' . htmlspecialchars($chat->nome ?? 'Sem nome') . '</div>';
+            echo '<div class="text-sm font-medium">' . $nome_label . '</div>';
             echo '<div class="text-xs text-gray-500">ID: ' . $chat->id . '</div>';
             echo '</div>';
             if (!empty($chat->visualizado) && $chat->visualizado == 0) {
@@ -146,19 +147,21 @@ $usuarioLogado = $data["usuarioLogado"] ?? null;
               'bg-blue-100 border-l-4 border-blue-500 font-semibold text-blue-900' :
               'hover:bg-gray-100';
 
+            const nomeLabel = `${chat.nome} ${chat.sobrenome || ""}`.trim();
+
             const item = document.createElement('a');
             item.href = '<?= BASE_URL ?>chat/conversa?id=' + chat.id;
             item.dataset.id = chat.id;
-            item.className = `chat-item block px-4 py-3 border-b border-gray-200 transition duration-200 ${classeAtiva}`;
+            item.className = `chat-item relative block px-4 py-3 border-b border-gray-200 transition duration-200 ${classeAtiva}`;
             item.innerHTML = `
-    <div class="text-sm font-medium">${chat.nome ? escapeHtml(chat.nome) : 'Sem nome'}</div>
+    <div class="text-sm font-medium">${escapeHtml(nomeLabel)}</div>
     <div class="text-xs text-gray-500">ID: ${chat.id}</div>
 `;
             lista.appendChild(item);
 
             if (chat.visualizado === 0) {
               const badge = document.createElement('div');
-              badge.className = 'w-2.5 h-2.5 bg-green-500 rounded-full';
+              badge.className = 'absolute top-2 right-2 w-2.5 h-2.5 bg-green-500 rounded-full';
               item.appendChild(badge);
             }
           });

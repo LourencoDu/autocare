@@ -60,8 +60,9 @@ final class ServicoDAO extends DAO
 
       $model_veiculo->modelo = $model_modelo_veiculo;
       $model_veiculo->fabricante = $model_fabricante_veiculo;
-      $model->veiculo = $model_veiculo;
     }
+
+    $model->veiculo = $model_veiculo;
 
     //Especialidade
     $model_especialidade = new Especialidade();
@@ -177,6 +178,43 @@ final class ServicoDAO extends DAO
     return $linhas;
   }
 
+    public function selectByIdUsuario($id_usuario): array
+  {
+    $sql = "SELECT 
+    s.id s_id, s.descricao s_descricao, s.data_inicio s_data_inicio, s.data_fim s_data_fim,
+    s.id_prestador s_id_prestador, s.id_usuario s_id_usuario, s.id_veiculo s_id_veiculo, s.id_especialidade s_id_especialidade,
+    p.id p_id, p.documento p_documento,
+    pu.id pu_id, pu.nome pu_nome,
+    u.id u_id, u.nome u_nome, u.sobrenome u_sobrenome, u.email u_email, u.telefone u_telefone,
+    v.id v_id, v.apelido v_apelido, v.ano v_ano, v.id_modelo_veiculo v_id_modelo_veiculo,
+    mv.id mv_id, mv.nome mv_nome, mv.id_fabricante_veiculo mv_id_fabricante_veiculo,
+    fv.id fv_id, fv.nome fv_nome,
+    e.id e_id, e.nome e_nome
+    FROM servico s
+    JOIN prestador p ON p.id = s.id_prestador
+    JOIN usuario pu ON p.id_usuario = pu.id
+    JOIN usuario u ON u.id = s.id_usuario
+    JOIN veiculo v ON v.id = s.id_veiculo
+    JOIN modelo_veiculo mv ON mv.id = v.id_modelo_veiculo
+    JOIN fabricante_veiculo fv ON fv.id = mv.id_fabricante_veiculo
+    JOIN especialidade e ON e.id = s.id_especialidade
+    WHERE s.id_usuario = ?
+    ORDER BY s.data_inicio DESC;";
+
+    $stmt = parent::$conexao->prepare($sql);
+    $stmt->bindValue(1, $id_usuario);
+    $stmt->execute();
+
+    $resultados = $stmt->fetchAll(DAO::FETCH_ASSOC);
+    $linhas = [];
+
+    foreach ($resultados as $linha) {
+      $linhas[] = $this->parseRow($linha);
+    }
+
+    return $linhas;
+  }
+
   public function selectByIdVeiculo($id_veiculo): array
   {
     $sql = "SELECT 
@@ -184,12 +222,18 @@ final class ServicoDAO extends DAO
     s.id_prestador s_id_prestador, s.id_usuario s_id_usuario, s.id_veiculo s_id_veiculo, s.id_especialidade s_id_especialidade,
     p.id p_id, p.documento p_documento,
     pu.id pu_id, pu.nome pu_nome,
+    u.id u_id, u.nome u_nome, u.sobrenome u_sobrenome, u.email u_email, u.telefone u_telefone,
     v.id v_id, v.apelido v_apelido, v.ano v_ano, v.id_modelo_veiculo v_id_modelo_veiculo,
+    mv.id mv_id, mv.nome mv_nome, mv.id_fabricante_veiculo mv_id_fabricante_veiculo,
+    fv.id fv_id, fv.nome fv_nome,
     e.id e_id, e.nome e_nome
     FROM servico s
     JOIN prestador p ON p.id = s.id_prestador
     JOIN usuario pu ON p.id_usuario = pu.id
+    JOIN usuario u ON u.id = s.id_usuario
     JOIN veiculo v ON v.id = s.id_veiculo
+    JOIN modelo_veiculo mv ON mv.id = v.id_modelo_veiculo
+    JOIN fabricante_veiculo fv ON fv.id = mv.id_fabricante_veiculo
     JOIN especialidade e ON e.id = s.id_especialidade
     WHERE s.id_veiculo = ?
     ORDER BY s.data_inicio DESC;";

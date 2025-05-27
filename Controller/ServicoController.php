@@ -27,7 +27,7 @@ final class ServicoController extends Controller
 
   public function listar(): void
   {
-    parent::isProtected();
+    parent::isProtected(["usuario"]);
 
     $model = new Servico();
 
@@ -51,14 +51,19 @@ final class ServicoController extends Controller
 
   public function listarTabela(): void
   {
-    parent::isProtected();
+    parent::isProtected(["usuario"]);
 
     $model = new Servico();
 
     $usuario = $_SESSION["usuario"];
-    $prestador = $usuario->prestador;
+    $tipo = $usuario->tipo;
 
-    $servicos = $model->getAllRowsByIdPrestador($prestador->id);
+    if ($tipo == "prestador" || $tipo == "funcionario") {
+      $prestador = $usuario->prestador;
+      $servicos = $model->getAllRowsByIdPrestador($prestador->id);
+    } else {
+      $servicos = $model->getAllRows();
+    }
 
     $this->data["servicos"] = $servicos;
 
@@ -111,7 +116,7 @@ final class ServicoController extends Controller
 
   public function cadastrar(): void
   {
-    parent::isProtected();
+    parent::isProtected(["usuario", "administrador"]);
 
     $descricao = isset($_POST["descricao"]) ? $_POST["descricao"] : null;
     $data_inicio = isset($_POST["data_inicio"]) ? $_POST["data_inicio"] : null;
@@ -160,7 +165,7 @@ final class ServicoController extends Controller
 
   public function alterar(): void
   {
-    parent::isProtected();
+    parent::isProtected(["usuario", "administrador"]);
 
     $id = isset($_POST["id"]) ? $_POST["id"] : null;
     $descricao = isset($_POST["descricao"]) ? $_POST["descricao"] : null;
@@ -203,7 +208,7 @@ final class ServicoController extends Controller
 
   public function deletar(): void
   {
-    parent::isProtected();
+    parent::isProtected(["usuario"]);
 
     $id = isset($_POST["id"]) ? $_POST["id"] : null;
 
