@@ -63,19 +63,20 @@ final class MapController extends Controller
     
     echo json_encode($results);
   }*/
-  public function listar()
+public function listar()
 {
-    $model = new Local();
-    $locais = $model->getAllRows();
+    // Get all prestadores with their locations and user data
+    $prestadores = (new \AutoCare\Model\Prestador())->getAllRows();
 
     $results = [];
 
-    foreach ($locais as $local) {
-        if (!empty($local->latitude) && !empty($local->longitude)) {
+    foreach ($prestadores as $prestador) {
+        // Only include prestadores with valid locations
+        if ($prestador->localizacao && !empty($prestador->localizacao->latitude) && !empty($prestador->localizacao->longitude)) {
             $results[] = [
-                'lat' => $local->latitude,
-                'lon' => $local->longitude
-                // 'nome' => 'Nome do prestador' // <- adicionar no futuro se quiser
+                'lat' => $prestador->localizacao->latitude,
+                'lon' => $prestador->localizacao->longitude,
+                'nome' => $prestador->usuario->nome // Add the name from usuario
             ];
         }
     }
