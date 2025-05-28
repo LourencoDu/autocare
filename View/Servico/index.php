@@ -41,6 +41,8 @@ $quantidade = count($servicos);
             </th>
             <th scope="col" class="px-5 py-2 border-r border-gray-300 w-8 sm:w-15"></th>
             <th scope="col" class="px-5 py-2 w-8 sm:w-15"></th>
+            <th scope="col" class="px-5 py-2 w-8 sm:w-15"></th>
+
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-300">
@@ -48,7 +50,7 @@ $quantidade = count($servicos);
             <?php
               $cliente = $servico->usuario;
               $cliente_label = $cliente->nome." ".$cliente->sobrenome." ( tel.: ".Util::formatarTelefone($cliente->telefone)." )";
-
+            
               $veiculo = $servico->veiculo;
               $veiculo_label = $veiculo->fabricante->nome." ".$veiculo->modelo->nome." ( ".$veiculo->ano." )";
 
@@ -57,6 +59,9 @@ $quantidade = count($servicos);
 
               $data_inicio_label = Util::formatarDataHora($servico->data_inicio);
               $data_fim_label = $servico->data_fim ? Util::formatarDataHora($servico->data_fim) : "-";
+
+              
+              $status_label = $servico->status_texto;
             ?>
 
             <tr class="hover:bg-gray-500/5">
@@ -71,9 +76,12 @@ $quantidade = count($servicos);
               </td>
               <td class="px-5 py-2 whitespace-nowrap text-sm border-r border-gray-300"><?= e($data_inicio_label) ?></td>
               <td class="px-5 py-2 whitespace-nowrap text-sm border-r border-gray-300"><?= e($data_fim_label) ?></td>
-              <td class="px-5 py-2 whitespace-nowrap text-sm border-r border-gray-300"><?= "-" ?></td>
+              <td class="px-5 py-2 whitespace-nowrap text-sm border-r border-gray-300"><?= e($status_label) ?></td>
               <td class="px-2 sm:px-5 py-2 whitespace-nowrap text-sm text-center border-r border-gray-300">
                 <button class="button small ghost" onclick="handleActionClick(<?= $servico->id ?>, <?= $cliente->id ?>, <?= $veiculo->id ?>, <?= $especialidade->id ?>, '<?= $servico->data_inicio ?>', '<?= $servico->data_fim ?>', <?= e(json_encode($servico->descricao)) ?>)"><i class="fa-solid fa-pen"></i> <span class="hidden sm:inline">Alterar</span></button>
+              </td>
+              <td class="px-2 sm:px-5 py-2 whitespace-nowrap text-sm text-center">
+                <button class="button small ghost" onclick="handleStatusChangeClick(<?= $servico->id ?>, <?= $servico->id_status_padrao ?>)"> <i class="fa-solid fa-arrows-rotate"></i>  <span class="hidden sm:inline">Alterar Status</span></button>
               </td>
               <td class="px-2 sm:px-5 py-2 whitespace-nowrap text-sm text-center">
                 <button class="button small ghost danger" onclick="handleDeleteClick(<?= $servico->id ?>, '<?= e($servico->descricao) ?>')"><i class="fa-solid fa-trash"></i> <span class="hidden sm:inline">Deletar</span></button>

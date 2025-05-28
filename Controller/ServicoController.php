@@ -146,6 +146,7 @@ final class ServicoController extends Controller
           $model->id_veiculo = $id_veiculo;
           $model->id_especialidade = $id_especialidade;
           $model->id_prestador = $id_prestador;
+          $model->id_status_padrao = 1;
 
           $model->save();
 
@@ -225,4 +226,21 @@ final class ServicoController extends Controller
       $response->enviar();
     }
   }
+public function alterarStatus(): void
+{
+  parent::isProtected(["usuario", "administrador"]);
+
+  $id =$_GET["id"] ?? null;
+  $id_status_padrao = $_GET["id_status_padrao"] ?? null;
+
+  $arrDados = [];
+  array_push($arrDados, $id);
+  array_push($arrDados, $id_status_padrao);
+
+  $model = new Servico();
+  $model->updateStatus($id, $id_status_padrao);
+  
+  $response = JsonResponse::sucesso("enviando dado",$_GET);
+  $response->enviar();
+}
 }

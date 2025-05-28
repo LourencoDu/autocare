@@ -25,4 +25,7 @@ switch ($url) {
   case '/api/servico/deletar':
     (new ServicoController())->deletar();
     exit;
+  case '/api/servico/alterar_status':
+    (new ServicoController())->alterarStatus();
+    exit;
 }

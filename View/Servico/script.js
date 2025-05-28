@@ -3,7 +3,7 @@ const form = document.getElementById("form-modal-form");
 const validators = {
   required: (val) => !!val.trim(),
   datetime: (val) => val.trim().length >= 16,
-  "datetime-nullable": (val) => !val.trim() || val.trim().length >= 16
+  "datetime-nullable": (val) => !val.trim() || val.trim().length >= 16,
 };
 
 const _campoDescricao = {
@@ -67,6 +67,16 @@ const _campoEspecialidade = {
   options: [],
 };
 
+const _campoStatus = {
+  name: "id_status_padrao",
+  label: "Status",
+  type: "select-search",
+  validate: "required",
+  isRequired: true,
+  helperText: "Selecione o novo status.",
+  options: [],
+};
+
 async function getUsuarios() {
   const response = await get("/usuario/listar");
   const options = [];
@@ -76,7 +86,7 @@ async function getUsuarios() {
       options.push({
         value: dado.id,
         label: dado.nome + " " + dado.sobrenome,
-        query: `${dado.nome} ${dado.sobrenome} ${dado.email} ${dado.telefone}`
+        query: `${dado.nome} ${dado.sobrenome} ${dado.email} ${dado.telefone}`,
       });
     });
   } else {
@@ -124,7 +134,15 @@ async function getEspecialidades() {
   return options;
 }
 
-async function handleActionClick(id, id_usuario = "", id_veiculo = "", id_especialidade = "", data_inicio = "", data_fim = "", descricao = "") {
+async function handleActionClick(
+  id,
+  id_usuario = "",
+  id_veiculo = "",
+  id_especialidade = "",
+  data_inicio = "",
+  data_fim = "",
+  descricao = ""
+) {
   const action = !!id ? "alterar" : "cadastrar";
   const isAlterar = action === "alterar";
 
@@ -154,11 +172,12 @@ async function handleActionClick(id, id_usuario = "", id_veiculo = "", id_especi
   const getUsuariosPromise = getUsuarios();
   const getEspecialidadesPromise = getEspecialidades();
 
-  let [usuarioOptions, especialidadeOptions, veiculosOptions] = await Promise.all([
-    getUsuariosPromise,
-    getEspecialidadesPromise,
-    ...(isAlterar ? [ getUsuarioVeiculos(id_usuario) ] : [])
-  ]);
+  let [usuarioOptions, especialidadeOptions, veiculosOptions] =
+    await Promise.all([
+      getUsuariosPromise,
+      getEspecialidadesPromise,
+      ...(isAlterar ? [getUsuarioVeiculos(id_usuario)] : []),
+    ]);
 
   campoUsuario.options = usuarioOptions || [];
   campoEspecialidade.options = especialidadeOptions || [];
@@ -295,4 +314,78 @@ async function handleDeleteConfirm(id) {
 async function atualizarListagem() {
   const html = await getText("/servico/listar");
   document.getElementById("view-content").innerHTML = html;
+}
+
+async function getStatusPadrao() {
+  const response = await get(
+    `/servico/alterar_status?id=${id}&id_status_padrao=${id_status_padrao}`
+  );
+  const options = [];
+
+  if (response.status === "success") {
+    response.dados.forEach((dado) => {
+      options.push({
+        value: dado.id,
+        label: dado.status_texto,
+      });
+    });
+  } else {
+    showSnackbar("Falha ao carregar status.", "erro", 5000);
+  }
+
+  return options;
+}
+
+async function handleStatusChangeClick(id, status_padrao) {
+  const campoStatus = { ..._campoStatus };
+  statusOptions = [
+    { value: "0", label: "Cancelado" },
+    { value: "1", label: "Aguardando Execução" },
+    { value: "3", label: "Em Execução" },
+    { value: "10", label: "Finalizado" },
+  ];
+
+  campoStatus.options = statusOptions;
+
+  openFormModal({
+    title: `Alterar Status do Serviço #${id}`,
+    onConfirm: (event) => onSubmitStatusChange(event, id),
+    showCloseButton: true,
+    confirmButtonText: "Salvar",
+    campos: [campoStatus],
+  });
+}
+
+async function onSubmitStatusChange(event, id) {
+  event.preventDefault();
+  const form = event.target;
+  const dados = new FormData(form);
+  const id_status_padrao = dados.get("id_status_padrao");
+
+  console.log("Enviando:", { id, id_status_padrao });
+
+  setFormModalIsLoading(true);
+
+  const params = new URLSearchParams({ id, id_status_padrao });
+  const url = `${window.location.origin}/autocare/api/servico/alterar_status?id=${id}&id_status_padrao=${id_status_padrao}`;
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+    },
+  });
+
+  const json = await response.json();
+
+  console.log(json);
+
+  setFormModalIsLoading(false);
+
+  if (json.status === "error") {
+    showFormModalError(json.mensagem);
+  } else {
+    showSnackbar("Status alterado com sucesso!", "success");
+    closeFormModal();
+    atualizarListagem();
+  }
 }

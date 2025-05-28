@@ -30,6 +30,9 @@ final class ServicoDAO extends DAO
     $model->id_veiculo = $data["s_id_veiculo"];
     $model->id_especialidade = $data["s_id_especialidade"];
 
+    $model->id_status_padrao = $data["s_id_status_padrao"] ?? null;
+    $model->status_texto = $data["status_texto"] ?? null;
+
     //Usuario
     $model_usuario = isset($data["u_id"]) ? UsuarioDAO::parseRow($data, "u_") : null;
     $model->usuario = $model_usuario;
@@ -48,7 +51,7 @@ final class ServicoDAO extends DAO
     $model_veiculo->ano = $data["v_ano"];
     $model_veiculo->id_modelo_veiculo = $data["v_id_modelo_veiculo"];
 
-    if(isset($data["mv_id"])) {
+    if (isset($data["mv_id"])) {
       $model_modelo_veiculo = new ModeloVeiculo();
       $model_modelo_veiculo->id = $data["mv_id"];
       $model_modelo_veiculo->nome = $data["mv_nome"];
@@ -77,7 +80,7 @@ final class ServicoDAO extends DAO
   {
     $sql = "SELECT 
     s.id s_id, s.descricao s_descricao, s.data_inicio s_data_inicio, s.data_fim s_data_fim,
-    s.id_prestador s_id_prestador, s.id_usuario s_id_usuario, s.id_veiculo s_id_veiculo, s.id_especialidade s_id_especialidade,
+    s.id_prestador s_id_prestador, s.id_usuario s_id_usuario, s.id_veiculo s_id_veiculo, s.id_especialidade s_id_especialidade, sp.status_texto,
     p.id p_id, p.documento p_documento,
     pu.id pu_id, pu.nome pu_nome,
     u.id u_id, u.nome u_nome, u.sobrenome u_sobrenome, u.email u_email, u.telefone u_telefone,
@@ -93,6 +96,7 @@ final class ServicoDAO extends DAO
     JOIN modelo_veiculo mv ON mv.id = v.id_modelo_veiculo
     JOIN fabricante_veiculo fv ON fv.id = mv.id_fabricante_veiculo
     JOIN especialidade e ON e.id = s.id_especialidade
+    JOIN status_padrao sp ON s.id_status_padrao = sp.cod_status
     WHERE s.id=?;";
 
     $stmt = parent::$conexao->prepare($sql);
@@ -112,7 +116,7 @@ final class ServicoDAO extends DAO
   {
     $sql = "SELECT 
     s.id s_id, s.descricao s_descricao, s.data_inicio s_data_inicio, s.data_fim s_data_fim,
-    s.id_prestador s_id_prestador, s.id_usuario s_id_usuario, s.id_veiculo s_id_veiculo, s.id_especialidade s_id_especialidade,
+    s.id_prestador s_id_prestador, s.id_usuario s_id_usuario, s.id_veiculo s_id_veiculo, s.id_especialidade s_id_especialidade, s.id_status_padrao, sp.status_texto,
     p.id p_id, p.documento p_documento,
     pu.id pu_id, pu.nome pu_nome,
     u.id u_id, u.nome u_nome, u.sobrenome u_sobrenome, u.email u_email, u.telefone u_telefone,
@@ -127,6 +131,7 @@ final class ServicoDAO extends DAO
     JOIN veiculo v ON v.id = s.id_veiculo
     JOIN modelo_veiculo mv ON mv.id = v.id_modelo_veiculo
     JOIN fabricante_veiculo fv ON fv.id = mv.id_fabricante_veiculo
+    JOIN status_padrao sp ON s.id_status_padrao = sp.cod_status
     JOIN especialidade e ON e.id = s.id_especialidade;";
 
     $stmt = parent::$conexao->prepare($sql);
@@ -145,15 +150,23 @@ final class ServicoDAO extends DAO
   public function selectByIdPrestador($id_prestador): array
   {
     $sql = "SELECT 
-    s.id s_id, s.descricao s_descricao, s.data_inicio s_data_inicio, s.data_fim s_data_fim,
-    s.id_prestador s_id_prestador, s.id_usuario s_id_usuario, s.id_veiculo s_id_veiculo, s.id_especialidade s_id_especialidade,
-    p.id p_id, p.documento p_documento,
-    pu.id pu_id, pu.nome pu_nome,
-    u.id u_id, u.nome u_nome, u.sobrenome u_sobrenome, u.email u_email, u.telefone u_telefone,
-    v.id v_id, v.apelido v_apelido, v.ano v_ano, v.id_modelo_veiculo v_id_modelo_veiculo,
-    mv.id mv_id, mv.nome mv_nome, mv.id_fabricante_veiculo mv_id_fabricante_veiculo,
-    fv.id fv_id, fv.nome fv_nome,
-    e.id e_id, e.nome e_nome
+        s.id s_id, 
+        s.descricao s_descricao, 
+        s.data_inicio s_data_inicio, 
+        s.data_fim s_data_fim,
+        s.id_prestador s_id_prestador, 
+        s.id_usuario s_id_usuario, 
+        s.id_veiculo s_id_veiculo, 
+        s.id_especialidade s_id_especialidade,
+        s.id_status_padrao s_id_status_padrao,  
+        sp.status_texto status_texto,          
+        p.id p_id, p.documento p_documento,
+        pu.id pu_id, pu.nome pu_nome,
+        u.id u_id, u.nome u_nome, u.sobrenome u_sobrenome, u.email u_email, u.telefone u_telefone,
+        v.id v_id, v.apelido v_apelido, v.ano v_ano, v.id_modelo_veiculo v_id_modelo_veiculo,
+        mv.id mv_id, mv.nome mv_nome, mv.id_fabricante_veiculo mv_id_fabricante_veiculo,
+        fv.id fv_id, fv.nome fv_nome,
+        e.id e_id, e.nome e_nome
     FROM servico s
     JOIN prestador p ON p.id = s.id_prestador
     JOIN usuario pu ON p.id_usuario = pu.id
@@ -162,6 +175,7 @@ final class ServicoDAO extends DAO
     JOIN modelo_veiculo mv ON mv.id = v.id_modelo_veiculo
     JOIN fabricante_veiculo fv ON fv.id = mv.id_fabricante_veiculo
     JOIN especialidade e ON e.id = s.id_especialidade
+    JOIN status_padrao sp ON s.id_status_padrao = sp.cod_status
     WHERE s.id_prestador = ?;";
 
     $stmt = parent::$conexao->prepare($sql);
@@ -178,11 +192,11 @@ final class ServicoDAO extends DAO
     return $linhas;
   }
 
-    public function selectByIdUsuario($id_usuario): array
+  public function selectByIdUsuario($id_usuario): array
   {
     $sql = "SELECT 
     s.id s_id, s.descricao s_descricao, s.data_inicio s_data_inicio, s.data_fim s_data_fim,
-    s.id_prestador s_id_prestador, s.id_usuario s_id_usuario, s.id_veiculo s_id_veiculo, s.id_especialidade s_id_especialidade,
+    s.id_prestador s_id_prestador, s.id_usuario s_id_usuario, s.id_veiculo s_id_veiculo, s.id_especialidade s_id_especialidade, sp.status_texto,
     p.id p_id, p.documento p_documento,
     pu.id pu_id, pu.nome pu_nome,
     u.id u_id, u.nome u_nome, u.sobrenome u_sobrenome, u.email u_email, u.telefone u_telefone,
@@ -197,6 +211,7 @@ final class ServicoDAO extends DAO
     JOIN veiculo v ON v.id = s.id_veiculo
     JOIN modelo_veiculo mv ON mv.id = v.id_modelo_veiculo
     JOIN fabricante_veiculo fv ON fv.id = mv.id_fabricante_veiculo
+    JOIN status_padrao sp ON s.id_status_padrao = sp.cod_status
     JOIN especialidade e ON e.id = s.id_especialidade
     WHERE s.id_usuario = ?
     ORDER BY s.data_inicio DESC;";
@@ -219,7 +234,7 @@ final class ServicoDAO extends DAO
   {
     $sql = "SELECT 
     s.id s_id, s.descricao s_descricao, s.data_inicio s_data_inicio, s.data_fim s_data_fim,
-    s.id_prestador s_id_prestador, s.id_usuario s_id_usuario, s.id_veiculo s_id_veiculo, s.id_especialidade s_id_especialidade,
+    s.id_prestador s_id_prestador, s.id_usuario s_id_usuario, s.id_veiculo s_id_veiculo, s.id_especialidade s_id_especialidade, sp.status_texto,
     p.id p_id, p.documento p_documento,
     pu.id pu_id, pu.nome pu_nome,
     u.id u_id, u.nome u_nome, u.sobrenome u_sobrenome, u.email u_email, u.telefone u_telefone,
@@ -234,6 +249,7 @@ final class ServicoDAO extends DAO
     JOIN veiculo v ON v.id = s.id_veiculo
     JOIN modelo_veiculo mv ON mv.id = v.id_modelo_veiculo
     JOIN fabricante_veiculo fv ON fv.id = mv.id_fabricante_veiculo
+    JOIN status_padrao sp ON s.id_status_padrao = sp.cod_status
     JOIN especialidade e ON e.id = s.id_especialidade
     WHERE s.id_veiculo = ?
     ORDER BY s.data_inicio DESC;";
@@ -252,11 +268,11 @@ final class ServicoDAO extends DAO
     return $linhas;
   }
 
-    public function selectByIdVeiculoOnDataFimIsNull($id_veiculo): array
+  public function selectByIdVeiculoOnDataFimIsNull($id_veiculo): array
   {
     $sql = "SELECT 
     s.id s_id, s.descricao s_descricao, s.data_inicio s_data_inicio, s.data_fim s_data_fim,
-    s.id_prestador s_id_prestador, s.id_usuario s_id_usuario, s.id_veiculo s_id_veiculo, s.id_especialidade s_id_especialidade,
+    s.id_prestador s_id_prestador, s.id_usuario s_id_usuario, s.id_veiculo s_id_veiculo, s.id_especialidade s_id_especialidade, sp.status_texto,
     p.id p_id, p.documento p_documento,
     pu.id pu_id, pu.nome pu_nome,
     v.id v_id, v.apelido v_apelido, v.ano v_ano, v.id_modelo_veiculo v_id_modelo_veiculo,
@@ -264,6 +280,7 @@ final class ServicoDAO extends DAO
     FROM servico s
     JOIN prestador p ON p.id = s.id_prestador
     JOIN usuario pu ON p.id_usuario = pu.id
+    JOIN status_padrao sp ON s.id_status_padrao = sp.cod_status
     JOIN veiculo v ON v.id = s.id_veiculo
     JOIN especialidade e ON e.id = s.id_especialidade
     WHERE s.id_veiculo = ? AND s.data_fim IS NULL
@@ -291,8 +308,8 @@ final class ServicoDAO extends DAO
   private function insert(Servico $model): Servico
   {
     $sql = "INSERT INTO servico
-    (descricao, data_inicio, data_fim, id_usuario, id_prestador, id_veiculo, id_especialidade)
-    VALUES (?, ?, ?, ?, ?, ?, ?);";
+    (descricao, data_inicio, data_fim, id_usuario, id_prestador, id_veiculo, id_especialidade, id_status_padrao)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 
     $stmt = parent::$conexao->prepare($sql);
     $stmt->bindValue(1, $model->descricao);
@@ -302,6 +319,7 @@ final class ServicoDAO extends DAO
     $stmt->bindValue(5, $model->id_prestador);
     $stmt->bindValue(6, $model->id_veiculo);
     $stmt->bindValue(7, $model->id_especialidade);
+    $stmt->bindValue(8, $model->id_status_padrao);
     $stmt->execute();
 
     $model->id = parent::$conexao->lastInsertId();
@@ -333,5 +351,17 @@ final class ServicoDAO extends DAO
     $stmt = parent::$conexao->prepare($sql);
     $stmt->bindValue(1, $id);
     return $stmt->execute();
+  }
+
+  public function atualizarStatus(int $id_servico, int $id_status_servico) : void
+  {
+    $sql = "UPDATE servico SET id_status_padrao=? WHERE id=?;";
+
+    $stmt = parent::$conexao->prepare($sql);
+    $stmt->bindValue(1, $id_status_servico);
+    $stmt->bindValue(2, $id_servico);
+    $stmt->execute();
+
+    return;
   }
 }
