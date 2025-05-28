@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `autocare`.`usuario` (
   `telefone` VARCHAR(11) NOT NULL,
   `senha` VARCHAR(255) NOT NULL,
   `tipo` ENUM('usuario', 'prestador', 'funcionario', 'moderador', 'administrador') NOT NULL,
-  `reset_token_hash` VARCHAR(64) NULL,
+  `reset_token_hash` VARCHAR(64) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
   UNIQUE INDEX `reset_token_hash_UNIQUE` (`reset_token_hash` ASC) VISIBLE)
@@ -209,18 +209,13 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `autocare`.`avaliacao` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `id_usuario` INT NOT NULL,
   `id_servico` INT NOT NULL,
   `nota` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_id_usuario_idx` (`id_usuario` ASC) VISIBLE,
   INDEX `fk_id_servico_idx` (`id_servico` ASC) VISIBLE,
   CONSTRAINT `fk_id_servico_avaliacao`
     FOREIGN KEY (`id_servico`)
-    REFERENCES `autocare`.`servico` (`id`),
-  CONSTRAINT `fk_id_usuario_avaliacao`
-    FOREIGN KEY (`id_usuario`)
-    REFERENCES `autocare`.`usuario` (`id`))
+    REFERENCES `autocare`.`servico` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
@@ -317,19 +312,14 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `autocare`.`comentario` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `id_usuario` INT NOT NULL,
   `id_servico` INT NOT NULL,
   `texto` VARCHAR(400) NOT NULL,
   `data` DATE NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_id_usuario_idx` (`id_usuario` ASC) VISIBLE,
   INDEX `fk_id_servico_idx` (`id_servico` ASC) VISIBLE,
   CONSTRAINT `fk_id_servico`
     FOREIGN KEY (`id_servico`)
-    REFERENCES `autocare`.`servico` (`id`),
-  CONSTRAINT `fk_id_usuario`
-    FOREIGN KEY (`id_usuario`)
-    REFERENCES `autocare`.`usuario` (`id`))
+    REFERENCES `autocare`.`servico` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
