@@ -4,6 +4,7 @@ namespace AutoCare\Controller;
 
 use AutoCare\Model\Local;
 use AutoCare\Model\Prestador;
+use AutoCare\DAO\PrestadorCatalogoDAO;
 
 final class MapController extends Controller
 {
@@ -82,5 +83,38 @@ public function listar()
 
     echo json_encode($results);
 }
+public function listarPorEspecialidade(): void
+    {
+        header('Content-Type: application/json');
+
+        $idEsp = (int)($_GET['id'] ?? 0);
+        if ($idEsp <= 0) {
+            echo json_encode([]);
+            return;
+        }
+
+        $catalogos = (new PrestadorCatalogoDAO())->selectByEspecialidade($idEsp);
+        $results = [];
+
+        foreach ($catalogos as $cat) {
+            $prest = Prestador::getById($cat->id_prestador);
+            if (!$prest || !$prest->localizacao) {
+                continue;
+            }
+            $results[] = [
+                'lat'  => $prest->localizacao->latitude,
+                'lon'  => $prest->localizacao->longitude,
+                'nome' => $prest->usuario->nome,
+                'esp'  => $cat->especialidade->nome
+            ];
+        }
+
+        echo json_encode($results);
+    }
+
+
+
+
+
 
 }
