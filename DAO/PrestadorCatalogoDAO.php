@@ -152,4 +152,27 @@ final class PrestadorCatalogoDAO extends DAO
       throw $e; // Repassa a exceção para tratamento externo
     }
   }
+
+public function selectByEspecialidade(int $id_especialidade): array
+{
+    $sql = "
+      SELECT
+        pc.id           AS pc_id,
+        pc.id_prestador AS pc_id_prestador,
+        pc.id_especialidade AS pc_id_especialidade,
+        pc.titulo       AS pc_titulo,
+        pc.descricao    AS pc_descricao,
+        e.id            AS e_id,
+        e.nome          AS e_nome
+      FROM prestador_catalogo pc
+      JOIN especialidade e ON e.id = pc.id_especialidade
+      WHERE pc.id_especialidade = ?
+    ";
+    $stmt = parent::$conexao->prepare($sql);
+    $stmt->bindValue(1, $id_especialidade, \PDO::PARAM_INT);
+    $stmt->execute();
+
+    $rows = $stmt->fetchAll(DAO::FETCH_ASSOC);
+    return array_map(fn($r) => $this->parseRow($r), $rows);
+}
 }

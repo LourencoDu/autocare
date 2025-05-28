@@ -13,6 +13,10 @@ final class PrestadorCatalogo extends Model {
     return (new PrestadorCatalogoDAO())->selectById($id);
   }
 
+  public static function getByIdEspecialidade(int $id_especialidade): array {
+        return (new PrestadorCatalogoDAO())->selectByEspecialidade($id_especialidade);
+    }
+
   public function getAllRowsByIdPrestador($id_prestador) : array {
     return (new PrestadorCatalogoDAO())->selectByIdPrestador($id_prestador);
   }
