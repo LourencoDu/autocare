@@ -19,8 +19,8 @@ final class PrestadorDAO extends DAO
     return ($model->id == null) ? $this->insert($model) : $this->update($model);
   }
 
-private function insert(Prestador $model): Prestador
-{
+  private function insert(Prestador $model): Prestador
+  {
     $sql = "INSERT INTO prestador (documento, id_usuario, id_localizacao) VALUES (?, ?, ?);";
 
     $stmt = parent::$conexao->prepare($sql);
@@ -33,11 +33,11 @@ private function insert(Prestador $model): Prestador
     $model->id = parent::$conexao->lastInsertId();
 
     return $model;
-}
+  }
 
 
-private function update(Prestador $model): Prestador
-{
+  private function update(Prestador $model): Prestador
+  {
     $sql = "UPDATE prestador SET documento=?, id_localizacao=? WHERE id=?;";
 
     $stmt = parent::$conexao->prepare($sql);
@@ -48,13 +48,12 @@ private function update(Prestador $model): Prestador
     $stmt->execute();
 
     return $model;
-}
+  }
 
 
   public function selectById(int $id)
   {
-    $sql = "
-    SELECT 
+    $sql = "SELECT 
       p.id, 
       p.documento,
       p.id_usuario,
@@ -72,7 +71,13 @@ private function update(Prestador $model): Prestador
       pc.id AS pc_id,
       pc.whatsapp AS pc_whatsapp,
       pc.telefone AS pc_telefone,
-      pc.email AS pc_email
+      pc.email AS pc_email,
+      (
+      SELECT AVG(a.nota)
+      FROM avaliacao a
+      JOIN servico s ON a.id_servico = s.id
+      WHERE s.id_prestador = p.id
+      ) AS p_nota
     FROM prestador p
     JOIN usuario u ON u.id = p.id_usuario
     LEFT JOIN prestador_contato pc ON p.id_prestador_contato = pc.id
@@ -103,6 +108,7 @@ private function update(Prestador $model): Prestador
     $model->documento = $data->documento;
     $model->id_usuario = $data->id_usuario;
     $model->usuario = $usuario;
+    $model->nota = $data->p_nota != null ? number_format($data->p_nota, 2) : null;
 
     if ($data->pc_id != null) {
       $prestador_contato = new PrestadorContato();
@@ -130,8 +136,7 @@ private function update(Prestador $model): Prestador
 
   public function select(): array
   {
-    $sql = "
-    SELECT 
+    $sql = "SELECT 
       p.id, 
       p.id_usuario,
       p.documento,
@@ -147,7 +152,13 @@ private function update(Prestador $model): Prestador
       pc.id AS pc_id,
       pc.whatsapp AS pc_whatsapp,
       pc.telefone AS pc_telefone,
-      pc.email AS pc_email
+      pc.email AS pc_email,
+            (
+      SELECT AVG(a.nota)
+      FROM avaliacao a
+      JOIN servico s ON a.id_servico = s.id
+      WHERE s.id_prestador = p.id
+      ) AS p_nota
     FROM prestador p
     JOIN usuario u ON u.id = p.id_usuario
     LEFT JOIN prestador_contato pc ON p.id_prestador_contato = pc.id
@@ -173,6 +184,8 @@ private function update(Prestador $model): Prestador
       $model->documento = $data['documento'];
       $model->id_usuario = $data['id_usuario'];
       $model->usuario = $usuario;
+      $nota = $data["p_nota"] ?? null;
+      $model->nota = $nota != null ? number_format($nota, 2) : null;
 
 
       if ($data['pc_id'] !== null) {

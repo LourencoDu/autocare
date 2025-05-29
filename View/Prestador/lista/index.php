@@ -40,16 +40,16 @@ $quantidade = count($prestadores);
           <div class="flex flex-col items-center sm:items-start gap-2">
             <div class="flex flex-row items-center gap-2">
               <a href="/<?= BASE_DIR_NAME ?>/prestador?id=<?= $prestador->id ?>" class="font-medium leading-5.5 hover:text-primary transition cursor-pointer w-fit"><?= $prestador->usuario->nome ?></a>
-              <div class="flex sm:hidden items-center gap-1 px-1 min-h-5 rounded-full bg-yellow-400 text-white text-xs">
+              <div class="flex sm:hidden items-center gap-1 px-1.5 min-h-5 rounded-full bg-yellow-400 text-white text-xs">
                 <i class="fa-solid fa-star"></i>
-                <span class="font-medium">5.0</span>
+                <span class="font-medium"><?= $prestador->nota ?? "não avaliado" ?></span>
               </div>
             </div>
 
             <div class="flex flex-col sm:flex-row items-center flex-wrap gap-4">
-              <div class="hidden sm:flex items-center gap-1 px-1 min-h-5 rounded-full bg-yellow-400 text-white text-xs">
+              <div class="hidden sm:flex items-center gap-1 px-1.5 min-h-5 rounded-full bg-yellow-400 text-white text-xs">
                 <i class="fa-solid fa-star"></i>
-                <span class="font-medium">5.0</span>
+                <span class="font-medium"><?= $prestador->nota ?? "não avaliado" ?></span>
               </div>
 
               <div class="flex flex-col sm:flex-row items-center gap-2 lg:gap-4">
