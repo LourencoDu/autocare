@@ -67,51 +67,45 @@ final class MapController extends Controller
   }*/
 public function listar()
 {
-    $prestadores = (new Prestador())->getAllRows();
-
-    $results = [];
-
-    foreach ($prestadores as $prestador) {
-        if ($prestador->localizacao && !empty($prestador->localizacao->latitude) && !empty($prestador->localizacao->longitude)) {
-            $results[] = [
-                'lat' => $prestador->localizacao->latitude,
-                'lon' => $prestador->localizacao->longitude,
-                'nome' => $prestador->usuario->nome 
-            ];
-        }
-    }
-
-    echo json_encode($results);
-}
-public function listarPorEspecialidade(): void
-    {
-        header('Content-Type: application/json');
-
-        $idEsp = (int)($_GET['id'] ?? 0);
-        if ($idEsp <= 0) {
-            echo json_encode([]);
-            return;
-        }
-
-        $catalogos = (new PrestadorCatalogoDAO())->selectByEspecialidade($idEsp);
-        $results = [];
-
-        foreach ($catalogos as $cat) {
-            $prest = Prestador::getById($cat->id_prestador);
-            if (!$prest || !$prest->localizacao) {
-                continue;
+    header('Content-Type: application/json');
+    
+    try {
+        $prestadores = (new \AutoCare\Model\Prestador())->getAllRows();
+        $catalogos = (new \AutoCare\DAO\PrestadorCatalogoDAO())->select();
+        
+        // Create map of prestador_id => [especialidade_ids]
+        $prestadorEspecialidades = [];
+        foreach ($catalogos as $catalogo) {
+            $prestadorId = $catalogo->id_prestador;
+            if (!isset($prestadorEspecialidades[$prestadorId])) {
+                $prestadorEspecialidades[$prestadorId] = [];
             }
-            $results[] = [
-                'lat'  => $prest->localizacao->latitude,
-                'lon'  => $prest->localizacao->longitude,
-                'nome' => $prest->usuario->nome,
-                'esp'  => $cat->especialidade->nome
-            ];
+            $prestadorEspecialidades[$prestadorId][] = $catalogo->id_especialidade;
         }
 
+        $results = [];
+        foreach ($prestadores as $prestador) {
+            if ($prestador->localizacao) {
+                $especialidades = $prestadorEspecialidades[$prestador->id] ?? [];
+                
+                $results[] = [
+                    'lat' => $prestador->localizacao->latitude,
+                    'lon' => $prestador->localizacao->longitude,
+                    'nome' => $prestador->usuario->nome,
+                    'especialidades' => $especialidades
+                ];
+            }
+        }
+        
         echo json_encode($results);
+        exit;
+        
+    } catch (\Throwable $e) {
+        error_log($e->getMessage());
+        echo json_encode(['error' => 'Failed to load data']);
+        exit;
     }
-
+}
 
 
 

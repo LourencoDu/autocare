@@ -1,202 +1,210 @@
-<link rel="stylesheet" href="https://openlayers.org/en/v6.15.1/css/ol.css">
-
-<style>
-    html, body {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        width: 100%;
-    }
-    #map {
-        height: 100vh;
-        width: 100%;
-    }
-</style>
-
-<select id="especialidadeDropdown">
-  <option value="">Selecione uma especialidade</option>
-</select>
-
-<div id="map"></div>
-
-<script src="https://openlayers.org/en/v6.15.1/build/ol.js"></script>
-<script>
-// Inicializa o mapa
-const map = new ol.Map({
-    target: 'map',
-    layers: [
-        new ol.layer.Tile({
-            source: new ol.source.OSM()
-        })
-    ],
-    view: new ol.View({
-        center: ol.proj.fromLonLat([-51.9253, -14.2350]), // Centro do Brasil
-        zoom: 4
-    })
-});
-
-let prestadoresData = [];
-let markerLayer = null;
-let circleLayer = null;
-
-// Carrega os prestadores do backend
-fetch('/autocare/mapa/json')
-    .then(response => response.json())
-    .then(data => {
-        prestadoresData = data;
-        plotPrestadores(data);
-    })
-    .catch(error => {
-        console.error('Erro ao carregar os prestadores:', error);
-    });
-
-// Função que plota os prestadores, filtrando por especialidade e opcionalmente por centro e raio
-function plotPrestadores(data, centerCoord = null, especialidadeId = "") {
-    if (markerLayer) {
-        map.removeLayer(markerLayer);
-    }
-
-    const features = [];
-
-    data.forEach(prestador => {
-        // Filtra por especialidade, se selecionada
-        if (especialidadeId && prestador.id_especialidade != especialidadeId) {
-            return;
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Mapa de Prestadores</title>
+    <link rel="stylesheet" href="https://openlayers.org/en/v6.15.1/css/ol.css">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
         }
-
-        const lon = parseFloat(prestador.lon);
-        const lat = parseFloat(prestador.lat);
-        const coord = ol.proj.fromLonLat([lon, lat]);
-
-        let distanceLabel = prestador.nome || '';
-
-        if (centerCoord) {
-            const clickLonLat = ol.proj.toLonLat(centerCoord);
-            const prestadorLonLat = [lon, lat];
-
-            const distance = ol.sphere.getDistance(clickLonLat, prestadorLonLat);
-
-            if (distance > 100000) {
-                return; // Fora do raio de 100 km
-            }
-
-            distanceLabel += `\n${(distance / 1000).toFixed(2)} km`;
+        #map {
+            height: 100vh;
+            width: 100%;
         }
+        #especialidadeDropdown {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 1000;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            background: white;
+            min-width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+    <select id="especialidadeDropdown">
+        <option value="">Selecione uma especialidade</option>
+    </select>
+    </div>
+    <div id="map"></div>
 
-        const marker = new ol.Feature({
-            geometry: new ol.geom.Point(coord),
-            name: distanceLabel
+    <script src="https://openlayers.org/en/v6.15.1/build/ol.js"></script>
+    <script>
+        // Configurações iniciais
+        const especialidades = [
+            { id: 17, nome: 'Mecânica Geral' },
+            { id: 18, nome: 'Troca de Óleo' },
+            { id: 19, nome: 'Alinhamento e Balanceamento' },
+            { id: 20, nome: 'Revisão Preventiva' },
+            { id: 21, nome: 'Freios e Suspensão' },
+            { id: 22, nome: 'Injeção Eletrônica' },
+            { id: 23, nome: 'Ar-condicionado' },
+            { id: 24, nome: 'Elétrica Automotiva' },
+            { id: 25, nome: 'Funilaria e Pintura' },
+            { id: 26, nome: 'Inspeção Veicular' },
+            { id: 27, nome: 'Higienização Interna' },
+            { id: 28, nome: 'Instalação de Acessórios' },
+            { id: 29, nome: 'Diagnóstico Eletrônico' },
+            { id: 30, nome: 'Polimento e Estética' },
+            { id: 31, nome: 'Troca de Pneus' },
+            { id: 32, nome: 'Outra' }
+        ];
+
+        // Inicialização do mapa
+        const map = new ol.Map({
+            target: 'map',
+            layers: [
+                new ol.layer.Tile({
+                    source: new ol.source.OSM()
+                })
+            ],
+            view: new ol.View({
+                center: ol.proj.fromLonLat([-51.9253, -14.2350]),
+                zoom: 4
+            })
         });
 
-        marker.setStyle(new ol.style.Style({
-            image: new ol.style.Icon({
-                anchor: [0.5, 1],
-                src: 'https://cdn-icons-png.flaticon.com/512/684/684908.png',
-                scale: 0.05
-            }),
-            text: new ol.style.Text({
-                text: distanceLabel,
-                offsetY: -25,
-                fill: new ol.style.Fill({ color: '#000' }),
-                stroke: new ol.style.Stroke({ color: '#fff', width: 2 }),
-                overflow: true
+        // Variáveis globais
+        let prestadoresData = [];
+        let markerLayer = null;
+        let circleLayer = null;
+        const dropdown = document.getElementById('especialidadeDropdown');
+
+        // Preenche dropdown de especialidades
+        especialidades.forEach(especialidade => {
+            const option = document.createElement('option');
+            option.value = especialidade.id;
+            option.textContent = especialidade.nome;
+            dropdown.appendChild(option);
+        });
+
+        // Carrega dados dos prestadores
+        fetch('/autocare/mapa/json')
+            .then(response => {
+                if (!response.ok) throw new Error('Erro na rede');
+                return response.json();
             })
-        }));
+            .then(data => {
+                prestadoresData = data;
+                plotPrestadores(data);
+            })
+            .catch(error => {
+                console.error('Erro ao carregar prestadores:', error);
+                alert('Erro ao carregar dados. Verifique o console.');
+            });
 
-        features.push(marker);
-    });
+        // Função para plotar prestadores no mapa
+        function plotPrestadores(data, centerCoord = null, especialidadeId = "") {
+            if (markerLayer) map.removeLayer(markerLayer);
 
-    const vectorSource = new ol.source.Vector({
-        features: features
-    });
+            const features = [];
+            
+            data.forEach(prestador => {
+                // Filtro por especialidade
+                if (especialidadeId && prestador.especialidades) {
+                    if (!prestador.especialidades.includes(parseInt(especialidadeId))) {
+                        return;
+                    }
+                }
 
-    markerLayer = new ol.layer.Vector({
-        source: vectorSource
-    });
+                const lon = parseFloat(prestador.lon);
+                const lat = parseFloat(prestador.lat);
+                const coord = ol.proj.fromLonLat([lon, lat]);
 
-    map.addLayer(markerLayer);
-}
+                let distanceLabel = prestador.nome || '';
+                let showMarker = true;
 
-// Clique no mapa: desenha círculo e filtra prestadores no raio
-map.on('click', function (evt) {
-    const clickCoord = evt.coordinate;
+                // Filtro por distância
+                if (centerCoord) {
+                    const clickLonLat = ol.proj.toLonLat(centerCoord);
+                    const prestadorLonLat = [lon, lat];
+                    const distance = ol.sphere.getDistance(clickLonLat, prestadorLonLat);
+                    
+                    if (distance > 100000) { // 100km
+                        showMarker = false;
+                    } else {
+                        distanceLabel += `\n${(distance / 1000).toFixed(2)} km`;
+                    }
+                }
 
-    // Remove camada de círculo anterior
-    if (circleLayer) {
-        map.removeLayer(circleLayer);
-    }
+                if (showMarker) {
+                    const marker = new ol.Feature({
+                        geometry: new ol.geom.Point(coord),
+                        name: distanceLabel
+                    });
 
-    // Cria o círculo de 100 km
-    const circleFeature = new ol.Feature(
-        new ol.geom.Circle(clickCoord, 100000)
-    );
+                    marker.setStyle(new ol.style.Style({
+                        image: new ol.style.Icon({
+                            anchor: [0.5, 1],
+                            src: 'https://cdn-icons-png.flaticon.com/512/684/684908.png',
+                            scale: 0.05
+                        }),
+                        text: new ol.style.Text({
+                            text: distanceLabel,
+                            offsetY: -25,
+                            fill: new ol.style.Fill({ color: '#000' }),
+                            stroke: new ol.style.Stroke({ color: '#fff', width: 2 })
+                        })
+                    }));
 
-    circleFeature.setStyle(new ol.style.Style({
-        stroke: new ol.style.Stroke({
-            color: 'rgba(0, 0, 255, 0.8)',
-            width: 2
-        }),
-        fill: new ol.style.Fill({
-            color: 'rgba(0, 0, 255, 0.1)'
-        })
-    }));
+                    features.push(marker);
+                }
+            });
 
-    const circleSource = new ol.source.Vector({
-        features: [circleFeature]
-    });
+            markerLayer = new ol.layer.Vector({
+                source: new ol.source.Vector({ features })
+            });
+            map.addLayer(markerLayer);
+        }
 
-    circleLayer = new ol.layer.Vector({
-        source: circleSource
-    });
+        // Evento de clique no mapa
+        map.on('click', function(evt) {
+            // Remove círculo anterior
+            if (circleLayer) map.removeLayer(circleLayer);
 
-    map.addLayer(circleLayer);
+            // Cria novo círculo
+            const circleFeature = new ol.Feature(
+                new ol.geom.Circle(evt.coordinate, 100000)
+            );
+            circleFeature.setStyle(new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                    color: 'rgba(0, 0, 255, 0.8)',
+                    width: 2
+                }),
+                fill: new ol.style.Fill({
+                    color: 'rgba(0, 0, 255, 0.1)'
+                })
+            }));
 
-    // Pega o valor selecionado no dropdown para filtrar por especialidade
-    const selectedEspecialidade = dropdown.value;
+            circleLayer = new ol.layer.Vector({
+                source: new ol.source.Vector({ features: [circleFeature] })
+            });
+            map.addLayer(circleLayer);
 
-    // Plota prestadores filtrando pelo círculo e especialidade
-    plotPrestadores(prestadoresData, clickCoord, selectedEspecialidade);
-});
+            // Filtra prestadores
+            plotPrestadores(
+                prestadoresData,
+                evt.coordinate,
+                dropdown.value
+            );
+        });
 
-const especialidades = [
-  { id: 17, nome: 'Mecânica Geral' },
-  { id: 18, nome: 'Troca de Óleo' },
-  { id: 19, nome: 'Alinhamento e Balanceamento' },
-  { id: 20, nome: 'Revisão Preventiva' },
-  { id: 21, nome: 'Freios e Suspensão' },
-  { id: 22, nome: 'Injeção Eletrônica' },
-  { id: 23, nome: 'Ar-condicionado' },
-  { id: 24, nome: 'Elétrica Automotiva' },
-  { id: 25, nome: 'Funilaria e Pintura' },
-  { id: 26, nome: 'Inspeção Veicular' },
-  { id: 27, nome: 'Higienização Interna' },
-  { id: 28, nome: 'Instalação de Acessórios' },
-  { id: 29, nome: 'Diagnóstico Eletrônico' },
-  { id: 30, nome: 'Polimento e Estética' },
-  { id: 31, nome: 'Troca de Pneus' },
-  { id: 32, nome: 'Outra' }
-];
-
-const dropdown = document.getElementById('especialidadeDropdown');
-
-especialidades.forEach(especialidade => {
-  const option = document.createElement('option');
-  option.value = especialidade.id;
-  option.textContent = especialidade.nome;
-  dropdown.appendChild(option);
-});
-
-// Quando muda a especialidade: remove filtro de raio e plota só pela especialidade
-dropdown.addEventListener('change', () => {
-    const selectedEspecialidade = dropdown.value;
-
-    // Remove o círculo, se existir
-    if (circleLayer) {
-        map.removeLayer(circleLayer);
-        circleLayer = null;
-    }
-
-    // Plota sem filtro de raio, apenas por especialidade
-    plotPrestadores(prestadoresData, null, selectedEspecialidade);
-});
-</script>
+        // Evento de mudança no dropdown
+        dropdown.addEventListener('change', () => {
+            if (circleLayer) {
+                map.removeLayer(circleLayer);
+                circleLayer = null;
+            }
+            plotPrestadores(prestadoresData, null, dropdown.value);
+        });
+    </script>
+</body>
+</html>
