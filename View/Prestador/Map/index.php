@@ -40,22 +40,22 @@
     <script>
         // Configurações iniciais
         const especialidades = [
-            { id: 17, nome: 'Mecânica Geral' },
-            { id: 18, nome: 'Troca de Óleo' },
-            { id: 19, nome: 'Alinhamento e Balanceamento' },
-            { id: 20, nome: 'Revisão Preventiva' },
-            { id: 21, nome: 'Freios e Suspensão' },
-            { id: 22, nome: 'Injeção Eletrônica' },
-            { id: 23, nome: 'Ar-condicionado' },
-            { id: 24, nome: 'Elétrica Automotiva' },
-            { id: 25, nome: 'Funilaria e Pintura' },
-            { id: 26, nome: 'Inspeção Veicular' },
-            { id: 27, nome: 'Higienização Interna' },
-            { id: 28, nome: 'Instalação de Acessórios' },
-            { id: 29, nome: 'Diagnóstico Eletrônico' },
-            { id: 30, nome: 'Polimento e Estética' },
-            { id: 31, nome: 'Troca de Pneus' },
-            { id: 32, nome: 'Outra' }
+            { id: 33, nome: 'Mecânica Geral' },
+            { id: 34, nome: 'Troca de Óleo' },
+            { id: 35, nome: 'Alinhamento e Balanceamento' },
+            { id: 36, nome: 'Revisão Preventiva' },
+            { id: 37, nome: 'Freios e Suspensão' },
+            { id: 38, nome: 'Injeção Eletrônica' },
+            { id: 39, nome: 'Ar-condicionado' },
+            { id: 40, nome: 'Elétrica Automotiva' },
+            { id: 41, nome: 'Funilaria e Pintura' },
+            { id: 42, nome: 'Inspeção Veicular' },
+            { id: 43, nome: 'Higienização Interna' },
+            { id: 44, nome: 'Instalação de Acessórios' },
+            { id: 45, nome: 'Diagnóstico Eletrônico' },
+            { id: 46, nome: 'Polimento e Estética' },
+            { id: 47, nome: 'Troca de Pneus' },
+            { id: 48, nome: 'Outra' }
         ];
 
         // Inicialização do mapa
