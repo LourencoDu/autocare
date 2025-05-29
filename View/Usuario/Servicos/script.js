@@ -20,8 +20,10 @@ const _campoComentario = {
     helperText: "Digite seu comentário.",
 };
 
-async function handleAvaliacaoClick(id) {
+async function handleAvaliacaoClick(id, nota, comentario) {
 
+    console.log(nota);
+    console.log(comentario);
     const campoAvaliacao = { ..._campoAvaliacao };
     statusOptions = [
         { value: "5", label: "Muito Bom" },
@@ -33,8 +35,11 @@ async function handleAvaliacaoClick(id) {
 
     campoAvaliacao.options = statusOptions;
 
+    campoAvaliacao.value = nota;
+    _campoComentario.value = comentario;
+
     openFormModal({
-        title: `Alterar Status do Serviço #${id}`,
+        title: `Avaliar Serviço #${id}`,
         onConfirm: (event) => onSubmitStatusChange(event, id),
         showCloseButton: true,
         confirmButtonText: "Salvar",
@@ -64,5 +69,6 @@ async function onSubmitStatusChange(event, id) {
         setFormModalIsLoading(false);
         showSnackbar("Status alterado com sucesso!", "success");
         closeFormModal();
+        window.location.reload();
     })
 }

@@ -6,7 +6,7 @@ use AutoCare\DAO\ServicoDAO;
 
 final class Servico extends Model
 {
-  public $id, $id_usuario, $id_prestador, $id_veiculo, $id_especialidade, $id_status_padrao, $status_texto;
+  public $id, $id_usuario, $id_prestador, $id_veiculo, $id_especialidade, $id_status_padrao, $status_texto, $nota, $comentario;
 
   public string $descricao;
   public string $data_inicio;
@@ -64,10 +64,17 @@ final class Servico extends Model
   }
 
   public function avaliarServico(int $id_servico, int $avaliacao, string $comentario): void
-  { 
+  {
     $dao = new ServicoDAO();
-    $dao->comentarServico($id_servico, $comentario);
-    $dao->avaliarServico($id_servico, $avaliacao);
+
+    if ($dao->verificaAvaliacao($id_servico)) {
+      $dao->updateAvaliacao($id_servico, $avaliacao);
+      $dao->updateComentario($id_servico, $comentario);
+    }else{
+      $dao->comentarServico($id_servico, $comentario);
+      $dao->avaliarServico($id_servico, $avaliacao);
+    };
+
     return;
   }
 }

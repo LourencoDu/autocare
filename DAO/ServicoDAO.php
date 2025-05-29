@@ -32,6 +32,8 @@ final class ServicoDAO extends DAO
 
     $model->id_status_padrao = $data["s_id_status_padrao"] ?? null;
     $model->status_texto = $data["status_texto"] ?? null;
+    $model->nota = $data['a_nota'] ?? 0;
+    $model->comentario = $data['c_texto'] ?? '';
 
     //Usuario
     $model_usuario = isset($data["u_id"]) ? UsuarioDAO::parseRow($data, "u_") : null;
@@ -198,6 +200,7 @@ final class ServicoDAO extends DAO
     s.id s_id, s.descricao s_descricao, s.data_inicio s_data_inicio, s.data_fim s_data_fim,
     s.id_prestador s_id_prestador, s.id_usuario s_id_usuario, s.id_veiculo s_id_veiculo, s.id_especialidade s_id_especialidade, sp.status_texto,
     p.id p_id, p.documento p_documento,
+    c.texto c_texto, a.nota a_nota,
     pu.id pu_id, pu.nome pu_nome,
     u.id u_id, u.nome u_nome, u.sobrenome u_sobrenome, u.email u_email, u.telefone u_telefone,
     v.id v_id, v.apelido v_apelido, v.ano v_ano, v.id_modelo_veiculo v_id_modelo_veiculo,
@@ -213,6 +216,8 @@ final class ServicoDAO extends DAO
     JOIN fabricante_veiculo fv ON fv.id = mv.id_fabricante_veiculo
     JOIN status_padrao sp ON s.id_status_padrao = sp.cod_status
     JOIN especialidade e ON e.id = s.id_especialidade
+    LEFT JOIN comentario c on s.id = c.id_servico
+    LEFT JOIN avaliacao a on s.id = a.id_servico
     WHERE s.id_usuario = ?
     ORDER BY s.data_inicio DESC;";
 
@@ -401,6 +406,45 @@ final class ServicoDAO extends DAO
     $stmt = parent::$conexao->prepare($sql);
     $stmt->bindValue(1, $id_servico);
     $stmt->bindValue(2, $avaliacao);
+    $stmt->execute();
+
+    return;
+  }
+
+  public function verificaAvaliacao(int $id_servico): bool
+  {
+    $sql = "select * FROM avaliacao WHERE id_servico=?;";
+
+    $stmt = parent::$conexao->prepare($sql);
+    $stmt->bindValue(1, $id_servico);
+    $stmt->execute();
+
+    return $stmt->rowCount() > 0;
+  }
+  
+  public function updateComentario(int $id_servico, string $comentario): void
+  {
+    date_default_timezone_set('America/Sao_Paulo');
+    $dataHoraAtual = date('Y-m-d H:i:s');
+
+    $sql = "UPDATE comentario SET texto=?, data=? where id_servico=?";
+
+    $stmt = parent::$conexao->prepare($sql);
+    $stmt->bindValue(1, $comentario);
+    $stmt->bindValue(2, $dataHoraAtual);
+    $stmt->bindValue(3, $id_servico);
+    $stmt->execute();
+
+    return;
+  }
+
+  public function updateAvaliacao(int $id_servico, string $avaliacao): void
+  {
+    $sql = "UPDATE avaliacao set nota=? where id_servico=?";
+
+    $stmt = parent::$conexao->prepare($sql);
+    $stmt->bindValue(1, $avaliacao);
+    $stmt->bindValue(2, $id_servico);
     $stmt->execute();
 
     return;

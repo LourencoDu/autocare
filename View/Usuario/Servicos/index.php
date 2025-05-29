@@ -68,7 +68,7 @@ $quantidade = count($servicos);
         <div class="flex justify-between items-center border-t border-gray-300 h-14 px-5">
           <div></div>
           <?php if ($servico->status_texto === "Finalizado") : ?>
-            <button class="button small" onclick="handleAvaliacaoClick(<?=$servico->id?>)">Avaliar Serviço</button>
+            <button class="button small" onclick="handleAvaliacaoClick(<?=$servico->id?>, <?=$servico->nota?>, '<?=e($servico->comentario)?>')">Avaliação</button>
           <?php endif; ?>
         </div>
       </div>
