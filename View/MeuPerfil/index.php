@@ -94,5 +94,11 @@ array_push(
   }
   ?>
 
+    <?php
+  if ($tipo == "prestador" || $tipo == "funcionario") {
+    require COMPONENTS . "/MeuPerfil/Comentarios/index.php";
+  }
+  ?>
+
 
 </div>

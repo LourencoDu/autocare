@@ -15,7 +15,7 @@ $prestador = $data["prestador"];
 
       <div class="flex items-center gap-1 px-1.5 min-h-6 h-fit rounded-full bg-yellow-400 text-white text-sm">
         <i class="fa-solid fa-star"></i>
-        <span class="font-semibold">5.0</span>
+        <span class="font-semibold"><?= $prestador->nota ?? "não avaliado" ?></span>
       </div>
     </div>
     <div class="flex flex-wrap flex-col items-center sm:items-start sm:flex-row gap-6">
@@ -61,6 +61,8 @@ $prestador = $data["prestador"];
   </div>
 
   <?php require COMPONENTS . "/MeuPerfil/Catalogo/index.php"; ?>
+
+  <?php require COMPONENTS . "/MeuPerfil/Comentarios/index.php"; ?>
 </div>
 
 <script>
