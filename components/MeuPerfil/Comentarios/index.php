@@ -14,7 +14,7 @@ $comentarios = array();
 $id_prestador = $_GET["id"] ?? null;
 
 $is_usuario_dono_ou_funcionario = false;
-if(isset($prestador)) {
+if (isset($prestador)) {
   $is_usuario_dono_ou_funcionario = !$id_prestador || $id_prestador == $prestador->id;
 }
 
@@ -39,9 +39,21 @@ $quantidade = count($comentarios);
       ?>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
           <?php foreach ($comentarios as $item) : ?>
-            <div class="relative flex flex-col border border-gray-300 rounded-xl px-3.5 py-3.5 gap-2">
+            <?php $nota = $item->avaliacao->nota; ?>
+            <div class="relative flex flex-col border border-gray-300 rounded-xl px-3.5 py-3.5 gap-3">
+              <div class="flex flex-wrap items-center justify-between">
+                <div class="flex gap-1 text-sm">
+                  <i class="fa-solid fa-star <?= $nota > 0 ? 'text-yellow-400' : 'text-gray-500' ?>"></i>
+                  <i class="fa-solid fa-star <?= $nota > 1 ? 'text-yellow-400' : 'text-gray-500' ?>"></i>
+                  <i class="fa-solid fa-star <?= $nota > 2 ? 'text-yellow-400' : 'text-gray-500' ?>"></i>
+                  <i class="fa-solid fa-star <?= $nota > 3 ? 'text-yellow-400' : 'text-gray-500' ?>"></i>
+                  <i class="fa-solid fa-star <?= $nota > 4 ? 'text-yellow-400' : 'text-gray-500' ?>"></i>
+                </div>
+
+                <span class="text-sm text-gray-500"><?= Util::formatarDataHora($item->data, "d/m/Y") ?></span>
+              </div>
+
               <p class="text-gray-700 break-words"><?= nl2br(e($item->texto)) ?></p>
-              <span class="text-sm text-gray-500 flex flex-1 items-end"><?= Util::formatarDataHora($item->data, "d/m/Y") ?></span>
             </div>
           <?php endforeach; ?>
         </div>
