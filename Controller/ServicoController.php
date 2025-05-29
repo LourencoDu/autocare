@@ -89,17 +89,11 @@ final class ServicoController extends Controller
     $classes = "flex items-center h-6 px-2 border rounded-md text-xs font-medium";
 
     foreach ($servicos as $servico) {
-      $isAgendamento = false;
-
-      $data_inicio = new DateTime($servico->data_inicio);
-
-      if ($data_inicio > $data_hoje) {
-        $isAgendamento = true;
-      } else {
+      if((int) $servico->id_status_padrao == 3) {
         $emServico = true;
       }
 
-      if ($isAgendamento) {
+      if ((int) $servico->id_status_padrao == 1) {
         $quantidadeAgendamentos += 1;
       }
     }
@@ -110,7 +104,7 @@ final class ServicoController extends Controller
       $label = $quantidadeAgendamentos . " " . ($quantidadeAgendamentos == 1 ? "serviço agendado" : "serviços agendados");
       echo "<span class='" . $classes . " bg-yellow-200 border-yellow-300 text-yellow-700'>" . $label . "</span>";
     } else {
-      echo "<span class='" . $classes . " bg-gray-200 border-gray-300 text-gray-700'>Sem serviço</span>";
+      echo "<span class='" . $classes . " bg-gray-200 border-gray-300 text-gray-700'>Disponível</span>";
     }
   }
 

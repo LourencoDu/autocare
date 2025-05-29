@@ -73,9 +73,15 @@ $quantidade = count($veiculos);
               <i class="fa-solid fa-pen mt-[2px] transition"></i>
             </a>
 
-            <a onclick="handleDeleteClick(<?= $veiculo->id ?>, '<?= $veiculo->apelido ?>')" class="flex flex-row items-center justify-center w-8 h-8 rounded-md text-gray-600 hover:text-red-500 hover:bg-red-500/10 transition cursor-pointer">
-              <i class="fa-solid fa-trash mt-[2px] transition"></i>
-            </a>
+            <?php if($veiculo->quantidade_servicos > 0) : ?>
+              <button class="flex flex-row items-center justify-center w-8 h-8 rounded-md text-gray-400 cursor-not-allowed">
+                <i class="fa-solid fa-trash mt-[2px] transition"></i>
+              </button>
+            <?php else: ?>
+              <button onclick="handleDeleteClick(<?= $veiculo->id ?>, '<?= $veiculo->apelido ?>')" class="flex flex-row items-center justify-center w-8 h-8 rounded-md text-gray-600 hover:text-red-500 hover:bg-red-500/10 transition cursor-pointer">
+                <i class="fa-solid fa-trash mt-[2px] transition"></i>
+              </button>
+            <?php endif; ?>
           </div>
         </div>
       </div>

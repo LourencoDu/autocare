@@ -81,8 +81,9 @@ final class ServicoDAO extends DAO
   public function selectById(int $id): ?Servico
   {
     $sql = "SELECT 
-    s.id s_id, s.descricao s_descricao, s.data_inicio s_data_inicio, s.data_fim s_data_fim,
-    s.id_prestador s_id_prestador, s.id_usuario s_id_usuario, s.id_veiculo s_id_veiculo, s.id_especialidade s_id_especialidade, sp.status_texto,
+    s.id s_id, s.descricao s_descricao, s.data_inicio s_data_inicio, s.data_fim s_data_fim, s.id_status_padrao s_id_status_padrao,
+    s.id_prestador s_id_prestador, s.id_usuario s_id_usuario, s.id_veiculo s_id_veiculo, s.id_especialidade s_id_especialidade,
+    sp.status_texto,
     p.id p_id, p.documento p_documento,
     pu.id pu_id, pu.nome pu_nome,
     u.id u_id, u.nome u_nome, u.sobrenome u_sobrenome, u.email u_email, u.telefone u_telefone,
@@ -99,7 +100,8 @@ final class ServicoDAO extends DAO
     JOIN fabricante_veiculo fv ON fv.id = mv.id_fabricante_veiculo
     JOIN especialidade e ON e.id = s.id_especialidade
     JOIN status_padrao sp ON s.id_status_padrao = sp.cod_status
-    WHERE s.id=?;";
+    WHERE s.id=?
+    ORDER BY s.data_inicio DESC;";
 
     $stmt = parent::$conexao->prepare($sql);
     $stmt->bindValue(1, $id);
@@ -117,7 +119,7 @@ final class ServicoDAO extends DAO
   public function select(): array
   {
     $sql = "SELECT 
-    s.id s_id, s.descricao s_descricao, s.data_inicio s_data_inicio, s.data_fim s_data_fim,
+    s.id s_id, s.descricao s_descricao, s.data_inicio s_data_inicio, s.data_fim s_data_fim, s.id_status_padrao s_id_status_padrao,
     s.id_prestador s_id_prestador, s.id_usuario s_id_usuario, s.id_veiculo s_id_veiculo, s.id_especialidade s_id_especialidade, s.id_status_padrao, sp.status_texto,
     p.id p_id, p.documento p_documento,
     pu.id pu_id, pu.nome pu_nome,
@@ -134,7 +136,8 @@ final class ServicoDAO extends DAO
     JOIN modelo_veiculo mv ON mv.id = v.id_modelo_veiculo
     JOIN fabricante_veiculo fv ON fv.id = mv.id_fabricante_veiculo
     JOIN status_padrao sp ON s.id_status_padrao = sp.cod_status
-    JOIN especialidade e ON e.id = s.id_especialidade;";
+    JOIN especialidade e ON e.id = s.id_especialidade
+    ORDER BY s.data_inicio DESC;";
 
     $stmt = parent::$conexao->prepare($sql);
     $stmt->execute();
@@ -178,7 +181,8 @@ final class ServicoDAO extends DAO
     JOIN fabricante_veiculo fv ON fv.id = mv.id_fabricante_veiculo
     JOIN especialidade e ON e.id = s.id_especialidade
     JOIN status_padrao sp ON s.id_status_padrao = sp.cod_status
-    WHERE s.id_prestador = ?;";
+    WHERE s.id_prestador = ?
+    ORDER BY s.data_inicio DESC;";
 
     $stmt = parent::$conexao->prepare($sql);
     $stmt->bindValue(1, $id_prestador);
@@ -197,7 +201,7 @@ final class ServicoDAO extends DAO
   public function selectByIdUsuario($id_usuario): array
   {
     $sql = "SELECT 
-    s.id s_id, s.descricao s_descricao, s.data_inicio s_data_inicio, s.data_fim s_data_fim,
+    s.id s_id, s.descricao s_descricao, s.data_inicio s_data_inicio, s.data_fim s_data_fim, s.id_status_padrao s_id_status_padrao,
     s.id_prestador s_id_prestador, s.id_usuario s_id_usuario, s.id_veiculo s_id_veiculo, s.id_especialidade s_id_especialidade, sp.status_texto,
     p.id p_id, p.documento p_documento,
     c.texto c_texto, a.nota a_nota,
@@ -238,7 +242,7 @@ final class ServicoDAO extends DAO
   public function selectByIdVeiculo($id_veiculo): array
   {
     $sql = "SELECT 
-    s.id s_id, s.descricao s_descricao, s.data_inicio s_data_inicio, s.data_fim s_data_fim,
+    s.id s_id, s.descricao s_descricao, s.data_inicio s_data_inicio, s.data_fim s_data_fim, s.id_status_padrao s_id_status_padrao,
     s.id_prestador s_id_prestador, s.id_usuario s_id_usuario, s.id_veiculo s_id_veiculo, s.id_especialidade s_id_especialidade, sp.status_texto,
     p.id p_id, p.documento p_documento,
     pu.id pu_id, pu.nome pu_nome,
@@ -276,7 +280,7 @@ final class ServicoDAO extends DAO
   public function selectByIdVeiculoOnDataFimIsNull($id_veiculo): array
   {
     $sql = "SELECT 
-    s.id s_id, s.descricao s_descricao, s.data_inicio s_data_inicio, s.data_fim s_data_fim,
+    s.id s_id, s.descricao s_descricao, s.data_inicio s_data_inicio, s.data_fim s_data_fim, s.id_status_padrao s_id_status_padrao,
     s.id_prestador s_id_prestador, s.id_usuario s_id_usuario, s.id_veiculo s_id_veiculo, s.id_especialidade s_id_especialidade, sp.status_texto,
     p.id p_id, p.documento p_documento,
     pu.id pu_id, pu.nome pu_nome,
