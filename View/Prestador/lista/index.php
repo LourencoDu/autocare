@@ -68,7 +68,7 @@ $quantidade = count($prestadores);
         </div>
 
         <div class="flex flex-col sm:flex-row w-full sm:w-auto items-center gap-4">
-          <span class="font-medium">0,3 km</span>
+          <span class="font-medium"></span>
 
           <a href="/<?= BASE_DIR_NAME ?>/prestador?id=<?= $prestador->id ?>" class="button small ghost flex items-center gap-1">
             <i class="fa-solid fa-flag"></i>
