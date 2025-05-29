@@ -28,4 +28,7 @@ switch ($url) {
   case '/api/servico/alterar_status':
     (new ServicoController())->alterarStatus();
     exit;
+  case '/api/servico/avaliar':
+    (new ServicoController())->avaliarServico();
+    exit;
 }

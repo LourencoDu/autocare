@@ -353,13 +353,54 @@ final class ServicoDAO extends DAO
     return $stmt->execute();
   }
 
-  public function atualizarStatus(int $id_servico, int $id_status_servico) : void
+  public function atualizarStatus(int $id_servico, int $id_status_servico): void
   {
-    $sql = "UPDATE servico SET id_status_padrao=? WHERE id=?;";
+    if ($id_status_servico == 10) {
+      date_default_timezone_set('America/Sao_Paulo');
+      $dataHoraAtual = date('Y-m-d H:i:s');
+
+      $sql = "UPDATE servico SET id_status_padrao=?, data_fim=? WHERE id=?;";
+
+      $stmt = parent::$conexao->prepare($sql);
+      $stmt->bindValue(1, $id_status_servico);
+      $stmt->bindValue(2, $dataHoraAtual);
+      $stmt->bindValue(3, $id_servico);
+    } else {
+      $sql = "UPDATE servico SET id_status_padrao=?, data_fim=null WHERE id=?;";
+
+      $stmt = parent::$conexao->prepare($sql);
+      $stmt->bindValue(1, $id_status_servico);
+      $stmt->bindValue(2, $id_servico);
+    }
+
+    $stmt->execute();
+
+    return;
+  }
+
+  public function comentarServico(int $id_servico, string $comentario): void
+  {
+    date_default_timezone_set('America/Sao_Paulo');
+    $dataHoraAtual = date('Y-m-d H:i:s');
+
+    $sql = "INSERT into comentario (id_servico, texto, data) values (?, ?, ?)";
 
     $stmt = parent::$conexao->prepare($sql);
-    $stmt->bindValue(1, $id_status_servico);
-    $stmt->bindValue(2, $id_servico);
+    $stmt->bindValue(1, $id_servico);
+    $stmt->bindValue(2, $comentario);
+    $stmt->bindValue(3, $dataHoraAtual);
+    $stmt->execute();
+
+    return;
+  }
+
+  public function avaliarServico(int $id_servico, string $avaliacao): void
+  {
+    $sql = "INSERT into avaliacao (id_servico, nota) values (?, ?)";
+
+    $stmt = parent::$conexao->prepare($sql);
+    $stmt->bindValue(1, $id_servico);
+    $stmt->bindValue(2, $avaliacao);
     $stmt->execute();
 
     return;

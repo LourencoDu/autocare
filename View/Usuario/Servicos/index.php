@@ -27,7 +27,7 @@ $quantidade = count($servicos);
       $veiculo = $servico->veiculo;
       $veiculo_modelo = $veiculo->modelo;
       $veiculo_fabricante = $veiculo->fabricante;
-      $veiculo_label = $veiculo_fabricante->nome." ".$veiculo_modelo->nome." (".$veiculo->apelido.")";
+      $veiculo_label = $veiculo_fabricante->nome . " " . $veiculo_modelo->nome . " (" . $veiculo->apelido . ")";
 
       $infos = array();
       array_push($infos, ["label" => "Prestador:", "value" => "<a class='hover:text-primary transition' href='/" . BASE_DIR_NAME . "/prestador?id=" . $prestador->id . "'>" . $prestador->usuario->nome . "</a>"]);
@@ -39,18 +39,18 @@ $quantidade = count($servicos);
         <div class="flex items-center justify-between border-b border-gray-300 h-14 px-5">
           <span class="text-lg font-semibold">Serviço #<?= $servico->id; ?></span>
 
-          <?php 
-              $situacao = "EM_ANDAMENTO";
-              $situacao_cores = [
-                "AGENDADA" => "gray",
-                "EM_ANDAMENTO" => "yellow",
-                "CANCELADO" => "red",
-                "FINALIZADO" => "green"
-              ];
-              $situacao_cor = $situacao_cores[$situacao];
+          <?php
+          $situacao = $servico->status_texto;
+          $situacao_cores = [
+            "Aguardando Execução" => "gray",
+            "Em Execução" => "yellow",
+            "Cancelado" => "red",
+            "Finalizado" => "green"
+          ];
+          $situacao_cor = $situacao_cores[$situacao];
           ?>
-          <div class="<?= "flex items-center justify-center px-2 bg-".$situacao_cor."-200 border border-".$situacao_cor."-300 rounded-md" ?>">
-            <span class="<?= "text-sm font-medium text-".$situacao_cor."-700" ?>">Em andamento</span>
+          <div class="<?= "flex items-center justify-center px-2 bg-" . $situacao_cor . "-200 border border-" . $situacao_cor . "-300 rounded-md" ?>">
+            <span class="<?= "text-sm font-medium text-" . $situacao_cor . "-700" ?>"><?= $servico->status_texto; ?></span>
           </div>
         </div>
 
@@ -67,7 +67,9 @@ $quantidade = count($servicos);
 
         <div class="flex justify-between items-center border-t border-gray-300 h-14 px-5">
           <div></div>
-          <button class="button small">Avaliar Serviço</button>
+          <?php if ($servico->status_texto === "Finalizado") : ?>
+            <button class="button small" onclick="handleAvaliacaoClick(<?=$servico->id?>)">Avaliar Serviço</button>
+          <?php endif; ?>
         </div>
       </div>
 

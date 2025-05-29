@@ -7,7 +7,7 @@ use AutoCare\DAO\ServicoDAO;
 final class Servico extends Model
 {
   public $id, $id_usuario, $id_prestador, $id_veiculo, $id_especialidade, $id_status_padrao, $status_texto;
-  
+
   public string $descricao;
   public string $data_inicio;
   public ?string $data_fim;
@@ -57,10 +57,17 @@ final class Servico extends Model
     return (new ServicoDAO())->delete($id);
   }
 
- public function updateStatus(int $id_servico, int $id_status_servico): void
-{
-  (new ServicoDAO())->atualizarStatus($id_servico, $id_status_servico);
-  return;
-}
+  public function updateStatus(int $id_servico, int $id_status_servico): void
+  {
+    (new ServicoDAO())->atualizarStatus($id_servico, $id_status_servico);
+    return;
+  }
 
+  public function avaliarServico(int $id_servico, int $avaliacao, string $comentario): void
+  { 
+    $dao = new ServicoDAO();
+    $dao->comentarServico($id_servico, $comentario);
+    $dao->avaliarServico($id_servico, $avaliacao);
+    return;
+  }
 }

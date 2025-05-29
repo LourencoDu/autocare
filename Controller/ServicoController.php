@@ -85,7 +85,7 @@ final class ServicoController extends Controller
     $quantidadeAgendamentos = 0;
     $emServico = false;
     $data_hoje = new DateTime(); // agora
-    
+
     $classes = "flex items-center h-6 px-2 border rounded-md text-xs font-medium";
 
     foreach ($servicos as $servico) {
@@ -93,25 +93,25 @@ final class ServicoController extends Controller
 
       $data_inicio = new DateTime($servico->data_inicio);
 
-      if($data_inicio > $data_hoje) {
+      if ($data_inicio > $data_hoje) {
         $isAgendamento = true;
       } else {
         $emServico = true;
-      }      
+      }
 
-      if($isAgendamento) {
+      if ($isAgendamento) {
         $quantidadeAgendamentos += 1;
       }
     }
 
-    if($emServico) {
-      echo "<span class='".$classes." bg-green-200 border-green-300 text-green-700'>Em serviço</span>";
-    } else if($quantidadeAgendamentos > 0) {
-      $label = $quantidadeAgendamentos." ".($quantidadeAgendamentos == 1 ? "serviço agendado" : "serviços agendados");
-      echo "<span class='".$classes." bg-yellow-200 border-yellow-300 text-yellow-700'>".$label."</span>";
+    if ($emServico) {
+      echo "<span class='" . $classes . " bg-green-200 border-green-300 text-green-700'>Em serviço</span>";
+    } else if ($quantidadeAgendamentos > 0) {
+      $label = $quantidadeAgendamentos . " " . ($quantidadeAgendamentos == 1 ? "serviço agendado" : "serviços agendados");
+      echo "<span class='" . $classes . " bg-yellow-200 border-yellow-300 text-yellow-700'>" . $label . "</span>";
     } else {
-      echo "<span class='".$classes." bg-gray-200 border-gray-300 text-gray-700'>Sem serviço</span>";
-    }    
+      echo "<span class='" . $classes . " bg-gray-200 border-gray-300 text-gray-700'>Sem serviço</span>";
+    }
   }
 
   public function cadastrar(): void
@@ -122,7 +122,7 @@ final class ServicoController extends Controller
     $data_inicio = isset($_POST["data_inicio"]) ? $_POST["data_inicio"] : null;
 
     $data_fim = isset($_POST["data_fim"]) ? $_POST["data_fim"] : null;
-    if($data_fim == "null") $data_fim = null;
+    if ($data_fim == "null") $data_fim = null;
 
     $id_usuario = isset($_POST["id_usuario"]) ? $_POST["id_usuario"] : null;
     $id_veiculo = isset($_POST["id_veiculo"]) ? $_POST["id_veiculo"] : null;
@@ -226,21 +226,43 @@ final class ServicoController extends Controller
       $response->enviar();
     }
   }
-public function alterarStatus(): void
-{
-  parent::isProtected(["usuario", "administrador"]);
 
-  $id =$_GET["id"] ?? null;
-  $id_status_padrao = $_GET["id_status_padrao"] ?? null;
+  public function alterarStatus(): void
+  {
+    parent::isProtected(["usuario", "administrador"]);
 
-  $arrDados = [];
-  array_push($arrDados, $id);
-  array_push($arrDados, $id_status_padrao);
+    $id = $_GET["id"] ?? null;
+    $id_status_padrao = $_GET["id_status_padrao"] ?? null;
 
-  $model = new Servico();
-  $model->updateStatus($id, $id_status_padrao);
-  
-  $response = JsonResponse::sucesso("enviando dado",$_GET);
-  $response->enviar();
-}
+    $arrDados = [];
+    array_push($arrDados, $id);
+    array_push($arrDados, $id_status_padrao);
+
+    $model = new Servico();
+    $model->updateStatus($id, $id_status_padrao);
+
+    $response = JsonResponse::sucesso("enviando dado", $_GET);
+    $response->enviar();
+  }
+
+  public function avaliarServico(): void
+  {
+    parent::isProtected(["administrador", "funcionario", "prestador"]);
+
+    $id_servico = $_POST['id'] ?? null;
+    $nota = $_POST["avaliacao"] ?? null;
+    $comentario = $_POST["comentario"] ?? null;
+
+    $arrDados = [];
+    array_push($arrDados, $id_servico);
+    array_push($arrDados, $nota);
+    array_push($arrDados, $comentario);
+
+    $model = new Servico();
+    $model->avaliarServico($id_servico, $nota, $comentario);
+
+    $response = JsonResponse::sucesso("enviando dado", $arrDados);
+    $response->enviar();
+    return;
+  }
 }
