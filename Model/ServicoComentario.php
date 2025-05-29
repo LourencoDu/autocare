@@ -17,7 +17,11 @@ final class ServicoComentario extends Model {
     return (new ServicoComentarioDAO())->selectByIdPrestador($id_prestador);
   }
 
-  public static function delete(int $id) : bool {
-    return (new ServicoComentarioDAO())->delete($id);
+  public static function deleteAdmin(int $id) : bool {
+    return (new ServicoComentarioDAO())->deleteAdmin($id);
+  }
+
+  public static function delete(int $id, int $id_usuario) : bool {
+    return (new ServicoComentarioDAO())->delete($id, $id_usuario);
   }
 }

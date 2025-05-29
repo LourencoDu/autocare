@@ -101,17 +101,85 @@ final class ServicoComentarioDAO extends DAO
     return $linhas;
   }
 
-  public function delete(int $id): bool
+  public function deleteAdmin(int $id): bool
   {
     try {
-      $sql = "DELETE FROM comentario WHERE id=?;";
-      $stmt = parent::$conexao->prepare($sql);
-      $stmt->bindValue(1, $id);
+      parent::$conexao->beginTransaction();
 
-      return $stmt->execute();
+      $sql_select = "SELECT
+      c.id, c.id_servico,
+      s.id s_id
+      FROM comentario c
+      JOIN servico s ON c.id_servico = s.id
+      WHERE c.id = ?";
+      $stmt = parent::$conexao->prepare($sql_select);
+      $stmt->bindValue(1, $id);
+      $stmt->execute();
+      $select_data = $stmt->fetch(DAO::FETCH_ASSOC);
+
+      if (is_array($select_data)) {
+        $id_servico = $select_data["s_id"];
+
+        $sql_delete_comentario = "DELETE FROM comentario WHERE id_servico = ?";
+        $stmt = parent::$conexao->prepare($sql_delete_comentario);
+        $stmt->bindValue(1, $id_servico);
+        $comentarioDeletado = $stmt->execute();
+
+        $sql_delete_avaliacao = "DELETE FROM avaliacao WHERE id_servico = ?";
+        $stmt = parent::$conexao->prepare($sql_delete_avaliacao);
+        $stmt->bindValue(1, $id_servico);
+        $avaliacaoDeletada = $stmt->execute();
+
+        parent::$conexao->commit();
+        return $comentarioDeletado && $avaliacaoDeletada;
+      }
+
+      return false;
     } catch (Exception $e) {
       parent::$conexao->rollBack();
-      throw $e; // Repassa a exceção para tratamento externo
+      throw $e;
+    }
+  }
+
+  public function delete(int $id, int $id_usuario): bool
+  {
+    try {
+      $sql_select = "SELECT
+      c.id, c.id_servico,
+      s.id s_id, s.id_usuario s_id_usuario
+      FROM comentario c
+      JOIN servico c ON c.id_servico = s.id
+      WHERE c.id = ?
+      AND s.id_usuario = ?";
+      $stmt = parent::$conexao->prepare($sql_select);
+      $stmt->bindValue(1, $id);
+      $stmt->bindValue(2, $id_usuario);
+      $stmt->execute();
+      $select_data = $stmt->fetch(DAO::FETCH_ASSOC);
+
+      if (is_array($select_data)) {
+        $id_servico = $select_data["s_id"];
+
+        parent::$conexao->beginTransaction();
+
+        $sql_delete_comentario = "DELETE FROM comentario WHERE id_servico = ?";
+        $stmt = parent::$conexao->prepare($sql_delete_comentario);
+        $stmt->bindValue(1, $id_servico);
+        $comentarioDeletado = $stmt->execute();
+
+        $sql_delete_avaliacao = "DELETE FROM avaliacao WHERE id_servico = ?";
+        $stmt = parent::$conexao->prepare($sql_delete_avaliacao);
+        $stmt->bindValue(1, $id_servico);
+        $avaliacaoDeletada = $stmt->execute();
+
+        parent::$conexao->commit();
+        return $comentarioDeletado && $avaliacaoDeletada;
+      }
+
+      return false;
+    } catch (Exception $e) {
+      parent::$conexao->rollBack();
+      throw $e;
     }
   }
 }
