@@ -70,9 +70,8 @@ final class CadastroController extends Controller
     $telefone = $_POST["telefone"];
     $email = $_POST["email"];
     $senha = $_POST["senha"];
-    $numero_sorte = $_POST["numero_sorte"];
 
-    if (!$nome || !$sobrenome || !$telefone || !$email || !$senha || !$numero_sorte) {
+    if (!$nome || !$sobrenome || !$telefone || !$email || !$senha) {
       $this->data['erro'] = "Preencha todos os campos obrigatórios (*).";
       $this->data['form'] = [
         "tipoUsuario" => $tipoUsuario,
@@ -80,8 +79,7 @@ final class CadastroController extends Controller
         "sobrenome" => $sobrenome,
         "telefone" => $telefone,
         "email" => $email,
-        "senha" => $senha,
-        "numero_sorte" => $numero_sorte,
+        "senha" => $senha
       ];
       return;
     }
@@ -94,7 +92,6 @@ final class CadastroController extends Controller
       $model->telefone = Util::removerMascara($telefone);
       $model->email = $email;
       $model->senha = $senha;
-      $model->numero_sorte = $numero_sorte;
 
       $model->save();
 
@@ -108,7 +105,7 @@ final class CadastroController extends Controller
         if ($th->getCode() === '23000') {
           $mensagem = "Já existe um usuário cadastrado com o e-mail informado.";
         } else {
-          $mensagem = "Erro no banco de dados. Tente novamente mais tarde.";
+          $mensagem = "Erro no banco de dados. Tente novamente mais tarde. Error: ".$th->getMessage();
         }
       }
 
@@ -169,7 +166,7 @@ final class CadastroController extends Controller
             $mensagem = "Já existe um usuário cadastrado com o e-mail informado.";
           }
         } else {
-          $mensagem = "Erro no banco de dados. Tente novamente mais tarde.";
+          $mensagem = "Erro no banco de dados. Tente novamente mais tarde. Error: ".$th->getMessage();
         }
       }
 

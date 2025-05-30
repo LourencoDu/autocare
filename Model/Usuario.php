@@ -7,7 +7,6 @@ use AutoCare\DAO\UsuarioDAO;
 final class Usuario extends Model
 {
   public $id, $nome, $sobrenome, $telefone, $email, $senha, $tipo, $reset_token_hash, $token_expire;
-  public $numero_sorte;
 
   public static function getById(int $id): ?Usuario
   {
