@@ -1,4 +1,4 @@
-<div id="lista-comentarios">
+<div id="lista-comentarios" class="col-span-1 lg:col-span-2">
   <?php
 
   use AutoCare\Controller\ServicoComentarioController;
