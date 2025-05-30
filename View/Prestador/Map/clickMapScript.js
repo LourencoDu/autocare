@@ -1,8 +1,5 @@
 let selectedLat = null;
 let selectedLon = null;
-let selectedName = null;
-
-
 
 const map = new ol.Map({
     target: 'map',
@@ -12,18 +9,20 @@ const map = new ol.Map({
         })
     ],
     view: new ol.View({
-        center: ol.proj.fromLonLat([-51.9253, -14.2350]),
+        center: ol.proj.fromLonLat([-51.9253, -14.2350]), // Center of Brazil
         zoom: 4
     })
 });
 
-map.on('click', async function(event) {
+// Handle map click to set marker
+map.on('click', function(event) {
     const coord = ol.proj.toLonLat(event.coordinate);
     selectedLon = coord[0];
     selectedLat = coord[1];
 
     console.log("Latitude:", selectedLat, "Longitude:", selectedLon);
 
+    // Remove previous marker if exists
     if (window.clickLayer) {
         map.removeLayer(window.clickLayer);
     }
@@ -49,33 +48,53 @@ map.on('click', async function(event) {
     });
 
     map.addLayer(window.clickLayer);
+});
 
+// Handle Save Button Click
+document.addEventListener('DOMContentLoaded', () => {
+    const saveButton = document.getElementById('saveLocation');
+
+    if (saveButton) {
+        saveButton.addEventListener('click', async () => {
+            if (selectedLat === null || selectedLon === null) {
+                alert('Por favor, clique no mapa para selecionar uma localização.');
+                return;
+            }
 
     try {
-        const response = await fetch('mapaclick/save', {
-            
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                latitude: selectedLat,
-                longitude: selectedLon,
-                nome: selectedName
+    const response = await fetch('mapaclick/save', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            latitude: selectedLat,
+            longitude: selectedLon
+        })
+    });
 
-            })
+    const text = await response.text();
+    console.log('Response text:', text); // Debug response
+
+    let data;
+    try {
+        data = JSON.parse(text);
+    } catch (e) {
+        console.error('JSON parse error:', e);
+        alert('Resposta inválida do servidor.');
+        return;
+    }
+
+    if (data.success) {
+        alert("Salvo com sucesso!");
+    } else {
+        alert("Erro ao salvar: " + data.message);
+    }
+
+} catch (error) {
+    console.error("Erro na requisição:", error);
+    alert("Erro na conexão ou no servidor.");
+}
         });
-
-        const text = await response.text();
-        const data = JSON.parse(text);
-
-        if (data.success) {
-            alert("Salvo!! ID: " + data.id);
-        } else {
-            alert("Error: " + data.message);
-        }
-    } catch (error) {
-        console.error("Error:", error);
-        alert("Não foi possivel salvar.");
     }
 });

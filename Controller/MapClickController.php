@@ -6,12 +6,6 @@ use AutoCare\Model\Local;
 use Throwable;
 
 
-echo "<pre>";
-print_r($_SESSION); 
-echo "</pre>";
-echo "User ID is: " . ($_SESSION['usuario']->id ?? 'Not set');
-echo "User Type is: " . ($_SESSION['usuario']->tipo ?? 'Not set') . "<br>";
-echo "Prestador ID is: " . ($_SESSION['usuario']->prestador->id ?? 'Not set');
 
 final class MapClickController extends Controller
 {

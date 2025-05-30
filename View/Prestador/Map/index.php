@@ -16,9 +16,7 @@
             width: 100%;
         }
         #especialidadeDropdown {
-            position: absolute;
-            top: 10px;
-            left: 10px;
+
             z-index: 1000;
             padding: 8px;
             border-radius: 4px;
@@ -34,7 +32,9 @@
         <option value="">Selecione uma especialidade</option>
     </select>
     </div>
+
     <div id="map"></div>
+
 
     <script src="https://openlayers.org/en/v6.15.1/build/ol.js"></script>
     <script>
