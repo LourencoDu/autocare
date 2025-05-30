@@ -16,7 +16,7 @@ $menuItens = [
 // Permissões por tipo de usuário (rotas permitidas)
 $permissoesPorTipo = [
   'administrador'   => ['home', 'prestador', 'usuario', 'servico', 'mapa', 'admin/especialidade'],
-  'prestador'       => ['home', 'prestador', 'funcionario', 'servico', 'mapa'],
+  'prestador'       => ['home', 'prestador', 'funcionario', 'servico', 'mapa', 'chat'],
   'funcionario'     => ['home', 'prestador', 'servico', 'mapa', 'chat'],
   'usuario'         => ['home', 'veiculo', 'prestador', "servico", 'mapa', 'chat'],
   // adicione mais tipos se necessário

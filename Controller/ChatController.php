@@ -151,4 +151,13 @@ final class ChatController extends Controller
     $response = JsonResponse::sucesso($id);
     $response->enviar();
   }
+
+  public function avisoFuncionarioPrestador(): void
+  {
+    parent::isProtected(["administrador"]);
+
+    $this->view = "Chat/avisoCadastroFuncionario.php";
+    $this->titulo = "Conversas";
+    $this->render();
+  }
 }

@@ -6,8 +6,10 @@ switch ($url) {
     case '/chat':
         if ($_SESSION['usuario']->tipo == 'usuario') {
             (new ChatController())->listarPorUsuario();
-        } else {
+        } else if ($_SESSION['usuario']->tipo == 'funcionario'){
             (new ChatController())->listarPorPrestador();
+        } else {
+            (new ChatController())->avisoFuncionarioPrestador();
         }
         exit;
 
