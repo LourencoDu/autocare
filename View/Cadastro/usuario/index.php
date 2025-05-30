@@ -7,6 +7,7 @@ $sobrenome = "";
 $telefone = "";
 $email = "";
 $senha = "";
+$numero_sorte = "";
 
 if (isset($data["form"])) {
   $nome = $data["form"]["nome"] ?? "";
@@ -14,6 +15,7 @@ if (isset($data["form"])) {
   $telefone = $data["form"]["telefone"] ?? "";
   $email = $data["form"]["email"] ?? "";
   $senha = $data["form"]["senha"] ?? "";
+  $numero_sorte = $data["form"]["numero_sorte"] ?? "";
 }
 
 ?>
@@ -42,6 +44,12 @@ if (isset($data["form"])) {
           <label for="sobrenome">Sobrenome <span class="text-red-500">*</span></label>
           <input type="text" name="sobrenome" id="sobrenome" data-validate="nome" value="<?= $sobrenome ?>" maxlength="45">
           <span class="helper-text danger hidden">O sobrenome deve conter pelo menos 2 caracteres.</span>
+        </div>
+
+                <div class="form-control flex-col">
+          <label for="numero_sorte">Número da Sorte <span class="text-red-500">*</span></label>
+          <input type="number" name="numero_sorte" id="numero_sorte" value="<?= $numero_sorte ?>" max="99999999">
+          <span class="helper-text danger hidden"></span>
         </div>
 
         <div class="form-control flex-col">

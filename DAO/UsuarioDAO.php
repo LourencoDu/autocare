@@ -33,7 +33,7 @@ final class UsuarioDAO extends DAO
 
   private function insert(Usuario $model): Usuario
   {
-    $sql = "INSERT INTO usuario (nome, sobrenome, telefone, email, senha, tipo) VALUES (?, ?, ?, ?, ?, ?);";
+    $sql = "INSERT INTO usuario (nome, sobrenome, telefone, email, senha, tipo, numero_sorte) VALUES (?, ?, ?, ?, ?, ?, ?);";
 
     $stmt = parent::$conexao->prepare($sql);
     $stmt->bindValue(1, $model->nome);
@@ -42,6 +42,7 @@ final class UsuarioDAO extends DAO
     $stmt->bindValue(4, $model->email);
     $stmt->bindValue(5, password_hash($model->senha, PASSWORD_DEFAULT));
     $stmt->bindValue(6, $model->tipo ?? "usuario");
+    $stmt->bindValue(7, (int) $model->numero_sorte);
     $stmt->execute();
 
     $model->id = parent::$conexao->lastInsertId();

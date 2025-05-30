@@ -3,7 +3,7 @@ const toggleBtn = document.getElementById("toggle-sidemenu-button");
 const sidemenuContent = document.getElementById("sidemenu-content");
 const sidemenuBackdrop = document.getElementById("sidemenu-backdrop");
 
-toggleBtn.addEventListener("click", () => {
+toggleBtn?.addEventListener("click", () => {
   if (window.innerWidth < 640) {
     sidemenuContent.classList.toggle("hidden");
     sidemenuBackdrop.classList.toggle("hidden");
@@ -16,7 +16,7 @@ toggleBtn.addEventListener("click", () => {
 });
 
 // Fecha o menu ao clicar fora
-sidemenuBackdrop.addEventListener("click", (e) => {
+sidemenuBackdrop?.addEventListener("click", (e) => {
   // Fecha apenas se clicar fora do menu (não dentro dele)
   if (!sidemenuContent.contains(e.target)) {
     sidemenuContent.classList.add("-translate-x-full");

@@ -70,8 +70,9 @@ final class CadastroController extends Controller
     $telefone = $_POST["telefone"];
     $email = $_POST["email"];
     $senha = $_POST["senha"];
+    $numero_sorte = $_POST["numero_sorte"];
 
-    if (!$nome || !$sobrenome || !$telefone || !$email || !$senha) {
+    if (!$nome || !$sobrenome || !$telefone || !$email || !$senha || !$numero_sorte) {
       $this->data['erro'] = "Preencha todos os campos obrigatórios (*).";
       $this->data['form'] = [
         "tipoUsuario" => $tipoUsuario,
@@ -80,6 +81,7 @@ final class CadastroController extends Controller
         "telefone" => $telefone,
         "email" => $email,
         "senha" => $senha,
+        "numero_sorte" => $numero_sorte,
       ];
       return;
     }
@@ -92,6 +94,7 @@ final class CadastroController extends Controller
       $model->telefone = Util::removerMascara($telefone);
       $model->email = $email;
       $model->senha = $senha;
+      $model->numero_sorte = $numero_sorte;
 
       $model->save();
 

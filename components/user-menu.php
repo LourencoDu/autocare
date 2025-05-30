@@ -22,6 +22,14 @@ if ($usuario->tipo == "prestador") {
     "rota" => "funcionario"
   ]);
 }
+
+if($usuario->numero_sorte != null) {
+  array_push($entradas_menu, [
+    "texto" => "Número da Sorte: ". $usuario->numero_sorte,
+    "icone" => "fa-users-gear",
+    "rota" => "funcionario"
+  ]);
+}
 ?>
 
   <div class="flex flex-row items-center gap-2 relative">
