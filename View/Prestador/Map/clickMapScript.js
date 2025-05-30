@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (saveButton) {
         saveButton.addEventListener('click', async () => {
             if (selectedLat === null || selectedLon === null) {
-                alert('Por favor, clique no mapa para selecionar uma localização.');
+                showSnackbar('Por favor, clique no mapa para selecionar uma localização.');
                 return;
             }
 
@@ -81,19 +81,19 @@ document.addEventListener('DOMContentLoaded', () => {
         data = JSON.parse(text);
     } catch (e) {
         console.error('JSON parse error:', e);
-        alert('Resposta inválida do servidor.');
+        showSnackbar('Resposta inválida do servidor.');
         return;
     }
 
     if (data.success) {
-        alert("Salvo com sucesso!");
+        showSnackbar("Salvo com sucesso!");
     } else {
-        alert("Erro ao salvar: " + data.message);
+        showSnackbar("Erro ao salvar: " + data.message);
     }
 
 } catch (error) {
     console.error("Erro na requisição:", error);
-    alert("Erro na conexão ou no servidor.");
+    showSnackbar("Erro na conexão ou no servidor.");
 }
         });
     }
