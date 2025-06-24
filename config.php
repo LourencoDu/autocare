@@ -22,7 +22,7 @@ loadEnv(__DIR__ . '/.env');
 define("BASE_DIR", dirname(__FILE__));
 define("BASE_DIR_NAME", "");
 define("PUBLIC_DIR", BASE_DIR_NAME."/public");
-echo BASE_DIR.($_ENV['DIR_VIEWS'] ?? "/View/");
+
 define("VIEWS", BASE_DIR.($_ENV['DIR_VIEWS'] ?? "/View/"));
 define("COMPONENTS", BASE_DIR.($_ENV['DIR_COMPONENTS'] ?? "/components/"));
 
