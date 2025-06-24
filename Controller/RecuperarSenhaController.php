@@ -28,7 +28,10 @@ final class RecuperarSenhaController extends Controller
     $model = new Usuario();
 
     if ($model->recuperarSenha($email, $token_hash)) {
-      $link = "http://localhost/autocare/novaSenha?token=" . $token_hash . "&email=" . urlencode($email);
+      $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
+      $host = $_SERVER['HTTP_HOST'];
+      $baseUrl = $protocol . $host;
+      $link = $baseUrl . "/novaSenha?token=" . $token_hash . "&email=" . urlencode($email);
 
       $mail = new PHPMailer(true);
 
