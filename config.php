@@ -23,15 +23,15 @@ define("BASE_DIR", dirname(__FILE__, 2));
 define("BASE_DIR_NAME", basename(__DIR__));
 define("PUBLIC_DIR", BASE_DIR_NAME."/public");
 
-define("VIEWS", BASE_DIR."/AutoCare/View/");
-define("COMPONENTS", BASE_DIR."/autocare/components/");
+define("VIEWS", BASE_DIR.($_ENV['DIR_VIEWS'] ?? "/AutoCare/View/"));
+define("COMPONENTS", BASE_DIR.($_ENV['DIR_COMPONENTS'] ?? "/autocare/components/"));
 
 $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/';
 define("BASE_URL", $baseUrl);
 
 date_default_timezone_set('America/Sao_Paulo');
 
-$_ENV["db"]["host"] = "localhost:3306";
+$_ENV["db"]["host"] = $_ENV['DB_HOST'] ?? "localhost:3306";
 $_ENV["db"]["user"] = $_ENV['DB_USER'] ?? "root";
 $_ENV["db"]["pass"] = $_ENV['DB_PASS'] ?? "";
-$_ENV["db"]["database"] = "autocare";
+$_ENV["db"]["database"] = $_ENV['DB_NAME'] ?? "autocare";

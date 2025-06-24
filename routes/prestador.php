@@ -13,15 +13,6 @@ switch ($url) {
       (new PrestadorController())->listar();
     }
     exit;
-  case '/prestador/cadastrar':
-    (new PrestadorController())->cadastrar();
-    exit;
-  case '/prestador/alterar':
-    (new PrestadorController())->alterar();
-    exit;
-  case '/prestador/deletar':
-    (new PrestadorController())->deletar();
-    exit;
   case '/mapa':
     (new MapController())->index();
     exit;
