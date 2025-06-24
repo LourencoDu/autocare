@@ -9,4 +9,7 @@ switch ($url) {
   case '/funcionario/cadastrar':
     (new FuncionarioController())->cadastrar();
     exit;
+  case '/api/funcionario/deletar':
+    (new FuncionarioController())->desativar();
+    exit;
 }

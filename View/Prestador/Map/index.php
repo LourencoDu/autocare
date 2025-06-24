@@ -87,7 +87,7 @@
         });
 
         // Carrega dados dos prestadores
-        fetch('/autocare/mapa/json')
+        fetch('/mapa/json')
             .then(response => {
                 if (!response.ok) throw new Error('Erro na rede');
                 return response.json();

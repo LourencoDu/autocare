@@ -367,7 +367,7 @@ async function onSubmitStatusChange(event, id) {
   setFormModalIsLoading(true);
 
   const params = new URLSearchParams({ id, id_status_padrao });
-  const url = `${window.location.origin}/autocare/api/servico/alterar_status?id=${id}&id_status_padrao=${id_status_padrao}`;
+  const url = `${window.location.origin}/api/servico/alterar_status?id=${id}&id_status_padrao=${id_status_padrao}`;
   const response = await fetch(url, {
     method: "GET",
     headers: {
