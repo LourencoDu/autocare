@@ -1,6 +1,6 @@
 <?php
 
-use Autocare\Helper\Util;
+use AutoCare\Helper\Util;
 
 $prestador = $data["prestador"];
 ?>

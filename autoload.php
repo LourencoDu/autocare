@@ -19,4 +19,3 @@ spl_autoload_register(function ($nome_da_classe) {
         throw new Exception("Arquivo não encontrado");
     }
 });
-
