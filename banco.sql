@@ -8,19 +8,19 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- Schema mydb
 -- -----------------------------------------------------
 -- -----------------------------------------------------
--- Schema autocare
+-- Schema railway
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema autocare
+-- Schema railway
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `autocare` DEFAULT CHARACTER SET utf8mb3 ;
-USE `autocare` ;
+CREATE SCHEMA IF NOT EXISTS `railway` DEFAULT CHARACTER SET utf8mb3 ;
+USE `railway` ;
 
 -- -----------------------------------------------------
--- Table `autocare`.`status_padrao`
+-- Table `railway`.`status_padrao`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `autocare`.`status_padrao` (
+CREATE TABLE IF NOT EXISTS `railway`.`status_padrao` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `status_texto` VARCHAR(45) NULL DEFAULT NULL,
   `cod_status` INT NULL DEFAULT NULL,
@@ -32,9 +32,9 @@ DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `autocare`.`especialidade`
+-- Table `railway`.`especialidade`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `autocare`.`especialidade` (
+CREATE TABLE IF NOT EXISTS `railway`.`especialidade` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(40) NOT NULL,
   PRIMARY KEY (`id`))
@@ -44,9 +44,9 @@ DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `autocare`.`prestador_contato`
+-- Table `railway`.`prestador_contato`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `autocare`.`prestador_contato` (
+CREATE TABLE IF NOT EXISTS `railway`.`prestador_contato` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `whatsapp` VARCHAR(11) NULL DEFAULT NULL,
   `telefone` VARCHAR(11) NULL DEFAULT NULL,
@@ -57,9 +57,9 @@ DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `autocare`.`localizacao`
+-- Table `railway`.`localizacao`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `autocare`.`localizacao` (
+CREATE TABLE IF NOT EXISTS `railway`.`localizacao` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `latitude` DECIMAL(11,8) NOT NULL,
   `longitude` DECIMAL(11,8) NOT NULL,
@@ -69,9 +69,9 @@ DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `autocare`.`usuario`
+-- Table `railway`.`usuario`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `autocare`.`usuario` (
+CREATE TABLE IF NOT EXISTS `railway`.`usuario` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(50) NOT NULL,
   `sobrenome` VARCHAR(45) NULL DEFAULT NULL,
@@ -89,9 +89,9 @@ DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `autocare`.`prestador`
+-- Table `railway`.`prestador`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `autocare`.`prestador` (
+CREATE TABLE IF NOT EXISTS `railway`.`prestador` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `documento` VARCHAR(255) NOT NULL,
   `id_usuario` INT NOT NULL,
@@ -104,21 +104,21 @@ CREATE TABLE IF NOT EXISTS `autocare`.`prestador` (
   INDEX `fk_prestador_contato_idx` (`id_prestador_contato` ASC) VISIBLE,
   CONSTRAINT `fk_prestador_contato`
     FOREIGN KEY (`id_prestador_contato`)
-    REFERENCES `autocare`.`prestador_contato` (`id`),
+    REFERENCES `railway`.`prestador_contato` (`id`),
   CONSTRAINT `fk_prestador_localizacao`
     FOREIGN KEY (`id_localizacao`)
-    REFERENCES `autocare`.`localizacao` (`id`),
+    REFERENCES `railway`.`localizacao` (`id`),
   CONSTRAINT `fk_prestador_usuario`
     FOREIGN KEY (`id_usuario`)
-    REFERENCES `autocare`.`usuario` (`id`))
+    REFERENCES `railway`.`usuario` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `autocare`.`fabricante_veiculo`
+-- Table `railway`.`fabricante_veiculo`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `autocare`.`fabricante_veiculo` (
+CREATE TABLE IF NOT EXISTS `railway`.`fabricante_veiculo` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
@@ -128,9 +128,9 @@ DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `autocare`.`modelo_veiculo`
+-- Table `railway`.`modelo_veiculo`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `autocare`.`modelo_veiculo` (
+CREATE TABLE IF NOT EXISTS `railway`.`modelo_veiculo` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(45) NOT NULL,
   `id_fabricante_veiculo` INT NOT NULL,
@@ -138,16 +138,16 @@ CREATE TABLE IF NOT EXISTS `autocare`.`modelo_veiculo` (
   INDEX `fk_id_fabricante_idx` (`id_fabricante_veiculo` ASC) VISIBLE,
   CONSTRAINT `fk_id_fabricante`
     FOREIGN KEY (`id_fabricante_veiculo`)
-    REFERENCES `autocare`.`fabricante_veiculo` (`id`))
+    REFERENCES `railway`.`fabricante_veiculo` (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 161
 DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `autocare`.`veiculo`
+-- Table `railway`.`veiculo`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `autocare`.`veiculo` (
+CREATE TABLE IF NOT EXISTS `railway`.`veiculo` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `ano` INT NOT NULL,
   `apelido` VARCHAR(45) NOT NULL,
@@ -158,18 +158,18 @@ CREATE TABLE IF NOT EXISTS `autocare`.`veiculo` (
   INDEX `fk_modelo_veiculo_idx` (`id_modelo_veiculo` ASC) VISIBLE,
   CONSTRAINT `fk_modelo_veiculo`
     FOREIGN KEY (`id_modelo_veiculo`)
-    REFERENCES `autocare`.`modelo_veiculo` (`id`),
+    REFERENCES `railway`.`modelo_veiculo` (`id`),
   CONSTRAINT `fk_usuario_veiculo`
     FOREIGN KEY (`id_usuario`)
-    REFERENCES `autocare`.`usuario` (`id`))
+    REFERENCES `railway`.`usuario` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `autocare`.`servico`
+-- Table `railway`.`servico`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `autocare`.`servico` (
+CREATE TABLE IF NOT EXISTS `railway`.`servico` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `descricao` VARCHAR(200) NOT NULL,
   `data_inicio` DATETIME NOT NULL,
@@ -187,27 +187,27 @@ CREATE TABLE IF NOT EXISTS `autocare`.`servico` (
   INDEX `fk_cod_status_idx` (`id_status_padrao` ASC) VISIBLE,
   CONSTRAINT `fk_cod_status`
     FOREIGN KEY (`id_status_padrao`)
-    REFERENCES `autocare`.`status_padrao` (`cod_status`),
+    REFERENCES `railway`.`status_padrao` (`cod_status`),
   CONSTRAINT `fk_id_especialidade_servico`
     FOREIGN KEY (`id_especialidade`)
-    REFERENCES `autocare`.`especialidade` (`id`),
+    REFERENCES `railway`.`especialidade` (`id`),
   CONSTRAINT `fk_id_prestador_servico`
     FOREIGN KEY (`id_prestador`)
-    REFERENCES `autocare`.`prestador` (`id`),
+    REFERENCES `railway`.`prestador` (`id`),
   CONSTRAINT `fk_id_usuario_servico`
     FOREIGN KEY (`id_usuario`)
-    REFERENCES `autocare`.`usuario` (`id`),
+    REFERENCES `railway`.`usuario` (`id`),
   CONSTRAINT `fk_id_veiculo_servico`
     FOREIGN KEY (`id_veiculo`)
-    REFERENCES `autocare`.`veiculo` (`id`))
+    REFERENCES `railway`.`veiculo` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `autocare`.`avaliacao`
+-- Table `railway`.`avaliacao`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `autocare`.`avaliacao` (
+CREATE TABLE IF NOT EXISTS `railway`.`avaliacao` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_servico` INT NOT NULL,
   `nota` INT NOT NULL,
@@ -215,15 +215,15 @@ CREATE TABLE IF NOT EXISTS `autocare`.`avaliacao` (
   INDEX `fk_id_servico_idx` (`id_servico` ASC) VISIBLE,
   CONSTRAINT `fk_id_servico_avaliacao`
     FOREIGN KEY (`id_servico`)
-    REFERENCES `autocare`.`servico` (`id`))
+    REFERENCES `railway`.`servico` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `autocare`.`chat`
+-- Table `railway`.`chat`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `autocare`.`chat` (
+CREATE TABLE IF NOT EXISTS `railway`.`chat` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_usuario` INT NOT NULL,
   `id_prestador` INT NULL DEFAULT NULL,
@@ -232,18 +232,18 @@ CREATE TABLE IF NOT EXISTS `autocare`.`chat` (
   INDEX `fk_id_prestador_idx` (`id_prestador` ASC) VISIBLE,
   CONSTRAINT `fk_id_prestador_chat`
     FOREIGN KEY (`id_prestador`)
-    REFERENCES `autocare`.`prestador` (`id`),
+    REFERENCES `railway`.`prestador` (`id`),
   CONSTRAINT `fk_id_usuario_chat`
     FOREIGN KEY (`id_usuario`)
-    REFERENCES `autocare`.`usuario` (`id`))
+    REFERENCES `railway`.`usuario` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `autocare`.`funcionario`
+-- Table `railway`.`funcionario`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `autocare`.`funcionario` (
+CREATE TABLE IF NOT EXISTS `railway`.`funcionario` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `administrador` TINYINT NULL DEFAULT NULL,
   `id_prestador` INT NULL DEFAULT NULL,
@@ -253,18 +253,18 @@ CREATE TABLE IF NOT EXISTS `autocare`.`funcionario` (
   INDEX `fk_funcionario_usuario` (`id_usuario` ASC) VISIBLE,
   CONSTRAINT `fk_funcionario_usuario`
     FOREIGN KEY (`id_usuario`)
-    REFERENCES `autocare`.`usuario` (`id`),
+    REFERENCES `railway`.`usuario` (`id`),
   CONSTRAINT `fk_id_prestador_funcionario`
     FOREIGN KEY (`id_prestador`)
-    REFERENCES `autocare`.`prestador` (`id`))
+    REFERENCES `railway`.`prestador` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `autocare`.`chat_mensagem_funcionario`
+-- Table `railway`.`chat_mensagem_funcionario`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `autocare`.`chat_mensagem_funcionario` (
+CREATE TABLE IF NOT EXISTS `railway`.`chat_mensagem_funcionario` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_chat` INT NOT NULL,
   `texto` TEXT NOT NULL,
@@ -276,18 +276,18 @@ CREATE TABLE IF NOT EXISTS `autocare`.`chat_mensagem_funcionario` (
   INDEX `fk_mensagrm_funcionario_chat_idx` (`id_chat` ASC) VISIBLE,
   CONSTRAINT `fk_mensagem_funcionario_funcionario`
     FOREIGN KEY (`id_funcionario`)
-    REFERENCES `autocare`.`funcionario` (`id`),
+    REFERENCES `railway`.`funcionario` (`id`),
   CONSTRAINT `fk_mensagrm_funcionario_chat`
     FOREIGN KEY (`id_chat`)
-    REFERENCES `autocare`.`chat` (`id`))
+    REFERENCES `railway`.`chat` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `autocare`.`chat_mensagem_usuario`
+-- Table `railway`.`chat_mensagem_usuario`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `autocare`.`chat_mensagem_usuario` (
+CREATE TABLE IF NOT EXISTS `railway`.`chat_mensagem_usuario` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_chat` INT NOT NULL,
   `texto` TEXT NOT NULL,
@@ -299,18 +299,18 @@ CREATE TABLE IF NOT EXISTS `autocare`.`chat_mensagem_usuario` (
   INDEX `fk_chat_mensagem_usuario_usuario_idx` (`id_usuario` ASC) VISIBLE,
   CONSTRAINT `fk_chat_mensagem_usuario`
     FOREIGN KEY (`id_chat`)
-    REFERENCES `autocare`.`chat` (`id`),
+    REFERENCES `railway`.`chat` (`id`),
   CONSTRAINT `fk_chat_mensagem_usuario_usuario`
     FOREIGN KEY (`id_usuario`)
-    REFERENCES `autocare`.`usuario` (`id`))
+    REFERENCES `railway`.`usuario` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `autocare`.`comentario`
+-- Table `railway`.`comentario`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `autocare`.`comentario` (
+CREATE TABLE IF NOT EXISTS `railway`.`comentario` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_servico` INT NOT NULL,
   `texto` VARCHAR(400) NOT NULL,
@@ -319,15 +319,15 @@ CREATE TABLE IF NOT EXISTS `autocare`.`comentario` (
   INDEX `fk_id_servico_idx` (`id_servico` ASC) VISIBLE,
   CONSTRAINT `fk_id_servico`
     FOREIGN KEY (`id_servico`)
-    REFERENCES `autocare`.`servico` (`id`))
+    REFERENCES `railway`.`servico` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `autocare`.`prestador_catalogo`
+-- Table `railway`.`prestador_catalogo`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `autocare`.`prestador_catalogo` (
+CREATE TABLE IF NOT EXISTS `railway`.`prestador_catalogo` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `titulo` VARCHAR(40) NOT NULL,
   `descricao` TEXT NOT NULL,
@@ -338,10 +338,10 @@ CREATE TABLE IF NOT EXISTS `autocare`.`prestador_catalogo` (
   INDEX `fk_prestador` (`id_prestador` ASC) VISIBLE,
   CONSTRAINT `fk_especialidade`
     FOREIGN KEY (`id_especialidade`)
-    REFERENCES `autocare`.`especialidade` (`id`),
+    REFERENCES `railway`.`especialidade` (`id`),
   CONSTRAINT `fk_prestador`
     FOREIGN KEY (`id_prestador`)
-    REFERENCES `autocare`.`prestador` (`id`)
+    REFERENCES `railway`.`prestador` (`id`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
@@ -352,16 +352,16 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
  
-INSERT INTO autocare.status_padrao (status_texto, cod_status) VALUES 
+INSERT INTO railway.status_padrao (status_texto, cod_status) VALUES 
 ("Cancelado", 0), 
 ("Aguardando Execução", 1), 
 ("Em Execução", 3), 
 ("Finalizado", 10);
 
-INSERT INTO autocare.usuario (nome, sobrenome, telefone, email, senha, tipo) VALUES
-("Gran", "Adminson", "13991538145", "admin@autocare.com", "$2y$10$SBKLFn8ywQWl/iP7ul5JluvxAr510N/kfquqJhpvQ61h9XjNvZ4Z2", "administrador");
+INSERT INTO railway.usuario (nome, sobrenome, telefone, email, senha, tipo) VALUES
+("Gran", "Adminson", "13991538145", "admin@railway.com", "$2y$10$SBKLFn8ywQWl/iP7ul5JluvxAr510N/kfquqJhpvQ61h9XjNvZ4Z2", "administrador");
 
-INSERT INTO autocare.fabricante_veiculo (id, nome) VALUES
+INSERT INTO railway.fabricante_veiculo (id, nome) VALUES
 (1, 'Chevrolet'),
 (2, 'Volkswagen'),
 (3, 'Fiat'),
@@ -392,7 +392,7 @@ INSERT INTO autocare.fabricante_veiculo (id, nome) VALUES
 (28, 'JAC Motors'),
 (29, 'Triumph');
 
-INSERT INTO autocare.modelo_veiculo (id, nome, id_fabricante_veiculo) VALUES
+INSERT INTO railway.modelo_veiculo (id, nome, id_fabricante_veiculo) VALUES
 (121, 'Bolt EV', 1),
 (2, 'Cruze', 1),
 (92, 'Montana', 1),
@@ -554,7 +554,7 @@ INSERT INTO autocare.modelo_veiculo (id, nome, id_fabricante_veiculo) VALUES
 (88, 'Street Twin', 29),
 (89, 'Tiger 900', 29);
 
-INSERT INTO autocare.especialidade (nome) VALUES
+INSERT INTO railway.especialidade (nome) VALUES
 ('Mecânica Geral'),
 ('Troca de Óleo'),
 ('Alinhamento e Balanceamento'),

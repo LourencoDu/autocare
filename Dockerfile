@@ -6,6 +6,9 @@ COPY . /var/www/html/
 # Ativa o mod_rewrite
 RUN a2enmod rewrite
 
+# Instala driver PDO MySQL
+RUN docker-php-ext-install pdo pdo_mysql
+
 # Habilita .htaccess
 RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 
