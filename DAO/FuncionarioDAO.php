@@ -22,7 +22,7 @@ final class FuncionarioDAO extends DAO
 
     $stmt = parent::$conexao->prepare($sql);
     $stmt->bindValue(1, $model->id_prestador);
-    $stmt->bindValue(2, $model->administrador ?? false);
+    $stmt->bindValue(2, 0);
     $stmt->bindValue(3, $model->id_usuario);
     $stmt->execute();
 
