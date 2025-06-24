@@ -33,7 +33,7 @@
     <?php include VIEWS . "Layout/" . (isset($_SESSION["usuario"]) ? "logged.php" : "not-logged.php"); ?>
 
     <?php
-    include COMPONENTS . "modal/index.php";
+    include COMPONENTS . "Modal/index.php";
     ?>
 
     <?php
