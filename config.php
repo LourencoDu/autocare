@@ -19,12 +19,12 @@ function loadEnv($path)
 
 loadEnv(__DIR__ . '/.env');
 
-define("BASE_DIR", dirname(__FILE__, 2));
+define("BASE_DIR", dirname(__FILE__, 1));
 define("BASE_DIR_NAME", "");
 define("PUBLIC_DIR", BASE_DIR_NAME."/public");
 
-define("VIEWS", BASE_DIR.($_ENV['DIR_VIEWS'] ?? "/AutoCare/View/"));
-define("COMPONENTS", BASE_DIR.($_ENV['DIR_COMPONENTS'] ?? "/autocare/components/"));
+define("VIEWS", BASE_DIR.($_ENV['DIR_VIEWS'] ?? "/View/"));
+define("COMPONENTS", BASE_DIR.($_ENV['DIR_COMPONENTS'] ?? "/components/"));
 
 $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/';
 define("BASE_URL", $baseUrl);

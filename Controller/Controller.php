@@ -35,7 +35,7 @@ abstract class Controller
       "data" => $this->data,
     ];
     extract($config);
-    require_once VIEWS . '/Layout/index.php';
+    require_once VIEWS . 'Layout/index.php';
   }
 
   final protected static function isProtected(?array $tiposBloqueados = null, ?array $tiposPermitidos = null, ?bool $json = false)
