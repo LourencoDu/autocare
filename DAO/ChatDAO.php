@@ -44,22 +44,30 @@ final class ChatDAO extends DAO
         COALESCE(cmu.data_envio, '0000-00-00 00:00:00'),
         COALESCE(cmf.data_envio, '0000-00-00 00:00:00')
     ) AS ultima_data,
-    COALESCE(cmu.visualizado, 1) as visualizado FROM chat c
-    LEFT JOIN (
-      SELECT id_chat, MAX(data) AS data_envio, visualizado
-      FROM chat_mensagem_usuario
-      GROUP BY id_chat
-    ) AS cmu ON c.id = cmu.id_chat
-    LEFT JOIN (
-      SELECT m1.id_chat, m1.data AS data_envio
-      FROM chat_mensagem_funcionario m1
-        INNER JOIN (
-          SELECT id_chat, MAX(data) AS max_data FROM chat_mensagem_funcionario
-          GROUP BY id_chat
-    ) m2 ON m1.id_chat = m2.id_chat AND m1.data = m2.max_data) AS cmf ON c.id = cmf.id_chat
-    LEFT JOIN usuario u ON c.id_usuario = u.id
-    WHERE c.id_prestador = ?
-    ORDER BY ultima_data DESC";
+    COALESCE(cmu.visualizado, 1) as visualizado
+FROM chat c
+LEFT JOIN (
+    SELECT cmu1.id_chat, cmu1.data AS data_envio, cmu1.visualizado
+    FROM chat_mensagem_usuario cmu1
+    INNER JOIN (
+        SELECT id_chat, MAX(data) AS max_data
+        FROM chat_mensagem_usuario
+        GROUP BY id_chat
+    ) cmu2 ON cmu1.id_chat = cmu2.id_chat AND cmu1.data = cmu2.max_data
+) AS cmu ON c.id = cmu.id_chat
+LEFT JOIN (
+    SELECT m1.id_chat, m1.data AS data_envio
+    FROM chat_mensagem_funcionario m1
+    INNER JOIN (
+        SELECT id_chat, MAX(data) AS max_data
+        FROM chat_mensagem_funcionario
+        GROUP BY id_chat
+    ) m2 ON m1.id_chat = m2.id_chat AND m1.data = m2.max_data
+) AS cmf ON c.id = cmf.id_chat
+LEFT JOIN usuario u ON c.id_usuario = u.id
+WHERE c.id_prestador = ?
+ORDER BY ultima_data DESC
+";
 
     $stmt = parent::$conexao->prepare($sql);
     $stmt->bindValue(1, $idPrestador);
@@ -70,28 +78,42 @@ final class ChatDAO extends DAO
 
   public function selectByIdUsuario(int $idUsuario): array
   {
-    $sql = "SELECT c.id, c.id_usuario, c.id_prestador, u.nome, u.sobrenome,
-    GREATEST(
-        COALESCE(cmu.data_envio, '0000-00-00 00:00:00'),
-        COALESCE(cmf.data_envio, '0000-00-00 00:00:00')
-    ) AS ultima_data,
-    COALESCE(cmf.visualizado, 1) as visualizado FROM chat c
-    LEFT JOIN (
-      SELECT id_chat, MAX(data) AS data_envio
-      FROM chat_mensagem_usuario
-      GROUP BY id_chat
-    ) AS cmu ON c.id = cmu.id_chat
-    LEFT JOIN (
-      SELECT m1.id_chat, m1.data AS data_envio,m1.visualizado
-      FROM chat_mensagem_funcionario m1
-        INNER JOIN (
-          SELECT id_chat, MAX(data) AS max_data FROM chat_mensagem_funcionario
-          GROUP BY id_chat
-    ) m2 ON m1.id_chat = m2.id_chat AND m1.data = m2.max_data) AS cmf ON c.id = cmf.id_chat
-    LEFT JOIN autocare.prestador p ON c.id_prestador = p.id
-    LEFT JOIN usuario u ON p.id_usuario = u.id
-    WHERE c.id_usuario = ?
-    ORDER BY ultima_data DESC";
+    $sql = "SELECT
+  c.id,
+  c.id_usuario,
+  c.id_prestador,
+  u.nome,
+  u.sobrenome,
+  GREATEST(
+    COALESCE(cmu.data_envio, '0000-00-00 00:00:00'),
+    COALESCE(cmf.data_envio, '0000-00-00 00:00:00')
+  ) AS ultima_data,
+  COALESCE(cmf.visualizado, 1) AS visualizado
+FROM chat c
+LEFT JOIN (
+  SELECT cmu1.id_chat, cmu1.data AS data_envio
+  FROM chat_mensagem_usuario cmu1
+  INNER JOIN (
+    SELECT id_chat, MAX(data) AS max_data
+    FROM chat_mensagem_usuario
+    GROUP BY id_chat
+  ) cmu2
+  ON cmu1.id_chat = cmu2.id_chat AND cmu1.data = cmu2.max_data
+) AS cmu ON c.id = cmu.id_chat
+LEFT JOIN (
+  SELECT m1.id_chat, m1.data AS data_envio, m1.visualizado
+  FROM chat_mensagem_funcionario m1
+  INNER JOIN (
+    SELECT id_chat, MAX(data) AS max_data
+    FROM chat_mensagem_funcionario
+    GROUP BY id_chat
+  ) m2 ON m1.id_chat = m2.id_chat AND m1.data = m2.max_data
+) AS cmf ON c.id = cmf.id_chat
+LEFT JOIN autocare.prestador p ON c.id_prestador = p.id
+LEFT JOIN usuario u ON p.id_usuario = u.id
+WHERE c.id_usuario = ?
+ORDER BY ultima_data DESC
+";
 
     $stmt = parent::$conexao->prepare($sql);
     $stmt->bindValue(1, $idUsuario);
