@@ -8,6 +8,8 @@ final class LoginController extends Controller
 {
   public function index(): void
   {
+    $this->isNotSignedOnly();
+
     $this->view = "Login/index.php";
     $this->css = "Login/style.css";
     $this->titulo = "Login";
@@ -21,6 +23,8 @@ final class LoginController extends Controller
 
   public function logar(): void
   {
+    $this->isNotSignedOnly();
+
     $model = new Login();
     $model->email = $_POST['email'] ?? '';
     $model->senha = $_POST['senha'] ?? '';

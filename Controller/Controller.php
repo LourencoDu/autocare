@@ -83,7 +83,21 @@ abstract class Controller
     }
   }
 
-  final protected static function isProtectedApi(?array $tiposBloqueados = null, ?array $tiposPermitidos = null) {
+  final protected static function isNotSignedOnly(?bool $json = false)
+  {
+    if (isset($_SESSION["usuario"])) {
+      if ($json == true) {
+        $response = JsonResponse::erro("Somente acessivel estando deslogado.", [], 401);
+        $response->enviar();
+      } else {
+        Header("Location: /" . BASE_DIR_NAME . "/");
+      }
+      exit;
+    }
+  }
+
+  final protected static function isProtectedApi(?array $tiposBloqueados = null, ?array $tiposPermitidos = null)
+  {
     Controller::isProtected($tiposBloqueados, $tiposPermitidos, true);
   }
 

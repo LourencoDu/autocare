@@ -12,6 +12,8 @@ final class CadastroController extends Controller
 {
   public function index(): void
   {
+    $this->isNotSignedOnly();
+
     $this->view = "Cadastro/index.php";
     $this->js = "Cadastro/script.js";
 
@@ -42,6 +44,8 @@ final class CadastroController extends Controller
 
   public function exibirBemVindo()
   {
+    $this->isNotSignedOnly();
+
     $this->titulo = "Bem-vindo";
     $this->view = "Cadastro/bem-vindo/index.php";
 
@@ -52,6 +56,8 @@ final class CadastroController extends Controller
 
   private function cadastrar(): void
   {
+    $this->isNotSignedOnly();
+
     $tipoUsuario = $_POST["tipoUsuario"];
 
     if ($tipoUsuario === "usuario") {
@@ -63,6 +69,8 @@ final class CadastroController extends Controller
 
   private function cadastrarUsuario(): void
   {
+    $this->isNotSignedOnly();
+
     $tipoUsuario = "usuario";
 
     $nome = $_POST["nome"];
@@ -118,6 +126,8 @@ final class CadastroController extends Controller
 
   private function cadastrarPrestador(): void
   {
+    $this->isNotSignedOnly();
+
     $tipoUsuario = "prestador";
 
     $nome = $_POST["nome"];
