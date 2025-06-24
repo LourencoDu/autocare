@@ -42,7 +42,7 @@ final class UsuarioController extends Controller
 
   private function backToIndex(): void
   {
-    Header("Location: /" . BASE_DIR_NAME . "/usuario");
+    Header("Location: " . BASE_DIR_NAME . "/usuario");
   }
 
   public function cadastrar(): void

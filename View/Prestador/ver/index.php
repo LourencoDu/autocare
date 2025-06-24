@@ -79,7 +79,7 @@ $prestador = $data["prestador"];
             .then(response => response.json())
             .then(data => {
               chatId = data.mensagem
-              window.location.href = '/<?= BASE_DIR_NAME ?>/chat/conversa?id=' + chatId;
+              window.location.href = '<?= BASE_DIR_NAME ?>/chat/conversa?id=' + chatId;
             })
             .catch(error => {
               console.error('Erro no novo chat:', error);

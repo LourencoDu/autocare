@@ -11,7 +11,7 @@ final class PrestadorCatalogoController extends Controller
 {
   private function backToIndex(): void
   {
-    Header("Location: /" . BASE_DIR_NAME . "/meu-perfil");
+    Header("Location: " . BASE_DIR_NAME . "/meu-perfil");
   }
 
   public function listar($id_prestador): array

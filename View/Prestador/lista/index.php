@@ -39,7 +39,7 @@ $quantidade = count($prestadores);
 
           <div class="flex flex-col items-center sm:items-start gap-2">
             <div class="flex flex-row items-center gap-2">
-              <a href="/<?= BASE_DIR_NAME ?>/prestador?id=<?= $prestador->id ?>" class="font-medium leading-5.5 hover:text-primary transition cursor-pointer w-fit"><?= $prestador->usuario->nome ?></a>
+              <a href="<?= BASE_DIR_NAME ?>/prestador?id=<?= $prestador->id ?>" class="font-medium leading-5.5 hover:text-primary transition cursor-pointer w-fit"><?= $prestador->usuario->nome ?></a>
               <div class="flex sm:hidden items-center gap-1 px-1.5 min-h-5 rounded-full bg-yellow-400 text-white text-xs">
                 <i class="fa-solid fa-star"></i>
                 <span class="font-medium"><?= $prestador->nota ?? "não avaliado" ?></span>
@@ -70,7 +70,7 @@ $quantidade = count($prestadores);
         <div class="flex flex-col sm:flex-row w-full sm:w-auto items-center gap-4">
           <span class="font-medium"></span>
 
-          <a href="/<?= BASE_DIR_NAME ?>/prestador?id=<?= $prestador->id ?>" class="button small ghost flex items-center gap-1">
+          <a href="<?= BASE_DIR_NAME ?>/prestador?id=<?= $prestador->id ?>" class="button small ghost flex items-center gap-1">
             <i class="fa-solid fa-flag"></i>
             Ver Catálogo de Serviços
           </a>

@@ -33,7 +33,7 @@ $add_button_label = "Novo Serviço";
     <div class="flex flex-row items-center justify-between h-14 px-5 border-b border-gray-300">
       <span class="text-lg font-semibold">Catálogo de Serviços (<?= $quantidade ?>)</span>
       <?php if($permite_edicao) : ?>
-      <a href="/<?= BASE_DIR_NAME ?>/catalogo/cadastrar" class="button small flex flex-row items-center">
+      <a href="<?= BASE_DIR_NAME ?>/catalogo/cadastrar" class="button small flex flex-row items-center">
         <i class="fa-solid fa-plus mt-[1px]"></i>
         <span class="hidden lg:block ml-1"><?= $add_button_label ?></span>
       </a>
@@ -55,7 +55,7 @@ $add_button_label = "Novo Serviço";
 
               <?php if ($permite_edicao) : ?>
                 <div class="absolute top-2 right-2 flex gap-2">
-                  <a href="/<?= BASE_DIR_NAME ?>/catalogo/alterar?id=<?= $item->id ?>" class="flex flex-row items-center justify-center w-8 h-8 rounded-md text-gray-600 hover:text-primary hover:bg-primary/10 transition cursor-pointer">
+                  <a href="<?= BASE_DIR_NAME ?>/catalogo/alterar?id=<?= $item->id ?>" class="flex flex-row items-center justify-center w-8 h-8 rounded-md text-gray-600 hover:text-primary hover:bg-primary/10 transition cursor-pointer">
                     <i class="fa-solid fa-pen mt-[2px] transition"></i>
                   </a>
 
@@ -73,7 +73,7 @@ $add_button_label = "Novo Serviço";
           <span class="text-lg font-semibold mb-4 text-center"><?= $permite_edicao ? "Você ainda não tem serviços adicionadas ao catálogo da sua empresa" : "O prestador ainda não tem serviços cadastrados no catálogo" ?></span>
 
           <?php if ($permite_edicao) : ?>
-            <a href="/<?= BASE_DIR_NAME ?>/catalogo/cadastrar" class="button small flex flex-row items-center gap-1.5">
+            <a href="<?= BASE_DIR_NAME ?>/catalogo/cadastrar" class="button small flex flex-row items-center gap-1.5">
               <i class="fa-solid fa-plus mt-[2px]"></i>
               <span><?= $add_button_label ?></span>
             </a>

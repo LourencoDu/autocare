@@ -18,6 +18,6 @@ final class MeuPerfilController extends Controller
 
   private function backToIndex(): void
   {
-    Header("Location: /" . BASE_DIR_NAME . "/meu-perfil");
+    Header("Location: " . BASE_DIR_NAME . "/meu-perfil");
   }
 }

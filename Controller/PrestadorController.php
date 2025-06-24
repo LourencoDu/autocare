@@ -62,6 +62,6 @@ final class PrestadorController extends Controller
 
   private function backToIndex(): void
   {
-    Header("Location: /" . BASE_DIR_NAME . "/prestador");
+    Header("Location: " . BASE_DIR_NAME . "/prestador");
   }
 }

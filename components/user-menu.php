@@ -45,7 +45,7 @@ if ($usuario->tipo == "prestador") {
 
       <div class="flex flex-col gap-1 px-2 py-2">
         <?php foreach ($entradas_menu as $index => $entrada) : ?>
-          <a href="/<?= BASE_DIR_NAME ?>/<?= $entrada["rota"] ?>" class="flex items-center gap-2 px-4 py-2 rounded-md text-sm transition hover:bg-gray-200">
+          <a href="<?= BASE_DIR_NAME ?>/<?= $entrada["rota"] ?>" class="flex items-center gap-2 px-4 py-2 rounded-md text-sm transition hover:bg-gray-200">
             <i class="fa-solid text-gray-700 mt-[2px] <?= $entrada["icone"] ?>"></i>
             <span class="text-700 font-medium truncate"><?= $entrada["texto"] ?></span>
           </a>
@@ -53,7 +53,7 @@ if ($usuario->tipo == "prestador") {
       </div>
 
       <div class="flex gap-2 px-5 py-4 border-t border-gray-300">
-        <a href="/<?= BASE_DIR_NAME ?>/logout" class="button ghost medium w-full flex items-center justify-center text-sm">
+        <a href="<?= BASE_DIR_NAME ?>/logout" class="button ghost medium w-full flex items-center justify-center text-sm">
           Sair
         </a>
       </div>

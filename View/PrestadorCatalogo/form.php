@@ -48,7 +48,7 @@ if (isset($data["form"])) {
     </div>
 
     <div class="flex flex-row items-center justify-end pt-2.5 gap-2">
-      <a href="/<?= BASE_DIR_NAME ?>/meu-perfil" class="flex flex-row items-center button ghost medium"><?= $action == "adicionar" ? "Voltar" : "Cancelar alterações" ?></a>
+      <a href="<?= BASE_DIR_NAME ?>/meu-perfil" class="flex flex-row items-center button ghost medium"><?= $action == "adicionar" ? "Voltar" : "Cancelar alterações" ?></a>
       <button class="button medium"><?= $action == "adicionar" ? "Adicionar Serviço ao Catálogo" : "Salvar alterações" ?></button>
     </div>
   </form>

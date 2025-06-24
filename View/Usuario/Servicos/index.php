@@ -30,7 +30,7 @@ $quantidade = count($servicos);
       $veiculo_label = $veiculo_fabricante->nome . " " . $veiculo_modelo->nome . " (" . $veiculo->apelido . ")";
 
       $infos = array();
-      array_push($infos, ["label" => "Prestador:", "value" => "<a class='hover:text-primary transition' href='/" . BASE_DIR_NAME . "/prestador?id=" . $prestador->id . "'>" . $prestador->usuario->nome . "</a>"]);
+      array_push($infos, ["label" => "Prestador:", "value" => "<a class='hover:text-primary transition' href='" . BASE_DIR_NAME . "/prestador?id=" . $prestador->id . "'>" . $prestador->usuario->nome . "</a>"]);
       array_push($infos, ["label" => "Veículo:", "value" => $veiculo_label]);
       array_push($infos, ["label" => "Início:", "value" => Util::formatarDataHora($servico->data_inicio)]);
       array_push($infos, ["label" => "Finalização:", "value" => $servico->data_fim ? Util::formatarDataHora($servico->data_fim) : "<span class='text-orange-700'>Não finalizado</span>"]);

@@ -14,7 +14,7 @@
       Acesse seu e-mail e clique no link para redefinir sua senha.
     </p>
 
-    <a href="/<?= BASE_DIR_NAME ?>" class="button flex flex-row items-center justify-center font-medium">
+    <a href="<?= BASE_DIR_NAME ?>" class="button flex flex-row items-center justify-center font-medium">
       Voltar para o login
     </a>
   </div>

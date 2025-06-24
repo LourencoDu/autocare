@@ -95,7 +95,7 @@ final class CadastroController extends Controller
 
       $model->save();
 
-      Header("Location: /" . BASE_DIR_NAME . "/cadastro/bem-vindo?tipoUsuario=" . $tipoUsuario);
+      Header("Location: " . BASE_DIR_NAME . "/cadastro/bem-vindo?tipoUsuario=" . $tipoUsuario);
     } catch (\Throwable $th) {
       $mensagem = "Falha ao adicionar registro. Por favor, tente novamente.";
 
@@ -150,7 +150,7 @@ final class CadastroController extends Controller
 
       CadastroService::cadastrarPrestador($dadosUsuario, $dadosPrestador);
 
-      Header("Location: /" . BASE_DIR_NAME . "/cadastro/bem-vindo?tipoUsuario=" . $tipoUsuario);
+      Header("Location: " . BASE_DIR_NAME . "/cadastro/bem-vindo?tipoUsuario=" . $tipoUsuario);
     } catch (\Throwable $th) {
       $mensagem = "Falha ao adicionar registro. Error: ".$th->getMessage();
 

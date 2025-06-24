@@ -17,7 +17,7 @@ $quantidade = count($veiculos);
                                       ?></span>
 
     <div class="flex flex-row items-center justify-between gap-2">
-      <a href="/<?= BASE_DIR_NAME ?>/veiculo/cadastrar" class="button small flex flex-row items-center">
+      <a href="<?= BASE_DIR_NAME ?>/veiculo/cadastrar" class="button small flex flex-row items-center">
         <i class="fa-solid fa-plus mt-[1px]"></i>
         <span class="hidden lg:block ml-1">Novo Veículo</span>
       </a>
@@ -58,7 +58,7 @@ $quantidade = count($veiculos);
               <span class="text-sm font-semibold"><?= $veiculo->quantidade_servicos ?></span>
               <span class="text-xs text-gray-700">Serviços</span>
 
-              <a href="/<?= BASE_DIR_NAME ?>/servico?id_veiculo=<?= $veiculo->id ?>" class="absolute top-1 right-1 flex items-center justify-center w-6 h-6 rounded-md text-gray-600 hover:text-primary hover:bg-primary/10 transition cursor-pointer">
+              <a href="<?= BASE_DIR_NAME ?>/servico?id_veiculo=<?= $veiculo->id ?>" class="absolute top-1 right-1 flex items-center justify-center w-6 h-6 rounded-md text-gray-600 hover:text-primary hover:bg-primary/10 transition cursor-pointer">
                 <i class="fa-solid fa-eye"></i>
               </a>
             </div>
@@ -69,7 +69,7 @@ $quantidade = count($veiculos);
           </div>
 
           <div class="absolute lg:static right-2 top-2 flex flex-row items-center gap-2">
-            <a href="/<?= BASE_DIR_NAME ?>/veiculo/alterar?id=<?= $veiculo->id ?>" class="flex flex-row items-center justify-center w-8 h-8 rounded-md text-gray-600 hover:text-primary hover:bg-primary/10 transition cursor-pointer">
+            <a href="<?= BASE_DIR_NAME ?>/veiculo/alterar?id=<?= $veiculo->id ?>" class="flex flex-row items-center justify-center w-8 h-8 rounded-md text-gray-600 hover:text-primary hover:bg-primary/10 transition cursor-pointer">
               <i class="fa-solid fa-pen mt-[2px] transition"></i>
             </a>
 
@@ -92,7 +92,7 @@ $quantidade = count($veiculos);
     <i class="text-primary text-6xl fa-solid fa-car mb-4"></i>
     <span class="text-lg font-semibold mb-4 text-center">Você ainda não tem veículos adicionados ao seu perfil</span>
 
-    <a href="/<?= BASE_DIR_NAME ?>/veiculo/cadastrar" class="button flex flex-row items-center gap-1.5">
+    <a href="<?= BASE_DIR_NAME ?>/veiculo/cadastrar" class="button flex flex-row items-center gap-1.5">
       <i class="fa-solid fa-plus mt-[2px]"></i>
       <span>Novo Veículo</span>
     </a>

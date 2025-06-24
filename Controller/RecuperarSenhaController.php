@@ -89,7 +89,7 @@ final class RecuperarSenhaController extends Controller
     if ($model->validarToken($email, $token)) {
       $novaSenha = $_POST['senha'];
       $model->atualizarSenha($email, $novaSenha);
-      Header("Location: /" . BASE_DIR_NAME . "/login");
+      Header("Location: " . BASE_DIR_NAME . "/login");
     } else {
       echo "Token inválido ou expirado";
     }

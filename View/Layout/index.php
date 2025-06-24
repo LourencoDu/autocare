@@ -7,21 +7,21 @@
 
     <title>AutoCare<?= isset($titulo) ? " - " . $titulo : "" ?></title>
 
-    <link rel="icon" type="image/x-icon" href="/<?= BASE_DIR_NAME; ?>/public/ico/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="<?= BASE_DIR_NAME; ?>/public/ico/favicon.ico">
 
-    <script src="/<?= BASE_DIR_NAME; ?>/public/js/tailwind.min.js"></script>
+    <script src="<?= BASE_DIR_NAME; ?>/public/js/tailwind.min.js"></script>
 
-    <link rel="stylesheet" href="/<?= BASE_DIR_NAME; ?>/public/css/tailwind.css">
+    <link rel="stylesheet" href="<?= BASE_DIR_NAME; ?>/public/css/tailwind.css">
 
     <?php
     if (isset($css)) {
-        echo "<link rel='stylesheet' href='/" . BASE_DIR_NAME . "/view/$css'>";
+        echo "<link rel='stylesheet' href='" . BASE_DIR_NAME . "/view/$css'>";
     }
     ?>
 
-    <link href="/<?= BASE_DIR_NAME; ?>/public/fontawesome/css/fontawesome.css" rel="stylesheet" />
-    <link href="/<?= BASE_DIR_NAME; ?>/public/fontawesome/css/brands.css" rel="stylesheet" />
-    <link href="/<?= BASE_DIR_NAME; ?>/public/fontawesome/css/solid.css" rel="stylesheet" />
+    <link href="<?= BASE_DIR_NAME; ?>/public/fontawesome/css/fontawesome.css" rel="stylesheet" />
+    <link href="<?= BASE_DIR_NAME; ?>/public/fontawesome/css/brands.css" rel="stylesheet" />
+    <link href="<?= BASE_DIR_NAME; ?>/public/fontawesome/css/solid.css" rel="stylesheet" />
 </head>
 
 <body class="bg-gray-500/10 flex min-h-screen m-0 text-black">
@@ -40,20 +40,20 @@
     include COMPONENTS . "loading.php";
     ?>
 
-    <script src="/<?= BASE_DIR_NAME ?>/public/js/inputmask.js"></script>
+    <script src="<?= BASE_DIR_NAME ?>/public/js/inputmask.js"></script>
 
     <?php
     if (isset($js)) {
-        echo "<script src='/" . BASE_DIR_NAME . "/view/$js'></script>";
+        echo "<script src='" . BASE_DIR_NAME . "/view/$js'></script>";
     }
     ?>
 
-    <script src="/<?= BASE_DIR_NAME ?>/public/js/api.js"></script>        
-    <script src="/<?= BASE_DIR_NAME ?>/public/js/common.js"></script>
-    <script src="/<?= BASE_DIR_NAME ?>/public/js/modal/form-modal.js"></script>
-    <script src="/<?= BASE_DIR_NAME ?>/public/js/modal/delete-modal.js"></script>
-    <script src="/<?= BASE_DIR_NAME ?>/public/js/snackbar.js"></script>
-    <script src="/<?= BASE_DIR_NAME ?>/public/js/sidemenu.js"></script>
+    <script src="<?= BASE_DIR_NAME ?>/public/js/api.js"></script>        
+    <script src="<?= BASE_DIR_NAME ?>/public/js/common.js"></script>
+    <script src="<?= BASE_DIR_NAME ?>/public/js/modal/form-modal.js"></script>
+    <script src="<?= BASE_DIR_NAME ?>/public/js/modal/delete-modal.js"></script>
+    <script src="<?= BASE_DIR_NAME ?>/public/js/snackbar.js"></script>
+    <script src="<?= BASE_DIR_NAME ?>/public/js/sidemenu.js"></script>
 </body>
 
 </html>

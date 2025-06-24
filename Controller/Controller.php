@@ -61,7 +61,7 @@ abstract class Controller
           $response = JsonResponse::erro("Você não tem permissão para acessar esse recurso.", [], 403);
           $response->enviar();
         } else {
-          header("Location: /" . BASE_DIR_NAME . "/home");
+          header("Location: " . BASE_DIR_NAME . "/home");
         }
         exit;
       }
@@ -76,7 +76,7 @@ abstract class Controller
           $response = JsonResponse::erro("Você não tem permissão para acessar esse recurso.", [], 403);
           $response->enviar();
         } else {
-          header("Location: /" . BASE_DIR_NAME . "/home");
+          header("Location: " . BASE_DIR_NAME . "/home");
         }
         exit;
       }
@@ -100,6 +100,6 @@ abstract class Controller
 
   final protected static function redirect(string $route)
   {
-    Header("Location: /" . BASE_DIR_NAME . "/" . $route);
+    Header("Location: " . BASE_DIR_NAME . "/" . $route);
   }
 }

@@ -17,7 +17,7 @@ $quantidade = count($funcionarios);
                                       ?></span>
 
     <div class="flex flex-row items-center justify-between gap-2">
-      <a href="/<?= BASE_DIR_NAME ?>/funcionario/cadastrar" class="button small flex flex-row items-center">
+      <a href="<?= BASE_DIR_NAME ?>/funcionario/cadastrar" class="button small flex flex-row items-center">
         <i class="fa-solid fa-plus mt-[1px]"></i>
         <span class="hidden lg:block ml-1">Novo Funcionário</span>
       </a>
@@ -69,7 +69,7 @@ $quantidade = count($funcionarios);
     <i class="text-primary text-6xl fa-solid fa-users-gear mb-4"></i>
     <span class="text-lg font-semibold mb-4 text-center">Você ainda não tem funcionários adicionados</span>
 
-    <a href="/<?= BASE_DIR_NAME ?>/funcionario/cadastrar" class="button flex flex-row items-center gap-1.5">
+    <a href="<?= BASE_DIR_NAME ?>/funcionario/cadastrar" class="button flex flex-row items-center gap-1.5">
       <i class="fa-solid fa-plus mt-[2px]"></i>
       <span>Novo Funcionário</span>
     </a>

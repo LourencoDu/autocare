@@ -21,6 +21,6 @@ $tipoUsuario = isset($data["tipoUsuario"]) ? $data["tipoUsuario"] : "usuario";
       </p>
     <?php endif; ?>
 
-    <a href="/<?= BASE_DIR_NAME ?>" class="button flex flex-row items-center justify-center font-medium">Acessar minha conta</a>
+    <a href="<?= BASE_DIR_NAME ?>/" class="button flex flex-row items-center justify-center font-medium">Acessar minha conta</a>
   </div>
 </div>
