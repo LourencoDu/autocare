@@ -4,9 +4,10 @@ use AutoCare\Controller\ChatController;
 
 switch ($url) {
     case '/chat':
-        if ($_SESSION['usuario']->tipo == 'usuario') {
+        $usuario = isset($_SESSION['usuario']) ? $_SESSION['usuario'] : null;
+        if ($usuario != null && $usuario->tipo == 'usuario') {
             (new ChatController())->listarPorUsuario();
-        } else if ($_SESSION['usuario']->tipo == 'funcionario'){
+        } else if ($usuario != null && $usuario->tipo == 'funcionario'){
             (new ChatController())->listarPorPrestador();
         } else {
             (new ChatController())->avisoFuncionarioPrestador();

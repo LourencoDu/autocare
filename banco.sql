@@ -17,8 +17,6 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 CREATE SCHEMA IF NOT EXISTS `railway` DEFAULT CHARACTER SET utf8mb3 ;
 USE `railway` ;
 
-SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
-
 -- -----------------------------------------------------
 -- Table `railway`.`status_padrao`
 -- -----------------------------------------------------

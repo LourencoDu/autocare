@@ -109,7 +109,7 @@ LEFT JOIN (
     GROUP BY id_chat
   ) m2 ON m1.id_chat = m2.id_chat AND m1.data = m2.max_data
 ) AS cmf ON c.id = cmf.id_chat
-LEFT JOIN autocare.prestador p ON c.id_prestador = p.id
+LEFT JOIN prestador p ON c.id_prestador = p.id
 LEFT JOIN usuario u ON p.id_usuario = u.id
 WHERE c.id_usuario = ?
 ORDER BY ultima_data DESC
