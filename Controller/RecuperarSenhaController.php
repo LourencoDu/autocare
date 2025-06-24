@@ -14,6 +14,8 @@ final class RecuperarSenhaController extends Controller
 {
   public function index(): void
   {
+    $this->isNotSignedOnly();
+
     $this->view = "Login/recuperarSenha.php";
     $this->titulo = "Recuperar Senha";
 
@@ -22,6 +24,8 @@ final class RecuperarSenhaController extends Controller
 
   public function recuperarSenha(): void
   {
+    $this->isNotSignedOnly();
+
     $email = $_POST['email'];
     $token_hash = hash("sha256", bin2hex(random_bytes(16)));
 
@@ -71,6 +75,8 @@ final class RecuperarSenhaController extends Controller
 
   public function novaSenha(): void
   {
+    $this->isNotSignedOnly();
+
     $token = $_GET['token'] ?? '';
     $email = $_GET['email'] ?? '';
 
@@ -84,6 +90,8 @@ final class RecuperarSenhaController extends Controller
 
   public function salvarNovaSenha(): void
   {
+    $this->isNotSignedOnly();
+    
     $email = $_POST['email'];
     $token = $_POST['token'];
 
