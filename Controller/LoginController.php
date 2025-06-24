@@ -11,12 +11,14 @@ final class LoginController extends Controller
     $this->view = "Login/index.php";
     $this->css = "Login/style.css";
     $this->titulo = "Login";
+    echo "teste";
+    echo var_dump($this);
 
-    if (parent::isPost()) {
-      $this->logar();
-    }
+    // if (parent::isPost()) {
+    //   $this->logar();
+    // }
 
-    $this->render();
+    // $this->render();
   }
 
   public function logar(): void
