@@ -90,7 +90,7 @@ abstract class Controller
         $response = JsonResponse::erro("Somente acessivel estando deslogado.", [], 401);
         $response->enviar();
       } else {
-        Header("Location: /" . BASE_DIR_NAME . "/");
+        Header("Location: " . BASE_DIR_NAME . "/");
       }
       exit;
     }
