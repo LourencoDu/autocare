@@ -15,7 +15,7 @@
 
     <?php
     if (isset($css)) {
-        echo "<link rel='stylesheet' href='" . BASE_DIR_NAME . "/view/$css'>";
+        echo "<link rel='stylesheet' href='" . BASE_DIR_NAME . "/View/$css'>";
     }
     ?>
 
@@ -44,7 +44,7 @@
 
     <?php
     if (isset($js)) {
-        echo "<script src='" . BASE_DIR_NAME . "/view/$js'></script>";
+        echo "<script src='" . BASE_DIR_NAME . "/View/$js'></script>";
     }
     ?>
 
